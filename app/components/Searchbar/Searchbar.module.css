@@ -1,0 +1,37 @@
+#app-search {
+  display: grid;
+  grid-template-columns: 25px 1fr;
+  align-items: center;
+  justify-content: start;
+  padding-right: 25px;
+
+  #q {
+    width: 0;
+    height: 30px;
+    padding-left: 10px;
+    line-height: 20px;
+    outline: none;
+    background: none;
+    color: white;
+    border: none;
+    border-bottom: 1px solid transparent;
+    transition: 300ms ease-out width;
+
+    &:hover,
+    &:focus {
+      width: 100%;
+      border-bottom: 1px solid fuchsia;
+    }
+  }
+
+  .searchIcon {
+    cursor: pointer;
+
+    &:hover {
+      & ~ #q {
+        width: 100%;
+        border-bottom: 1px solid fuchsia;
+      }
+    }
+  }
+}
