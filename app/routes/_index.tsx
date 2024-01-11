@@ -88,11 +88,11 @@ export default function Index() {
         <div>
           <HeroSlider />
           <nav id={styles["community-overview-navigation"]}>
-            <button>Recent</button>
-            <button>Trending</button>
-            <button>Most Liked</button>
-            <button>Topics</button>
-            <button>Announcements</button>
+            <button className={styles["forum-filter"]}>Recent</button>
+            <button className={styles["forum-filter"]}>Trending</button>
+            <button className={styles["forum-filter"]}>Most Liked</button>
+            <button className={styles["forum-filter"]}>Topics</button>
+            <button className={styles["forum-filter"]}>Announcements</button>
           </nav>
         </div>
         <Forum />
