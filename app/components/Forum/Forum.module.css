@@ -10,10 +10,11 @@
   min-height: 400px;
   display: grid;
   grid-template-columns: 100px 1fr;
-  background: white;
   margin-bottom: 25px;
   border-radius: 10px;
   overflow: hidden;
+  color: white;
+  background: rgba(255, 255, 255, 0.2);
 
   .sidebar {
     width: 100px;
