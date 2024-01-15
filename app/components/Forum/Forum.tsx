@@ -49,18 +49,15 @@ const ForumItemCard = ({ item }: { item: ForumItem }) => {
   const { alias, avatar } = submittedBy;
   const fetcher = useFetcher();
   return (
-    <li>
-      <Link
-        className={styles["forum-item-card"]}
-        to={`/community/${flair}/${id}`}
-      >
-        <Link className={styles["sidebar"]} to={`/community/u/${alias}`}>
-          <img src={avatar} alt="Name's Avatar" />
-          <p className={styles.alias}>{alias}</p>
-          <p className={styles.posted}>{posted}</p>
-        </Link>
+    <li className={styles["forum-item-card"]}>
+      <Link className={styles["sidebar"]} to={`/community/u/${alias}`}>
+        <img src={avatar} alt="Name's Avatar" />
+        <p className={styles.alias}>{alias}</p>
+        <p className={styles.posted}>{posted}</p>
+      </Link>
 
-        <div className={styles["content-container"]}>
+      <div className={styles["content-container"]}>
+        <Link to={`/community/${flair}/${id}`}>
           <h1 className={styles.title}>{title}</h1>
 
           {content.type === "text" && content.value ? (
@@ -70,66 +67,74 @@ const ForumItemCard = ({ item }: { item: ForumItem }) => {
           ) : content.type === "video" && content.value ? (
             <video className={styles.content} src="" />
           ) : null}
-          <footer>
-            <fetcher.Form className={styles["footer-item"]} method="post">
-              <input hidden readOnly value="vote-update" name="request-type" />
-              <button
-                className={styles.upvote}
-                aria-label="Upvote post"
-                onClick={(event) => event.preventDefault()}
-              >
-                <Icons type="caret-up" />
-              </button>
-              {votes}
-              <button
-                className={styles.downvote}
-                aria-label="Downvote post"
-                onClick={(event) => event.preventDefault()}
-              >
-                <Icons type="caret-down" />
-              </button>
-            </fetcher.Form>
-            <Link
-              to={`/community/${flair}/${id}/#comments`}
-              className={`${styles["footer-item"]} ${styles.comments}`}
+        </Link>
+        <footer>
+          <fetcher.Form className={styles["footer-item"]} method="post">
+            <input hidden readOnly value="vote-update" name="request-type" />
+            <button
+              className={styles.upvote}
+              aria-label="Upvote post"
+              name="vote"
+              value={votes + 1}
             >
-              <Icons type="comment" />
-              {comments}
-            </Link>
-            <button className={`${styles["footer-item"]} ${styles.share}`}>
-              <Icons type="share" />
-              Share
+              <Icons type="caret-up" />
             </button>
-            <fetcher.Form
-              method="post"
-              className={`${styles["footer-item"]} ${styles.favorite}`}
+            {votes}
+            <button
+              className={styles.downvote}
+              aria-label="Downvote post"
+              name="vote"
+              value={votes - 1}
             >
-              <input hidden readOnly value="vote-update" name="request-type" />
-              <button
-                onClick={(event) => event.preventDefault()}
-                aria-label={
-                  favorite ? "Remove from favorites" : "Add to favorites"
-                }
-              >
-                {!favorite ? (
-                  <Icons type="empty-heart" />
-                ) : (
-                  <Icons type="full-heart" />
-                )}
-                Favorite
-              </button>
-            </fetcher.Form>
-            <Link
-              to={`/community/${flair}`}
-              className={`${styles["footer-item"]} ${
-                styles[flair.toLowerCase()]
-              } ${styles.flair}`}
+              <Icons type="caret-down" />
+            </button>
+          </fetcher.Form>
+          <Link
+            to={`/community/${flair}/${id}/#comments`}
+            className={`${styles["footer-item"]} ${styles.comments}`}
+          >
+            <Icons type="comment" />
+            {comments}
+          </Link>
+          <button className={`${styles["footer-item"]} ${styles.share}`}>
+            <Icons type="share" />
+            Share
+          </button>
+          <fetcher.Form
+            method="post"
+            className={`${styles["footer-item"]} ${styles.favorite}`}
+          >
+            <input
+              hidden
+              readOnly
+              value="favorite-update"
+              name="request-type"
+            />
+            <button
+              aria-label={
+                favorite ? "Remove from favorites" : "Add to favorites"
+              }
+              value={favorite ? "false" : "true"}
+              name="favorite"
             >
-              {flair}
-            </Link>
-          </footer>
-        </div>
-      </Link>
+              {!favorite ? (
+                <Icons type="empty-heart" />
+              ) : (
+                <Icons type="full-heart" />
+              )}
+              Favorite
+            </button>
+          </fetcher.Form>
+          <Link
+            to={`/community/${flair}`}
+            className={`${styles["footer-item"]} ${
+              styles[flair.toLowerCase()]
+            } ${styles.flair}`}
+          >
+            {flair}
+          </Link>
+        </footer>
+      </div>
     </li>
   );
 };
