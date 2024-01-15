@@ -1,14 +1,12 @@
 #home-page {
+  position: relative;
+  background: #dfdfdf;
   display: grid;
-  grid-template-columns: 25vw 40vw 25vw;
-  grid-template-areas:
-    "results results results"
-    "podcast community misc";
-  align-items: start;
+  grid-template-columns: 1fr 25vw;
 
-  h1 {
+  .section-title {
     height: 28px;
-    color: white;
+    color: black;
     margin: 0;
   }
 }
@@ -24,12 +22,12 @@
 
 #podcast-overview {
   grid-area: podcast;
-  height: 100%;
+  height: 90%;
+  width: 25vw;
   display: flex;
   flex-direction: column;
   gap: 25px;
-  padding: 0 0 3vh;
-  padding-right: 5%;
+  padding-right: 25px;
   border-right-width: 2px;
   border-right-style: solid;
   border-image: linear-gradient(
@@ -39,27 +37,27 @@
       transparent
     )
     1;
+  color: black;
+  position: fixed;
 
   #podcast-preview {
-    padding: 20px;
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.2);
 
     video {
       width: 100%;
       height: calc((25vw * 9) / 16);
       border-radius: 10px;
       object-fit: cover;
-      box-shadow: 0 0 4px #333;
+      box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+      border: none;
     }
 
     p {
       font-size: 18px;
-      color: white;
     }
 
     ul {
-      max-height: 150px;
+      max-height: 225px;
       display: grid;
       grid-auto-rows: 40px;
       grid-auto-flow: row;
@@ -67,9 +65,9 @@
       margin: 0;
       padding: 0;
       overflow-y: auto;
-      scrollbar-width: thin;
+      scrollbar-width: none;
       border-radius: 10px;
-      box-shadow: 0 0 4px #333;
+      box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.1);
 
       &::-webkit-scrollbar {
         display: none;
@@ -81,7 +79,7 @@
         align-items: center;
         padding: 0 10px;
         border-bottom: 1px solid fuchsia;
-        background: black;
+        background: white;
         cursor: pointer;
 
         p {
@@ -90,11 +88,15 @@
         }
 
         &:hover {
-          background: rgba(0, 0, 0, 0.1);
-          background: silver;
+          background: black;
+
           p {
-            color: black;
+            color: white;
           }
+        }
+
+        &:last-child {
+          border: none;
         }
       }
     }
@@ -108,10 +110,10 @@
     align-items: start;
     padding: 20px;
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
 
     h3 {
-      color: white;
       text-align: center;
       margin: 0;
     }
@@ -123,7 +125,6 @@
     }
 
     label {
-      color: white;
       font-size: 18px;
       text-align: left;
       margin-bottom: 5px;
@@ -134,56 +135,61 @@
       height: 30px;
       outline: none;
       font-size: 18px;
+      border-radius: 10px;
+      border: 1px solid black;
+      padding-left: 5px;
+
+      &:focus {
+        outline: 1px solid fuchsia;
+      }
     }
 
     textarea {
-      height: 100%;
+      height: min(150px);
       width: 100%;
       padding: 5px 10px;
+      border-radius: 10px;
+      border: 1px solid black;
+
+      &:focus {
+        outline: 1px solid fuchsia;
+      }
     }
   }
 }
 
 #community-overview {
-  grid-area: community;
   height: 100%;
   display: flex;
   flex-direction: column;
   gap: 25px;
-  padding: 0 5%;
+  margin-left: calc(25vw + 25px);
+  margin-right: 25px;
 
   #community-overview-navigation {
     width: 100%;
     display: flex;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+    box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     margin: 0;
 
     button {
       flex: 1;
       height: 30px;
-      border: none;
+      border: 2px solid transparent;
       cursor: pointer;
+      background: white;
+
+      &:hover {
+        color: black;
+        border-bottom: 2px solid fuchsia;
+      }
     }
 
     &.close {
       border-radius: 10px;
     }
   }
-}
-
-#misc-overview {
-  grid-area: misc;
-  min-height: 100%;
-  padding-left: 5%;
-  border-left-width: 2px;
-  border-left-style: solid;
-  border-image: linear-gradient(
-      transparent,
-      fuchsia 20%,
-      fuchsia 80%,
-      transparent
-    )
-    1;
 }
