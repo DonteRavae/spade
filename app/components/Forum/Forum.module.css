@@ -1,74 +1,188 @@
 #forum {
-  list-style: none;
-  padding: 0;
-  border-radius: 10px;
   overflow: hidden;
+  list-style: none;
+  border-radius: 10px;
+  padding: 0;
 }
 
 .forum-item-card {
   width: 100%;
-  min-height: 400px;
+  min-height: 125px;
   display: grid;
   grid-template-columns: 100px 1fr;
   margin-bottom: 25px;
   border-radius: 10px;
+  color: black;
   overflow: hidden;
-  color: white;
-  background: rgba(255, 255, 255, 0.2);
+  background: white;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
 
   .sidebar {
-    width: 100px;
+    width: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid white;
+    cursor: pointer;
+    background: none;
+    padding: 10px;
+    border: none;
+    border: 2px solid transparent;
 
-    .submitted-by {
-      height: 125px;
+    &:hover {
+      border: 2px solid fuchsia;
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+    }
+    img {
+      height: 100px;
       width: 100%;
-      display: flex;
-      flex-direction: column;
-      text-align: center;
-      padding: 10px;
-      border: none;
-      img {
-        height: 100px;
-        width: 100%;
-      }
-      p {
-        height: 18px;
-        margin: 0;
-      }
+    }
+    .alias {
+      height: 18px;
+      margin: 0;
+      font-size: 1.05em;
     }
 
-    .sidebarItem {
-      flex: 1;
-      padding: 10px;
-      text-align: center;
-      border: none;
+    .posted {
+      color: grey;
     }
   }
 
   .content-container {
     height: 100%;
-    display: grid;
-    grid-template-rows: min(50px) 3fr 48.6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    padding: 10px 10px 35px;
+    gap: 10px;
+
     .title {
+      flex: 0 1 35px;
       margin: 0;
+      font-size: 1.3em;
+      display: flex;
+      align-items: center;
     }
 
     .content {
+      flex: 1;
       margin: 0;
-      padding: 10px;
+      font-size: 1.1em;
+      color: grey;
     }
 
-    .posted {
-      height: 100%;
+    footer {
+      flex: 0 0 35px;
       width: 100%;
-      padding: 10px;
-      margin: 0;
       display: flex;
+      align-self: flex-end;
       align-items: center;
-      justify-content: end;
-      font-size: 15px;
+      height: 35px;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 0;
+
+      button {
+        border: none;
+        background: none;
+        padding: 0;
+      }
+
+      .footer-item {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border: none;
+
+        &.flair {
+          cursor: pointer;
+        }
+
+        &.anxiety {
+          background: green;
+        }
+
+        &.comments {
+          cursor: pointer;
+          svg {
+            height: 16px;
+            margin-right: 5px;
+            margin-top: 2px;
+          }
+
+          &:hover {
+            background: rgba(0, 0, 0, 0.1);
+          }
+        }
+
+        &.favorite {
+          cursor: pointer;
+          svg {
+            height: 22px;
+            margin-right: 5px;
+          }
+
+          &:hover {
+            background: rgba(0, 0, 0, 0.1);
+          }
+        }
+
+        &.share {
+          cursor: pointer;
+
+          svg {
+            height: 22px;
+            margin-right: 5px;
+          }
+
+          &:hover {
+            background: rgba(0, 0, 0, 0.1);
+          }
+        }
+
+        svg {
+          path {
+            fill: black;
+          }
+        }
+
+        .upvote,
+        .downvote {
+          height: 30px;
+          width: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+          margin: 0 10px;
+          transition: 300ms ease-out all;
+          cursor: pointer;
+
+          svg {
+            width: 16px;
+          }
+          &:hover {
+            background: rgba(0, 0, 0, 0.1);
+          }
+        }
+      }
+
+      p {
+        flex: 1;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        margin: 0;
+        font-size: 15px;
+      }
     }
   }
 }

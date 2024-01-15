@@ -1,6 +1,8 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import { useEffect } from "react";
-import forumData from "../../../utils/data/forum.json";
+// INTERNAL
+import Icons from "../Icons";
+import forumData from "../../utils/db/forum.json";
 // STYLES
 import styles from "./Forum.module.css";
 
@@ -41,31 +43,52 @@ const ForumItemCard = ({ item, flair }: { item: ForumItem; flair: string }) => {
   const { alias, avatar } = submittedBy;
   return (
     <li className={styles["forum-item-card"]}>
-      <div className={styles.sidebar}>
-        <button className={styles["submitted-by"]}>
-          <img src={avatar} alt="Name's Avatar" />
-          <p>{alias}</p>
-        </button>
-        <button className={styles.sidebarItem}>{flair.toUpperCase()}</button>
-        <div className={styles.sidebarItem}>{votes}</div>
-        <p className={styles.sidebarItem}>{comments}</p>
-        <div className={styles.sidebarItem}>Share</div>
-        <button className={styles.sidebarItem}>Favorite</button>
-      </div>
+      <button className={styles["sidebar"]}>
+        <img src={avatar} alt="Name's Avatar" />
+        <p className={styles.alias}>{alias}</p>
+        <p className={styles.posted}>{posted}</p>
+      </button>
+
       <div className={styles["content-container"]}>
         <h1 className={styles.title}>{title}</h1>
-        {/* 
-        -- CONTENT --
-           
-           --Image, Video, and Text content will be interchangeable depending on content type 
-        */}
 
-        {/* <img className={styles.content} src="" alt="Post Content"/> */}
-        {/* <video className={styles.content} src=""/> */}
-        {content.type === "text" ? (
+        {content.type === "text" && content.value ? (
           <p className={styles.content}>{content.value}</p>
+        ) : content.type === "image" && content.value ? (
+          <img className={styles.content} src="" alt="Post Content" />
+        ) : content.type === "video" && content.value ? (
+          <video className={styles.content} src="" />
         ) : null}
-        <p className={styles.posted}>Posted {posted}</p>
+        <footer>
+          <div className={styles["footer-item"]}>
+            <button className={styles.upvote}>
+              <Icons type="caret-up" />
+            </button>
+            {votes}
+            <button className={styles.downvote}>
+              <Icons type="caret-down" />
+            </button>
+          </div>
+          <button className={`${styles["footer-item"]} ${styles.comments}`}>
+            <Icons type="comment" />
+            {comments}
+          </button>
+          <button className={`${styles["footer-item"]} ${styles.share}`}>
+            <Icons type="share" />
+            Share
+          </button>
+          <button className={`${styles["footer-item"]} ${styles.favorite}`}>
+            <Icons type="empty-heart" />
+            Favorite
+          </button>
+          <button
+            className={`${styles["footer-item"]} ${
+              styles[flair.toLowerCase()]
+            } ${styles.flair}`}
+          >
+            {flair.toUpperCase()}
+          </button>
+        </footer>
       </div>
     </li>
   );
