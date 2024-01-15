@@ -1,5 +1,4 @@
 .page-container {
-    min-height: calc(100vh - 100px);
-    margin-top: 25px;
-    padding: 0 5vw;
+  min-height: calc(100vh - 75px);
+  padding: 25px 5vw;
 }
