@@ -8,6 +8,7 @@ import HeroSlider from "../components/HeroSlider/HeroSlider";
 import PageContainer from "../components/PageContainer/PageContainer";
 // STYLES
 import styles from "./styles/Home.module.css";
+import { useState } from "react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -23,11 +24,14 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   // Generate lists of discussions
 
+  const [isAnnouncementsOpen, toggleAnnouncements] = useState<boolean>(true);
+
+  const closeAnnouncements = () => toggleAnnouncements((prev) => !prev);
+
   return (
     <PageContainer id={styles["home-page"]}>
-      <section id={styles["search-results"]}></section>
       <section id={styles["podcast-overview"]}>
-        <h1>Podcast</h1>
+        <h1 className={styles["section-title"]}>Podcast</h1>
         <section id={styles["podcast-preview"]}>
           <video autoPlay muted controls>
             <source
@@ -52,6 +56,18 @@ export default function Index() {
             </li>
             <li>
               <p>Hip-Hop vs Mental Health Pt.1</p>
+              <p>March 15, 2023</p>
+            </li>
+            <li>
+              <p>Mental Health Pt.3</p>
+              <p>March 15, 2023</p>
+            </li>
+            <li>
+              <p>Mental Health Pt.2</p>
+              <p>March 15, 2023</p>
+            </li>
+            <li>
+              <p>Mental Health Pt.1</p>
               <p>March 15, 2023</p>
             </li>
           </ul>
@@ -84,20 +100,28 @@ export default function Index() {
         </Form>
       </section>
       <section id={styles["community-overview"]}>
-        <h1>Community</h1>
+        <h1 className={styles["section-title"]}>Community</h1>
         <div>
-          <HeroSlider />
-          <nav id={styles["community-overview-navigation"]}>
+          <HeroSlider toggleSlider={isAnnouncementsOpen} />
+          <nav
+            id={styles["community-overview-navigation"]}
+            className={!isAnnouncementsOpen ? styles.close : ""}
+          >
             <button className={styles["forum-filter"]}>Recent</button>
             <button className={styles["forum-filter"]}>Trending</button>
             <button className={styles["forum-filter"]}>Most Liked</button>
             <button className={styles["forum-filter"]}>Topics</button>
-            <button className={styles["forum-filter"]}>Announcements</button>
+            <button
+              className={styles["forum-filter"]}
+              onClick={closeAnnouncements}
+            >
+              Announcements
+            </button>
           </nav>
         </div>
         <Forum />
       </section>
-      <section id={styles["misc-overview"]}></section>
+      <section>EXTRAS</section>
     </PageContainer>
   );
 }
