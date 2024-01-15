@@ -57,7 +57,7 @@ const ForumItemCard = ({ item }: { item: ForumItem }) => {
       </Link>
 
       <div className={styles["content-container"]}>
-        <Link to={`/community/${flair}/${id}`}>
+        <Link className={styles.postContent} to={`/community/${flair}/${id}`}>
           <h1 className={styles.title}>{title}</h1>
 
           {content.type === "text" && content.value ? (

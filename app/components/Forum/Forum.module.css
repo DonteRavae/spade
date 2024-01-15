@@ -58,12 +58,16 @@
 
   .content-container {
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     position: relative;
-    padding: 10px 10px 35px;
-    gap: 10px;
+
+    .postContent {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 10px 10px 35px;
+      gap: 10px;
+    }
 
     .title {
       flex: 0 1 35px;
