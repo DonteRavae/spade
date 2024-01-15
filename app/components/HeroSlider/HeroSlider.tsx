@@ -9,9 +9,16 @@ function HeroSliderItem() {
   );
 }
 
-export default function HeroSlider() {
+export default function HeroSlider({
+  toggleSlider,
+}: {
+  toggleSlider: boolean;
+}) {
   return (
-    <ul id={styles["hero-slider"]}>
+    <ul
+      id={styles["hero-slider"]}
+      className={!toggleSlider ? styles.close : ""}
+    >
       <HeroSliderItem />
     </ul>
   );
