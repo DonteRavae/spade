@@ -14,7 +14,8 @@
         "votes": 89,
         "comments": 42,
         "posted": "6hrs ago",
-        "favorites": 22
+        "favorites": 22,
+        "flair": "suicide"
       }
     },
     {
@@ -31,7 +32,8 @@
         "votes": 42,
         "comments": 89,
         "posted": "3hrs ago",
-        "favorites": 24
+        "favorites": 24,
+        "flair": "suicide"
       }
     },
     {
@@ -48,7 +50,8 @@
         "votes": 8,
         "comments": 27,
         "posted": "11hrs ago",
-        "favorites": 4
+        "favorites": 4,
+        "flair": "suicide"
       }
     },
     {
@@ -65,7 +68,8 @@
         "votes": 60,
         "comments": 12,
         "posted": "1hrs ago",
-        "favorites": 63
+        "favorites": 63,
+        "flair": "suicide"
       }
     }
   ],
@@ -84,7 +88,8 @@
         "votes": 89,
         "comments": 42,
         "posted": "6hrs ago",
-        "favorites": 22
+        "favorites": 22,
+        "flair": "PTSD"
       }
     },
     {
@@ -101,7 +106,8 @@
         "votes": 42,
         "comments": 89,
         "posted": "3hrs ago",
-        "favorites": 24
+        "favorites": 24,
+        "flair": "PTSD"
       }
     },
     {
@@ -118,7 +124,8 @@
         "votes": 8,
         "comments": 27,
         "posted": "11hrs ago",
-        "favorites": 4
+        "favorites": 4,
+        "flair": "PTSD"
       }
     },
     {
@@ -135,16 +142,17 @@
         "votes": 60,
         "comments": 12,
         "posted": "1hrs ago",
-        "favorites": 63
+        "favorites": 63,
+        "flair": "PTSD"
       }
     }
   ],
   "anxiety": [
     {
-      "title": "Anxiety Title #1",
+      "title": "Anxiety Title #1 - Lorem ipsum dolor sit amet consectetur adipisicing elit",
       "content": {
         "type": "text",
-        "value": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid quaerat quas dolore necessitatibus, minus tempora. Tempora quisquam voluptates iure dolor sunt accusamus, fugit expedita at tempore nihil quas ducimus laboriosam?"
+        "value": ""
       },
       "meta": {
         "submittedBy": {
@@ -153,8 +161,9 @@
         },
         "votes": 89,
         "comments": 42,
-        "posted": "6hrs ago",
-        "favorites": 22
+        "posted": "6h ago",
+        "favorites": 22,
+        "flair": "anxiety"
       }
     },
     {
@@ -170,8 +179,9 @@
         },
         "votes": 42,
         "comments": 89,
-        "posted": "3hrs ago",
-        "favorites": 24
+        "posted": "3h ago",
+        "favorites": 24,
+        "flair": "anxiety"
       }
     },
     {
@@ -187,8 +197,9 @@
         },
         "votes": 8,
         "comments": 27,
-        "posted": "11hrs ago",
-        "favorites": 4
+        "posted": "11h ago",
+        "favorites": 4,
+        "flair": "anxiety"
       }
     },
     {
@@ -204,8 +215,9 @@
         },
         "votes": 60,
         "comments": 12,
-        "posted": "1hrs ago",
-        "favorites": 63
+        "posted": "1h ago",
+        "favorites": 63,
+        "flair": "anxiety"
       }
     }
   ],
@@ -224,7 +236,8 @@
         "votes": 89,
         "comments": 42,
         "posted": "6hrs ago",
-        "favorites": 22
+        "favorites": 22,
+        "flair": "depression"
       }
     },
     {
@@ -241,7 +254,8 @@
         "votes": 42,
         "comments": 89,
         "posted": "3hrs ago",
-        "favorites": 24
+        "favorites": 24,
+        "flair": "depression"
       }
     },
     {
@@ -258,7 +272,8 @@
         "votes": 8,
         "comments": 27,
         "posted": "11hrs ago",
-        "favorites": 4
+        "favorites": 4,
+        "flair": "depression"
       }
     },
     {
@@ -275,7 +290,8 @@
         "votes": 60,
         "comments": 12,
         "posted": "1hrs ago",
-        "favorites": 63
+        "favorites": 63,
+        "flair": "depression"
       }
     }
   ],
@@ -294,7 +310,8 @@
         "votes": 89,
         "comments": 42,
         "posted": "6hrs ago",
-        "favorites": 22
+        "favorites": 22,
+        "flair": "epilepsy"
       }
     },
     {
@@ -311,7 +328,8 @@
         "votes": 42,
         "comments": 89,
         "posted": "3hrs ago",
-        "favorites": 24
+        "favorites": 24,
+        "flair": "epilepsy"
       }
     },
     {
@@ -328,7 +346,8 @@
         "votes": 8,
         "comments": 27,
         "posted": "11hrs ago",
-        "favorites": 4
+        "favorites": 4,
+        "flair": "epilepsy"
       }
     },
     {
@@ -345,7 +364,8 @@
         "votes": 60,
         "comments": 12,
         "posted": "1hrs ago",
-        "favorites": 63
+        "favorites": 63,
+        "flair": "epilepsy"
       }
     }
   ]
