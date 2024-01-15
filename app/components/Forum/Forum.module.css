@@ -16,6 +16,13 @@
   overflow: hidden;
   background: white;
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  text-decoration: none;
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
 
   .sidebar {
     width: 100%;
@@ -23,12 +30,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-right: 1px solid white;
     cursor: pointer;
     background: none;
     padding: 10px;
-    border: none;
     border: 2px solid transparent;
+    color: black;
 
     &:hover {
       border: 2px solid fuchsia;
@@ -102,7 +108,9 @@
         border: none;
 
         &.flair {
-          cursor: pointer;
+          color: white;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
         }
 
         &.anxiety {
@@ -123,7 +131,14 @@
         }
 
         &.favorite {
-          cursor: pointer;
+          button {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+          }
           svg {
             height: 22px;
             margin-right: 5px;
