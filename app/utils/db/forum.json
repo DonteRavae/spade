@@ -1,6 +1,7 @@
 {
   "suicide": [
     {
+      "id": "s1",
       "title": "Suicide Title #1",
       "content": {
         "type": "text",
@@ -14,11 +15,12 @@
         "votes": 89,
         "comments": 42,
         "posted": "6hrs ago",
-        "favorites": 22,
+        "favorite": true,
         "flair": "suicide"
       }
     },
     {
+      "id": "s2",
       "title": "Suicide Title #2",
       "content": {
         "type": "text",
@@ -32,11 +34,12 @@
         "votes": 42,
         "comments": 89,
         "posted": "3hrs ago",
-        "favorites": 24,
+        "favorite": true,
         "flair": "suicide"
       }
     },
     {
+      "id": "s3",
       "title": "Suicide Title #3",
       "content": {
         "type": "text",
@@ -50,11 +53,12 @@
         "votes": 8,
         "comments": 27,
         "posted": "11hrs ago",
-        "favorites": 4,
+        "favorite": true,
         "flair": "suicide"
       }
     },
     {
+      "id": "s4",
       "title": "Suicide Title #4",
       "content": {
         "type": "text",
@@ -68,13 +72,14 @@
         "votes": 60,
         "comments": 12,
         "posted": "1hrs ago",
-        "favorites": 63,
+        "favorite": true,
         "flair": "suicide"
       }
     }
   ],
   "ptsd": [
     {
+      "id": "p1",
       "title": "PTSD Title #1",
       "content": {
         "type": "text",
@@ -88,11 +93,12 @@
         "votes": 89,
         "comments": 42,
         "posted": "6hrs ago",
-        "favorites": 22,
+        "favorite": true,
         "flair": "PTSD"
       }
     },
     {
+      "id": "p2",
       "title": "PTSD Title #2",
       "content": {
         "type": "text",
@@ -106,11 +112,12 @@
         "votes": 42,
         "comments": 89,
         "posted": "3hrs ago",
-        "favorites": 24,
+        "favorite": true,
         "flair": "PTSD"
       }
     },
     {
+      "id": "p3",
       "title": "PTSD Title #3",
       "content": {
         "type": "text",
@@ -124,11 +131,12 @@
         "votes": 8,
         "comments": 27,
         "posted": "11hrs ago",
-        "favorites": 4,
+        "favorite": true,
         "flair": "PTSD"
       }
     },
     {
+      "id": "p4",
       "title": "PTSD Title #4",
       "content": {
         "type": "text",
@@ -142,13 +150,14 @@
         "votes": 60,
         "comments": 12,
         "posted": "1hrs ago",
-        "favorites": 63,
+        "favorite": true,
         "flair": "PTSD"
       }
     }
   ],
   "anxiety": [
     {
+      "id": "a1",
       "title": "Anxiety Title #1 - Lorem ipsum dolor sit amet consectetur adipisicing elit",
       "content": {
         "type": "text",
@@ -162,11 +171,12 @@
         "votes": 89,
         "comments": 42,
         "posted": "6h ago",
-        "favorites": 22,
+        "favorite": true,
         "flair": "anxiety"
       }
     },
     {
+      "id": "a2",
       "title": "Anxiety Title #2",
       "content": {
         "type": "text",
@@ -180,11 +190,12 @@
         "votes": 42,
         "comments": 89,
         "posted": "3h ago",
-        "favorites": 24,
+        "favorite": false,
         "flair": "anxiety"
       }
     },
     {
+      "id": "a3",
       "title": "Anxiety Title #3",
       "content": {
         "type": "text",
@@ -198,11 +209,12 @@
         "votes": 8,
         "comments": 27,
         "posted": "11h ago",
-        "favorites": 4,
+        "favorite": false,
         "flair": "anxiety"
       }
     },
     {
+      "id": "a4",
       "title": "Anxiety Title #4",
       "content": {
         "type": "text",
@@ -216,13 +228,14 @@
         "votes": 60,
         "comments": 12,
         "posted": "1h ago",
-        "favorites": 63,
+        "favorite": true,
         "flair": "anxiety"
       }
     }
   ],
   "depression": [
     {
+      "id": "d1",
       "title": "Depression Title #1",
       "content": {
         "type": "text",
@@ -236,11 +249,12 @@
         "votes": 89,
         "comments": 42,
         "posted": "6hrs ago",
-        "favorites": 22,
+        "favorite": true,
         "flair": "depression"
       }
     },
     {
+      "id": "d2",
       "title": "Depression Title #2",
       "content": {
         "type": "text",
@@ -254,11 +268,12 @@
         "votes": 42,
         "comments": 89,
         "posted": "3hrs ago",
-        "favorites": 24,
+        "favorite": true,
         "flair": "depression"
       }
     },
     {
+      "id": "d3",
       "title": "Depression Title #3",
       "content": {
         "type": "text",
@@ -272,11 +287,12 @@
         "votes": 8,
         "comments": 27,
         "posted": "11hrs ago",
-        "favorites": 4,
+        "favorite": true,
         "flair": "depression"
       }
     },
     {
+      "id": "d4",
       "title": "Depression Title #4",
       "content": {
         "type": "text",
@@ -290,13 +306,14 @@
         "votes": 60,
         "comments": 12,
         "posted": "1hrs ago",
-        "favorites": 63,
+        "favorite": true,
         "flair": "depression"
       }
     }
   ],
   "epilepsy": [
     {
+      "id": "e1",
       "title": "Epilepsy Title #1",
       "content": {
         "type": "text",
@@ -310,11 +327,12 @@
         "votes": 89,
         "comments": 42,
         "posted": "6hrs ago",
-        "favorites": 22,
+        "favorite": true,
         "flair": "epilepsy"
       }
     },
     {
+      "id": "e2",
       "title": "Epilepsy Title #2",
       "content": {
         "type": "text",
@@ -328,11 +346,12 @@
         "votes": 42,
         "comments": 89,
         "posted": "3hrs ago",
-        "favorites": 24,
+        "favorite": true,
         "flair": "epilepsy"
       }
     },
     {
+      "id": "e3",
       "title": "Epilepsy Title #3",
       "content": {
         "type": "text",
@@ -346,11 +365,12 @@
         "votes": 8,
         "comments": 27,
         "posted": "11hrs ago",
-        "favorites": 4,
+        "favorite": true,
         "flair": "epilepsy"
       }
     },
     {
+      "id": "e4",
       "title": "Epilepsy Title #4",
       "content": {
         "type": "text",
@@ -364,7 +384,7 @@
         "votes": 60,
         "comments": 12,
         "posted": "1hrs ago",
-        "favorites": 63,
+        "favorite": true,
         "flair": "epilepsy"
       }
     }
