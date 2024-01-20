@@ -8,9 +8,7 @@ import Icons from "../Icons";
 import styles from "./Searchbar.module.css";
 
 export default function Searchbar({ value }: { value?: string | null }) {
-
   useEffect(() => {
-    console.log(value);
     const searchField = document.getElementById(styles.q);
     if (searchField instanceof HTMLInputElement) {
       searchField.value = value || "";
