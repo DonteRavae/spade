@@ -20,7 +20,7 @@
     &:hover,
     &:focus {
       width: 100%;
-      border-bottom: 1px solid fuchsia;
+      border-bottom: 1px solid var(--primary-color);
     }
   }
 
@@ -30,7 +30,7 @@
     &:hover {
       & ~ #q {
         width: 100%;
-        border-bottom: 1px solid fuchsia;
+        border-bottom: 1px solid var(--primary-color);
       }
     }
   }

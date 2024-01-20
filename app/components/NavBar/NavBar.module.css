@@ -16,7 +16,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      /* border-bottom: 1px solid rgba(255, 0, 255, 0.5); */
     }
 
     .nav-link {
@@ -40,7 +39,7 @@
         bottom: -10px;
         background: linear-gradient(
           transparent 10%,
-          fuchsia 10%,
+          var(--primary-color) 10%,
           transparent 90%
         );
         transition: all ease-in-out 0.2s;
@@ -51,7 +50,7 @@
         left: 0;
       }
     }
-    
+
     img {
       width: 100%;
     }

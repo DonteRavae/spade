@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+:root {
+  --primary-color: rgb(255, 0, 255);
+}
+
 #app-body {
   min-height: 100dvh;
   margin: 0;
