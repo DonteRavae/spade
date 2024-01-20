@@ -438,6 +438,36 @@ export default function Icons({
           ></path>
         </svg>
       )}
+
+      {/* LOGOUT */}
+      {type === "logout" && (
+        <svg
+          id={id}
+          className={className}
+          xmlns="http://www.w3.org/2000/svg"
+          width="25"
+          height="25"
+          viewBox="0 0 25 25"
+          fill="none"
+        >
+          <g clipPath="url(#clip0_90_11)">
+            <path
+              d="M2.2 25C1.53726 25 1 24.4628 1 23.8V2.2C1 1.53726 1.53726 1 2.2 1H19C19.6628 1 20.2 1.53726 20.2 2.2V5.8H17.8V3.4H3.4V22.6H17.8V20.2H20.2V23.8C20.2 24.4628 19.6628 25 19 25H2.2ZM17.8 17.8V14.2H9.4V11.8H17.8V8.2L23.8 13L17.8 17.8Z"
+              fill="black"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_90_11">
+              <rect
+                width="24"
+                height="24"
+                fill="white"
+                transform="translate(0.5 0.5)"
+              />
+            </clipPath>
+          </defs>
+        </svg>
+      )}
     </>
   );
 }
