@@ -1,6 +1,10 @@
 // REMIX
 import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
+import type {
+  ActionFunctionArgs,
+  LinksFunction,
+  LoaderFunctionArgs,
+} from "@remix-run/node";
 import {
   Link,
   Links,
@@ -18,15 +22,31 @@ import Searchbar from "./components/Searchbar/Searchbar";
 import AccountDropdown from "./components/AccountDropdown/AccountDropdown";
 // STYLES
 import styles from "./root.module.css";
-import { Profile, retrieveProfile } from "./utils/db/auth/auth.server";
+import {
+  Profile,
+  isSessionValid,
+  retrieveProfile,
+  signOutUser,
+} from "./utils/db/auth/auth.server";
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const formData = await request.formData();
+  if (formData.get("logout-user")) {
+    return await signOutUser(request);
+  }
+  return null;
+};
+
 export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const { decodedClaims, success } = await isSessionValid(request, "/");
+
   // PROFILE
-  const profile = await retrieveProfile(request);
+  let profile = null;
+  if (success) profile = await retrieveProfile(decodedClaims!.uid);
 
   // SEARCH
   const url = new URL(request.url);
