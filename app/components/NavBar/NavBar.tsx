@@ -10,39 +10,48 @@ export default function NavBar() {
     <nav id={styles["app-navbar"]}>
       <menu>
         <li>
-          <Link to="/community">
+          <Link to="/community" className={styles["nav-link"]}>
             <Icons type="community" />
             Community
           </Link>
         </li>
         <li>
-          <Link to="/podcast">
+          <Link to="/podcast" className={styles["nav-link"]}>
             <Icons type="podcast" /> Podcast
           </Link>
         </li>
         <li>
-          <Link to="/store">
+          <Link to="/store" className={styles["nav-link"]}>
             <Icons type="store" />
             Store
           </Link>
         </li>
         <li>
           <Link to="/">
-            <img src="/assets/spade_logo.jpg" alt="logo" />
+            <img src="/assets/spade_logo.png" alt="logo" />
           </Link>
         </li>
         <li>
-          <Link to="https://www.instagram.com/spadementalhealth/">
+          <Link
+            to="https://www.instagram.com/spadementalhealth/"
+            className={styles["nav-link"]}
+          >
             <Icons type="brand-instagram" /> Instagram
           </Link>
         </li>
         <li>
-          <Link to="https://www.tiktok.com/@spadementalhealth">
+          <Link
+            to="https://www.tiktok.com/@spadementalhealth"
+            className={styles["nav-link"]}
+          >
             <Icons type="brand-tiktok" /> TikTok
           </Link>
         </li>
         <li>
-          <Link to="https://www.youtube.com/@spadementalhealth">
+          <Link
+            to="https://www.youtube.com/@spadementalhealth"
+            className={styles["nav-link"]}
+          >
             <Icons type="brand-youtube" /> YouTube
           </Link>
         </li>
