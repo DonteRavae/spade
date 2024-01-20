@@ -1,7 +1,5 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 
-// REACT
-import { useEffect } from "react";
 // REMIX
 import { Link, useFetcher } from "@remix-run/react";
 // INTERNAL
@@ -141,9 +139,6 @@ const ForumItemCard = ({ item }: { item: ForumItem }) => {
 
 export default function Forum() {
   const { anxiety } = forumData;
-  useEffect(() => {
-    console.log(anxiety);
-  }, [anxiety]);
 
   return (
     <ul id={styles["forum"]}>
