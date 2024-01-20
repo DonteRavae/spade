@@ -21,16 +21,10 @@ export type Profile = {
 };
 
 export const retrieveProfile = async (
-  request: Request
+  userId: string
 ): Promise<Profile | TypedResponse<never> | null> => {
-  const result = await isSessionValid(request, "/");
-  if (!result.success) {
-    return null;
-  }
-
-  const claims = await result.decodedClaims;
   const profilesRef = admin.firestore().collection("profiles");
-  const profiles = await profilesRef.where("uid", "==", claims!.uid).get();
+  const profiles = await profilesRef.where("uid", "==", userId).get();
   if (profiles.empty) {
     console.log("Profile doesn't exist");
     return redirect("/login", {
@@ -46,15 +40,19 @@ export const { getSession, commitSession, destroySession } =
     cookie: {
       name: "gfb_token",
       path: "/",
-      maxAge: 60_800,
       sameSite: "lax",
       httpOnly: true,
       secure: true,
+      maxAge: 60 * 60 * 24 * 30,
       secrets: [process.env.COOKIE_SECRET!],
     },
   });
 
-export const signInUser = async (idToken: string, redirectTo: string) => {
+export const signInUser = async (
+  request: Request,
+  idToken: string,
+  redirectTo: string
+) => {
   admin
     .auth()
     .verifyIdToken(idToken)
@@ -66,7 +64,7 @@ export const signInUser = async (idToken: string, redirectTo: string) => {
       expiresIn: 60 * 60 * 24 * 5 * 1000, // 5 days
     })
     .then(
-      (cookie) => setCookieAndRedirect(cookie, redirectTo),
+      (cookie) => setCookieAndRedirect(request, cookie, redirectTo),
       (error) => ({
         error: `loginSession UNAUTHORIZED REQUEST!: ${error.message}`,
       })
@@ -74,24 +72,13 @@ export const signInUser = async (idToken: string, redirectTo: string) => {
 };
 
 export const signOutUser = async (request: Request) => {
-  const session = await getSession(request.headers.get("cookie"));
-
-  return admin
-    .auth()
-    .verifySessionCookie(session.get("idToken"), true /* Check Revoked */)
-    .then((decodedClaims) =>
-      admin.auth().revokeRefreshTokens(decodedClaims.sub)
-    )
-    .then(async () =>
-      redirect("/login", {
-        headers: {
-          "Set-Cookie": await destroySession(session),
-        },
-      })
-    )
-    .catch((error) => {
-      console.error(error);
-    });
+  const session = await getSession(request.headers.get("Cookie"));
+  const newCookie = await destroySession(session);
+  return redirect("/", {
+    headers: {
+      "Set-Cookie": newCookie,
+    },
+  });
 };
 
 export const isSessionValid = async (request: Request, redirectTo: string) => {
@@ -103,20 +90,20 @@ export const isSessionValid = async (request: Request, redirectTo: string) => {
   }
 
   try {
-    const decodedClaims = admin
-      .auth()
-      .verifySessionCookie(idToken, true /* Check Revoked */);
+    const decodedClaims = await admin.auth().verifySessionCookie(idToken, true);
     return { success: true, decodedClaims };
   } catch (error) {
     console.error(error);
-    throw redirect(redirectTo, {
-      status: 401,
-    });
+    throw redirect(redirectTo, {});
   }
 };
 
-async function setCookieAndRedirect(cookie: string, redirectTo: string = "/") {
-  const session = await getSession();
+async function setCookieAndRedirect(
+  request: Request,
+  cookie: string,
+  redirectTo: string = "/"
+) {
+  const session = await getSession(request.headers.get("Cookie"));
   session.set("idToken", cookie);
   return redirect(redirectTo, {
     headers: {
