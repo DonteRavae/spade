@@ -45,7 +45,7 @@ export async function action({ request }: ActionFunctionArgs) {
       avatar,
     });
     console.log("Document written with ID: ", docRef.id);
-    return await signInUser(idToken, "/");
+    return await signInUser(request, idToken, "/");
   } catch (error) {
     console.error(error);
     return null;

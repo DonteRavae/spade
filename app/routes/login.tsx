@@ -31,7 +31,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const idToken = formData.get("idToken") as string;
 
   try {
-    return await signInUser(idToken, "/");
+    return await signInUser(request, idToken, "/");
   } catch (error) {
     console.error(error);
     return null;
