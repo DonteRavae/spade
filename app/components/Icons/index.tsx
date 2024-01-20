@@ -9,6 +9,24 @@ export default function Icons({
 }) {
   return (
     <>
+      {/* BRAND - GOOGLE  */}
+      {type === "brand-google" && (
+        <svg
+          id={id}
+          className={className}
+          xmlns="http://www.w3.org/2000/svg"
+          width="25"
+          height="25"
+          viewBox="0 0 25 25"
+          fill="none"
+        >
+          <path
+            d="M3.17 8.06005C4.98 4.46501 8.69992 2 13 2C15.9649 2 18.4549 3.09004 20.36 4.865L17.205 8.02001C16.065 6.93004 14.6149 6.375 13 6.375C10.135 6.375 7.70992 8.31001 6.84501 10.91C6.62495 11.57 6.49995 12.275 6.49995 13C6.49995 13.725 6.62495 14.43 6.84501 15.09C7.70992 17.69 10.135 19.625 13 19.625C14.4799 19.625 15.74 19.235 16.725 18.575C17.8899 17.795 18.665 16.63 18.92 15.255H13V11H23.3599C23.49 11.7199 23.56 12.47 23.56 13.25C23.56 16.6 22.36 19.4199 20.2799 21.335C18.46 23.0151 15.97 24 13 24C8.69992 24 4.98 21.535 3.17 17.94C2.42502 16.455 2 14.775 2 13C2 11.225 2.42502 9.54502 3.17 8.06005Z"
+            fill="black"
+          />
+        </svg>
+      )}
+
       {/* BRAND - INSTAGRAM */}
       {type === "brand-instagram" && (
         <svg
@@ -367,6 +385,57 @@ export default function Icons({
               />
             </clipPath>
           </defs>
+        </svg>
+      )}
+
+      {/* GREEN CHECK */}
+      {type === "green-check" && (
+        <svg
+          id={id}
+          className={className}
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+        >
+          <path
+            d="M10.0007 15.1709L19.1931 5.97852L20.6073 7.39273L10.0007 17.9993L3.63672 11.6354L5.05093 10.2212L10.0007 15.1709Z"
+            fill="rgba(100,205,138,1)"
+          ></path>
+        </svg>
+      )}
+
+      {/* RED "X" */}
+      {type === "red-x" && (
+        <svg
+          id={id}
+          className={className}
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+        >
+          <path
+            d="M12.0007 10.5865L16.9504 5.63672L18.3646 7.05093L13.4149 12.0007L18.3646 16.9504L16.9504 18.3646L12.0007 13.4149L7.05093 18.3646L5.63672 16.9504L10.5865 12.0007L5.63672 7.05093L7.05093 5.63672L12.0007 10.5865Z"
+            fill="rgba(255,0,0,1)"
+          ></path>
+        </svg>
+      )}
+
+      {/* INFORMATION CIRCLE*/}
+      {type === "info-circle" && (
+        <svg
+          id={id}
+          className={className}
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+        >
+          <path
+            d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM11 11V17H13V11H11ZM11 7V9H13V7H11Z"
+            fill="#000"
+          ></path>
         </svg>
       )}
     </>
