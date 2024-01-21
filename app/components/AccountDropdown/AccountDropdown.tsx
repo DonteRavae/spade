@@ -24,7 +24,7 @@ export default function AccountDropdown({
   };
 
   return (
-    <div id={styles["account-dropdown-container"]}>
+    <div id={styles["account-dropdown-container"]} onBlur={() => setShowMenu(false)}>
       <button
         id={styles["account-dropdown-btn"]}
         className={showMenu ? styles.show : ""}
