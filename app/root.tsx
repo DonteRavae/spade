@@ -13,16 +13,16 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 // INTERNAL
-import NavBar from "./components/NavBar/NavBar";
-import Searchbar from "./components/Searchbar/Searchbar";
-import AccountDropdown from "./components/AccountDropdown/AccountDropdown";
-// STYLES
-import styles from "./root.module.css";
 import {
   Profile,
   isSessionValid,
   retrieveProfile,
 } from "./utils/db/auth/auth.server";
+import NavBar from "./components/NavBar/NavBar";
+import Searchbar from "./components/Searchbar/Searchbar";
+import AccountDropdown from "./components/AccountDropdown/AccountDropdown";
+// STYLES
+import styles from "./root.module.css";
 
 export type AuthContext = {
   profile: Profile | null;
