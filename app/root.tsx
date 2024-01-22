@@ -1,10 +1,6 @@
 // REMIX
 import { cssBundleHref } from "@remix-run/css-bundle";
-import type {
-  ActionFunctionArgs,
-  LinksFunction,
-  LoaderFunctionArgs,
-} from "@remix-run/node";
+import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import {
   Link,
   Links,
@@ -26,20 +22,15 @@ import {
   Profile,
   isSessionValid,
   retrieveProfile,
-  signOutUser,
 } from "./utils/db/auth/auth.server";
+
+export type AuthContext = {
+  profile: Profile | null;
+};
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
-
-export const action = async ({ request }: ActionFunctionArgs) => {
-  const formData = await request.formData();
-  if (formData.get("logout-user")) {
-    return await signOutUser(request);
-  }
-  return null;
-};
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { decodedClaims, success } = await isSessionValid(request, "/");
@@ -58,6 +49,10 @@ export default function App() {
   const { query } = useLoaderData<typeof loader>();
   let { profile } = useLoaderData<typeof loader>();
   profile = profile ? (profile as Profile) : null;
+
+  const contextValue: AuthContext = {
+    profile,
+  };
 
   return (
     <html lang="en">
@@ -84,7 +79,7 @@ export default function App() {
             />
           )}
         </header>
-        <Outlet />
+        <Outlet context={contextValue} />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
