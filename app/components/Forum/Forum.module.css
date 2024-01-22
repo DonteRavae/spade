@@ -11,7 +11,7 @@
   height: min(150px, auto);
   display: grid;
   grid-template-columns: 100px 1fr;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   border-radius: 10px;
   color: black;
   overflow: hidden;
