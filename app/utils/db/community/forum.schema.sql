@@ -1,0 +1,14 @@
+CREATE TABLE posts (
+    id VARCHAR(100) PRIMARY KEY NOT NULL,
+    title TEXT NOT NULL,
+    content_type VARCHAR(10),
+    content TEXT,
+    flair VARCHAR(50) NOT NULL,
+    votes INT DEFAULT 1,
+    favorite BOOLEAN DEFAULT FALSE,
+    favorite_count INT DEFAULT 0,
+    posted TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    submitted_by VARCHAR(100),
+    FOREIGN KEY (submitted_by) REFERENCES profiles(id) ON UPDATE CASCADE ON DELETE SET NULL
+);
