@@ -1,7 +1,13 @@
 // REACT
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // REMIX
-import { Form, NavLink, Outlet, useOutletContext } from "@remix-run/react";
+import {
+  Form,
+  NavLink,
+  Outlet,
+  useLocation,
+  useOutletContext,
+} from "@remix-run/react";
 // INTERNAL
 import Icons from "../Icons";
 import { AuthContext } from "~/root";
@@ -18,11 +24,17 @@ enum TABS {
 }
 
 export default function CommunityOverview() {
+  const location = useLocation();
   const { profile } = useOutletContext<AuthContext>();
   const [activeTab, setActiveTab] = useState<string>(TABS.RECENT);
   const [isAnnouncementsOpen, toggleAnnouncements] = useState<boolean>(true);
 
   const closeAnnouncements = () => toggleAnnouncements((prev) => !prev);
+
+  useEffect(() => {
+    if (location.pathname === "/") setActiveTab(TABS.RECENT);
+  }, [location]);
+  
   return (
     <section id={styles["community-overview"]}>
       <h1 className={styles["section-title"]}>Community</h1>
