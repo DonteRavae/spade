@@ -1,10 +1,14 @@
-// STYLES
+// REACT
 import { useState } from "react";
-import Icons from "../Icons";
-import styles from "./AccountDropdown.module.css";
-import { Form, useFetcher } from "@remix-run/react";
+// REMIX
+import { Form } from "@remix-run/react";
 import auth from "~/utils/db/auth/config";
+// INTERNAL
+import Icons from "../Icons";
+// EXTERNAL
 import { signOut } from "firebase/auth";
+// STYLES
+import styles from "./AccountDropdown.module.css";
 
 export default function AccountDropdown({
   username,
@@ -13,18 +17,16 @@ export default function AccountDropdown({
   username: string;
   avatar: string;
 }) {
-  const fetcher = useFetcher();
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
   const handleClick = () => setShowMenu((prev) => !prev);
 
   const handleLogout = async () => {
     await signOut(auth);
-    fetcher.submit({ "logout-user": true }, { method: "post" });
   };
 
   return (
-    <div id={styles["account-dropdown-container"]} onBlur={() => setShowMenu(false)}>
+    <div id={styles["account-dropdown-container"]}>
       <button
         id={styles["account-dropdown-btn"]}
         className={showMenu ? styles.show : ""}
@@ -37,13 +39,10 @@ export default function AccountDropdown({
       <menu
         id={styles["account-dropdown-menu"]}
         className={showMenu ? styles.show : ""}
+        onBlur={() => setShowMenu(false)}
       >
-        <Form method="post">
-          <button
-            id={styles["logout-btn"]}
-            type="submit"
-            onClick={handleLogout}
-          >
+        <Form method="post" action="logout" onSubmit={handleLogout}>
+          <button id={styles["logout-btn"]} type="submit">
             <Icons type="logout" />
             Logout
           </button>
