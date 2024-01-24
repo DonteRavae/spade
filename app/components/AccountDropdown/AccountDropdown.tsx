@@ -39,7 +39,7 @@ export default function AccountDropdown({
       <menu
         id={styles["account-dropdown-menu"]}
         className={showMenu ? styles.show : ""}
-        onBlur={() => setShowMenu(false)}
+        onBlur={handleClick}
       >
         <Form method="post" action="logout" onSubmit={handleLogout}>
           <button id={styles["logout-btn"]} type="submit">
