@@ -493,6 +493,31 @@ export default function Icons({
           </defs>
         </svg>
       )}
+
+      {/* CLOSE */}
+      {type === "close" && (
+        <svg
+          id={id}
+          className={className}
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+        >
+          <g clipPath="url(#clip0_101_15)">
+            <path
+              d="M12 9.33337L21.3334 0L24 2.66665L14.6666 12L24 21.3332L21.3334 23.9998L12 14.6666L2.66667 23.9998L0 21.3332L9.33333 12L0 2.66665L2.66667 0L12 9.33337Z"
+              fill="black"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_101_15">
+              <rect width="24" height="24" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+      )}
     </>
   );
 }
