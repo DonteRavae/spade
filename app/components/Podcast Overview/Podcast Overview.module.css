@@ -1,7 +1,7 @@
 #podcast-overview {
   grid-area: podcast;
   height: 90%;
-  width: 30vw;
+  width: 25vw;
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -16,6 +16,8 @@
     1;
   color: black;
   position: fixed;
+  top: 100px;
+  left: 5vw;
 
   .section-title {
     margin: 0;
