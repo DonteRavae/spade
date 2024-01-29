@@ -1,6 +1,10 @@
 // REMIX
 import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
+import type {
+  ActionFunctionArgs,
+  LinksFunction,
+  LoaderFunctionArgs,
+} from "@remix-run/node";
 import {
   Link,
   Links,
@@ -13,31 +17,39 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 // INTERNAL
-import {
-  Profile,
-  isSessionValid,
-  retrieveProfile,
-} from "./utils/db/auth/auth.server";
+import { isSessionValid } from "./utils/db/auth/auth.server";
 import NavBar from "./components/NavBar/NavBar";
 import Searchbar from "./components/Searchbar/Searchbar";
+import { UserProfile } from "./utils/db/community/types.server";
+import * as handlers from "./utils/db/community/handlers.server";
 import AccountDropdown from "./components/AccountDropdown/AccountDropdown";
 // STYLES
 import styles from "./root.module.css";
 
 export type AuthContext = {
-  profile: Profile | null;
+  profile: UserProfile | null;
 };
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const formData = await request.formData();
+  const requestType = formData.get("request-type");
+  if (requestType === "create-post") {
+    return await handlers.createPost(formData);
+  }
+  return null;
+};
+
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { decodedClaims, success } = await isSessionValid(request, "/");
 
   // PROFILE
   let profile = null;
-  if (success) profile = await retrieveProfile(decodedClaims!.uid);
+  if (success)
+    profile = await handlers.getCommunityProfileById(decodedClaims!.uid);
 
   // SEARCH
   const url = new URL(request.url);
@@ -48,7 +60,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export default function App() {
   const { query } = useLoaderData<typeof loader>();
   let { profile } = useLoaderData<typeof loader>();
-  profile = profile ? (profile as Profile) : null;
+  profile = profile ? (profile as UserProfile) : null;
 
   const contextValue: AuthContext = {
     profile,
@@ -74,7 +86,7 @@ export default function App() {
             </div>
           ) : (
             <AccountDropdown
-              avatar={profile!.avatar}
+              avatar={profile!.avatarUrl}
               username={profile?.username}
             />
           )}
