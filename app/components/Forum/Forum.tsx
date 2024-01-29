@@ -4,65 +4,66 @@
 import { Link, useFetcher } from "@remix-run/react";
 // INTERNAL
 import Icons from "../Icons";
-import forumData from "../../utils/db/forum.json";
+import UserAvatar from "../UserAvatar/UserAvatar";
+import { ForumPost, UserProfile } from "~/utils/db/community/types.server";
 // STYLES
 import styles from "./Forum.module.css";
 
-/**
- * Forum Item will need the following props passed down
- * - User name, avatar, and alias or id
- * - Flair
- * - Vote Count
- * - Number of comments
- * - Maybe details to share (Need to look into this)
- * - Post Details
- *   -- Title
- *   -- Content
- *   -- Posted Timestamp
- */
+const findTimeSinceCreated = (timestamp: string): string => {
+  const timeCreated = Date.parse(timestamp);
+  const now = Date.now();
 
-type ForumItem = {
-  id: string;
-  title: string;
-  content: {
-    type: string;
-    value: string;
-  };
-  meta: {
-    submittedBy: {
-      alias: string;
-      avatar: string;
-    };
-    votes: number;
-    comments: number;
-    posted: string;
-    favorite: boolean;
-    flair: string;
-  };
+  const timeDiff = Math.floor((now - timeCreated) / 60000);
+  const oneDay = 60 * 24;
+  const oneHour = 60;
+
+  if (timeDiff > oneDay) return `${Math.floor(timeDiff / oneDay)}d`;
+  else if (timeDiff > oneHour) return `${Math.floor(timeDiff / oneHour)}h`;
+  else if (timeDiff > 1) return `${Math.floor(timeDiff)}m`;
+
+  return "moments ago";
 };
 
-const ForumItemCard = ({ item }: { item: ForumItem }) => {
-  const { id, title, content } = item;
-  const { submittedBy, votes, comments, posted, flair, favorite } = item.meta;
-  const { alias, avatar } = submittedBy;
+const ForumItemCard = ({ post }: { post: ForumPost }) => {
+  const {
+    id,
+    title,
+    content,
+    contentType,
+    submittedBy,
+    votes,
+    createdAt,
+    flair,
+  } = post;
+  const { username, avatarUrl } = submittedBy as UserProfile;
+  // DEFAULT FOR NOW
+  const favorite = true;
   const fetcher = useFetcher();
+
   return (
     <li className={styles["forum-item-card"]}>
-      <Link className={styles["sidebar"]} to={`/community/u/${alias}`}>
-        <img src={avatar} alt="Name's Avatar" />
-        <p className={styles.alias}>{alias}</p>
-        <p className={styles.posted}>{posted}</p>
+      <Link
+        className={styles["sidebar"]}
+        to={`/community/users/${username}`}
+        title={username}
+      >
+        <UserAvatar avatarUrl={avatarUrl} avatarAlt={`${username}'s avatar`} />
+        <p className={styles.alias}>{username}</p>
+        <p className={styles.posted}>{findTimeSinceCreated(createdAt!)}</p>
       </Link>
 
       <div className={styles["content-container"]}>
-        <Link className={styles.postContent} to={`/community/${flair}/${id}`}>
+        <Link
+          className={styles.postContent}
+          to={`/community/users/${username}/posts/${id}`}
+        >
           <h1 className={styles.title}>{title}</h1>
 
-          {content.type === "text" && content.value ? (
-            <p className={styles.content}>{content.value}</p>
-          ) : content.type === "image" && content.value ? (
+          {contentType === "text" && content ? (
+            <p className={styles.content}>{content}</p>
+          ) : contentType === "image" && content ? (
             <img className={styles.content} src="" alt="Post Content" />
-          ) : content.type === "video" && content.value ? (
+          ) : contentType === "video" && content ? (
             <video className={styles.content} src="" />
           ) : null}
         </Link>
@@ -73,7 +74,7 @@ const ForumItemCard = ({ item }: { item: ForumItem }) => {
               className={styles.upvote}
               aria-label="Upvote post"
               name="vote"
-              value={votes + 1}
+              value={votes! + 1}
             >
               <Icons type="caret-up" />
             </button>
@@ -82,17 +83,17 @@ const ForumItemCard = ({ item }: { item: ForumItem }) => {
               className={styles.downvote}
               aria-label="Downvote post"
               name="vote"
-              value={votes - 1}
+              value={votes! - 1}
             >
               <Icons type="caret-down" />
             </button>
           </fetcher.Form>
           <Link
-            to={`/community/${flair}/${id}/#comments`}
+            to={`/community/users/${username}/posts/${id}/#comments`}
             className={`${styles["footer-item"]} ${styles.comments}`}
           >
             <Icons type="comment" />
-            {comments}
+            {/* {comments} */}0
           </Link>
           <button className={`${styles["footer-item"]} ${styles.share}`}>
             <Icons type="share" />
@@ -137,14 +138,16 @@ const ForumItemCard = ({ item }: { item: ForumItem }) => {
   );
 };
 
-export default function Forum() {
-  const { anxiety } = forumData;
-
+export default function Forum({
+  posts,
+}: {
+  posts: ForumPost[] | null | undefined;
+}) {
   return (
     <ul id={styles["forum"]}>
-      {anxiety.map((item) => (
-        <ForumItemCard key={item.meta.submittedBy.alias} item={item} />
-      ))}
+      {posts
+        ? posts.map((post) => <ForumItemCard key={post.id} post={post} />)
+        : null}
     </ul>
   );
 }
