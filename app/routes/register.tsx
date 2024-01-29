@@ -5,12 +5,11 @@ import { ActionFunctionArgs } from "@remix-run/node";
 import { Form, Link, useFetcher } from "@remix-run/react";
 // INTERNAL
 import Icons from "~/components/Icons";
-import auth, { db } from "../utils/db/auth/config";
+import auth from "../utils/db/auth/config";
 import FormInput from "~/components/FormInput/FormInput";
 import { signInUser } from "~/utils/db/auth/auth.server";
+import * as handlers from "~/utils/db/community/handlers.server";
 import PageContainer from "~/components/PageContainer/PageContainer";
-// EXTERNAL
-import { addDoc, collection } from "firebase/firestore";
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
@@ -26,25 +25,20 @@ const PWD_VALIDATION =
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
-  const uid = formData.get("uid") as string;
-  let username = formData.get("username") as string;
-  let avatar = `https://api.multiavatar.com/${uid}.svg`;
+  const userId = formData.get("uid") as string;
   const idToken = formData.get("idToken") as string;
-  const registrationType = formData.get("registration-type");
+  let username = formData.get("username") as string;
+  let avatarUrl = `https://api.multiavatar.com/${userId}.svg`;
 
   try {
+    const registrationType = formData.get("registration-type");
+
     if (registrationType === "google-registration") {
       username = `spade_${username.split(" ")[0].toLowerCase()}`;
-      avatar = formData.get("avatar") as string;
-      console.log(username);
+      avatarUrl = formData.get("avatar") as string;
     }
 
-    const docRef = await addDoc(collection(db, "profiles"), {
-      username,
-      uid,
-      avatar,
-    });
-    console.log("Document written with ID: ", docRef.id);
+    handlers.createCommunityProfile(userId, username, avatarUrl);
     return await signInUser(request, idToken, "/");
   } catch (error) {
     console.error(error);
