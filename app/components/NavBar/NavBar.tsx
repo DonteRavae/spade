@@ -27,7 +27,7 @@ export default function NavBar() {
           </Link>
         </li>
         <li>
-          <Link to="/">
+          <Link to="/" className={styles.logo}>
             <img src="/assets/spade_logo.png" alt="logo" />
           </Link>
         </li>
