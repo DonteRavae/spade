@@ -1,9 +1,10 @@
 #community-overview {
+  width: clamp(400px, 40vw ,800px);
   height: 100%;
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin-left: calc(30vw + 25px);
+  margin-left: calc(25vw + 25px);
   margin-right: 25px;
 
   .section-title {
@@ -19,7 +20,7 @@
     flex-direction: column;
     align-items: center;
 
-    hr {
+    .actions-divider {
       width: calc(100% - 20px);
       margin: 0;
       border: 1px solid #dfdfdf;
@@ -47,7 +48,6 @@
     display: flex;
     overflow: hidden;
     margin: 0;
-    /* border-top: 1px dotted #dfdfdf; */
 
     .forum-filter {
       flex: 1;
@@ -76,39 +76,22 @@
     background: white;
     padding: 10px;
 
-    img {
-      height: 100%;
-    }
-
-    #create-post-input {
+    .create-post-selector {
       flex: 1;
+      height: 45px;
       width: 100%;
+      padding-left: 10px;
+      border-radius: 5px;
+      background: #dfdfdf;
 
-      input {
-        width: 100%;
+      p {
+        color: #777;
       }
 
       &:hover {
         background: #bdbdbd;
         cursor: pointer;
       }
-    }
-
-    .form-input-container {
-      width: 100%;
-    }
-
-    .form-input {
-      height: 45px;
-      width: 100%;
-      padding-left: 10px;
-      outline: none;
-      border-radius: 5px;
-      border: none;
-      background: #dfdfdf;
-    }
-
-    .form-label {
     }
   }
 }
