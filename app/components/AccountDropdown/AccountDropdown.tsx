@@ -5,6 +5,7 @@ import { Form } from "@remix-run/react";
 import auth from "~/utils/db/auth/config";
 // INTERNAL
 import Icons from "../Icons";
+import UserAvatar from "../UserAvatar/UserAvatar";
 // EXTERNAL
 import { signOut } from "firebase/auth";
 // STYLES
@@ -33,7 +34,7 @@ export default function AccountDropdown({
         onClick={handleClick}
       >
         <h4>{username}</h4>
-        <img src={avatar} alt="Name's Avatar" />
+        <UserAvatar avatarUrl={avatar} avatarAlt={`${username}'s avatar`} />
         <Icons type="caret-down" />
       </button>
       <menu
