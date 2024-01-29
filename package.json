@@ -22,10 +22,12 @@
     "firebase-admin": "^12.0.0",
     "isbot": "^3.6.8",
     "morgan": "^1.10.0",
+    "mysql2": "^3.9.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "redis": "^4.6.12",
     "source-map-support": "^0.5.21",
+    "spinners-react": "^1.0.7",
     "ulid": "^2.3.0"
   },
   "devDependencies": {
