@@ -4,7 +4,8 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin-left: calc(25vw + 25px);
+  margin-left: 25vw;
+  padding-left: 25px;
 
   .section-title {
     margin: 0;
