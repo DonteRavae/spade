@@ -1,7 +1,7 @@
 // REACT
-import { ChangeEventHandler, useRef } from "react";
-// Remix
-import { Form, useOutletContext } from "@remix-run/react";
+import { ChangeEventHandler, useEffect, useRef } from "react";
+// REMIX
+import { Form, useNavigation, useOutletContext } from "@remix-run/react";
 // INTERNAL
 import { AuthContext } from "~/root";
 // STYLES
@@ -11,11 +11,16 @@ export default function CreatePostForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const titleRef = useRef<HTMLTextAreaElement>(null);
   const { profile } = useOutletContext<AuthContext>();
+  const navigation = useNavigation();
 
   const resizeTitle: ChangeEventHandler = (event) => {
     const scrollHeight = event.currentTarget.scrollHeight;
     titleRef.current!.style.height = `${scrollHeight}px`;
   };
+
+  useEffect(() => {
+    if (navigation.state === "loading") formRef.current?.reset();
+  }, [navigation]);
 
   return (
     <Form id={styles["create-post-form"]} method="post" ref={formRef}>
