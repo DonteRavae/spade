@@ -48,11 +48,17 @@ export default function CommunityOverview() {
       <h1 className={styles["section-title"]}>Community</h1>
 
       <div id={styles["community-overview-actions"]}>
+        {/* ANNOUNCEMENTS */}
         <HeroSlider toggleSlider={isAnnouncementsOpen} />
+
+        {/* CREATE NEW POST */}
         {profile ? (
           <>
             <section id={styles["create-post-form"]}>
-              <UserAvatar avatarUrl={profile.avatarUrl} avatarAlt={`${profile.username}'s avatar`} />
+              <UserAvatar
+                avatarUrl={profile.avatarUrl}
+                avatarAlt={`${profile.username}'s avatar`}
+              />
               <div
                 className={styles["create-post-selector"]}
                 onClick={openModal}
@@ -65,13 +71,17 @@ export default function CommunityOverview() {
               >
                 <Icons type="add-image" />
               </button>
-              {navigation.state !== "loading" && <Modal label="Create A Post" ref={modalRef}>
-                <CreatePostForm />
-              </Modal>}
+              {navigation.state !== "loading" && (
+                <Modal label="Create A Post" ref={modalRef}>
+                  <CreatePostForm />
+                </Modal>
+              )}
             </section>
             <hr className={styles["actions-divider"]} />
           </>
         ) : null}
+
+        {/* FORUM NAVIGATION */}
         <nav
           id={styles["community-overview-navigation"]}
           className={!isAnnouncementsOpen ? styles.close : ""}
