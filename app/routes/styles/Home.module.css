@@ -1,8 +1,8 @@
 #home-page {
   position: relative;
   background: #dfdfdf;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  gap: 25px;
 
   .section-title {
     height: 28px;
