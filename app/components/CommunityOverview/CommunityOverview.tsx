@@ -12,7 +12,7 @@ import {
 } from "@remix-run/react";
 // INTERNAL
 import Icons from "../Icons";
-import { AuthContext } from "~/root";
+import { AppContext } from "~/root";
 import Modal, { ModalRef } from "../Modal/Modal";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import HeroSlider from "../HeroSlider/HeroSlider";
@@ -31,9 +31,10 @@ export default function CommunityOverview() {
   const modalRef = useRef<ModalRef>(null);
   const location = useLocation();
   const navigation = useNavigation();
-  const { profile } = useOutletContext<AuthContext>();
+  const rootContext = useOutletContext<AppContext>();
   const [activeTab, setActiveTab] = useState<string>(TABS.RECENT);
   const [isAnnouncementsOpen, toggleAnnouncements] = useState<boolean>(true);
+  const { profile } = rootContext;
 
   useEffect(() => {
     if (location.pathname === "/") setActiveTab(TABS.RECENT);
@@ -131,7 +132,7 @@ export default function CommunityOverview() {
         </nav>
       </div>
 
-      <Outlet />
+      <Outlet context={rootContext} />
     </section>
   );
 }
