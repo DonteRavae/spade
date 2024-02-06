@@ -27,20 +27,19 @@ export default function AccountDropdown({
   };
 
   return (
-    <div id={styles["account-dropdown-container"]}>
-      <button
-        id={styles["account-dropdown-btn"]}
-        className={showMenu ? styles.show : ""}
-        onClick={handleClick}
-      >
+    <div
+      id={styles["account-dropdown-container"]}
+      className={showMenu ? styles.show : ""}
+    >
+      <button id={styles["account-dropdown-btn"]} onClick={handleClick}>
         <h4>{username}</h4>
         <UserAvatar avatarUrl={avatar} avatarAlt={`${username}'s avatar`} />
         <Icons type="caret-down" />
       </button>
       <menu
+        onBlur={handleClick}
         id={styles["account-dropdown-menu"]}
         className={showMenu ? styles.show : ""}
-        onBlur={handleClick}
       >
         <Form method="post" action="logout" onSubmit={handleLogout}>
           <button id={styles["logout-btn"]} type="submit">
