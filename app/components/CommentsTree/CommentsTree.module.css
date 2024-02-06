@@ -1,0 +1,30 @@
+#comment-tree {
+  color: white;
+}
+
+#empty-comments-message {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h3 {
+    color: #999;
+    font-size: 20px;
+  }
+
+  svg {
+    height: 36px;
+    width: 36px;
+
+    path {
+      fill: #999;
+    }
+  }
+
+  p {
+    color: #999;
+    font-size: 18px;
+  }
+}
