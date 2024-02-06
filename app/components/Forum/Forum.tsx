@@ -1,28 +1,16 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 
 // REMIX
-import { Link, useFetcher } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 // INTERNAL
 import Icons from "../Icons";
 import UserAvatar from "../UserAvatar/UserAvatar";
+import { findTimeSinceCreated } from "~/utils/helpers";
 import { ForumPost, UserProfile } from "~/utils/db/community/types.server";
 // STYLES
 import styles from "./Forum.module.css";
-
-const findTimeSinceCreated = (timestamp: string): string => {
-  const timeCreated = Date.parse(timestamp);
-  const now = Date.now();
-
-  const timeDiff = Math.floor((now - timeCreated) / 60000);
-  const oneDay = 60 * 24;
-  const oneHour = 60;
-
-  if (timeDiff > oneDay) return `${Math.floor(timeDiff / oneDay)}d`;
-  else if (timeDiff > oneHour) return `${Math.floor(timeDiff / oneHour)}h`;
-  else if (timeDiff > 1) return `${Math.floor(timeDiff)}m`;
-
-  return "moments ago";
-};
+import FavoriteController from "../FavoriteController/FavoriteController";
+import VoteController from "../VoteController/VoteController";
 
 const ForumItemCard = ({ post }: { post: ForumPost }) => {
   const {
@@ -33,12 +21,9 @@ const ForumItemCard = ({ post }: { post: ForumPost }) => {
     submittedBy,
     votes,
     createdAt,
-    flair,
+    category,
   } = post;
   const { username, avatarUrl } = submittedBy as UserProfile;
-  // DEFAULT FOR NOW
-  const favorite = true;
-  const fetcher = useFetcher();
 
   return (
     <li className={styles["forum-item-card"]}>
@@ -55,7 +40,7 @@ const ForumItemCard = ({ post }: { post: ForumPost }) => {
       <div className={styles["content-container"]}>
         <Link
           className={styles.postContent}
-          to={`/community/users/${username}/posts/${id}`}
+          to={`community/users/${username}/posts/${id}`}
         >
           <h1 className={styles.title}>{title}</h1>
 
@@ -68,26 +53,12 @@ const ForumItemCard = ({ post }: { post: ForumPost }) => {
           ) : null}
         </Link>
         <footer>
-          <fetcher.Form className={styles["footer-item"]} method="post">
-            <input hidden readOnly value="vote-update" name="request-type" />
-            <button
-              className={styles.upvote}
-              aria-label="Upvote post"
-              name="vote"
-              value={votes! + 1}
-            >
-              <Icons type="caret-up" />
-            </button>
-            {votes}
-            <button
-              className={styles.downvote}
-              aria-label="Downvote post"
-              name="vote"
-              value={votes! - 1}
-            >
-              <Icons type="caret-down" />
-            </button>
-          </fetcher.Form>
+          <VoteController
+            votesTotal={votes}
+            parentId={id}
+            direction="horizontal"
+            theme="light"
+          />
           <Link
             to={`/community/users/${username}/posts/${id}/#comments`}
             className={`${styles["footer-item"]} ${styles.comments}`}
@@ -99,38 +70,18 @@ const ForumItemCard = ({ post }: { post: ForumPost }) => {
             <Icons type="share" />
             Share
           </button>
-          <fetcher.Form
-            method="post"
-            className={`${styles["footer-item"]} ${styles.favorite}`}
-          >
-            <input
-              hidden
-              readOnly
-              value="favorite-update"
-              name="request-type"
-            />
-            <button
-              aria-label={
-                favorite ? "Remove from favorites" : "Add to favorites"
-              }
-              value={favorite ? "false" : "true"}
-              name="favorite"
-            >
-              {!favorite ? (
-                <Icons type="empty-heart" />
-              ) : (
-                <Icons type="full-heart" />
-              )}
-              Favorite
-            </button>
-          </fetcher.Form>
+          <FavoriteController
+            parentId={id}
+            direction="horizontal"
+            theme="light"
+          />
           <Link
-            to={`/community/${flair}`}
+            to={`/community/${category}`}
             className={`${styles["footer-item"]} ${
-              styles[flair.toLowerCase()]
-            } ${styles.flair}`}
+              styles[category.toLowerCase()]
+            } ${styles.category}`}
           >
-            {flair}
+            {category}
           </Link>
         </footer>
       </div>

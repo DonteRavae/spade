@@ -116,6 +116,10 @@
         padding: 0;
       }
 
+      .vote-controller svg path{
+        fill: black;
+      }
+
       .footer-item {
         flex: 1;
         height: 100%;
@@ -125,7 +129,7 @@
         text-align: center;
         border: none;
 
-        &.flair {
+        &.category {
           color: white;
           text-transform: uppercase;
           letter-spacing: 0.05em;
@@ -224,13 +228,11 @@
       }
 
       p {
-        flex: 1;
-        height: 100%;
-        width: 100%;
         display: flex;
         align-items: center;
         margin: 0;
         font-size: 15px;
+        color: black;
       }
     }
   }
