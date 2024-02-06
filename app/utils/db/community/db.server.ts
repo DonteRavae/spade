@@ -50,12 +50,15 @@ const FETCH_POST_BY_ID = `
     fp.category,
     fp.created_at AS createdAt,
     JSON_OBJECT('userId', cp.id, 'username', cp.username, 'avatarUrl', cp.avatar_url) AS submittedBy,
-    SUM(IFNULL(v.vote, 0)) AS votes
+    SUM(IFNULL(v.vote, 0)) AS votes,
+    COUNT(c.id) as comments
   FROM forum_posts AS fp
   JOIN profiles AS cp
     ON fp.submitted_by = cp.username
   LEFT JOIN votes AS v
     ON v.parent_id = fp.id
+  LEFT JOIN comments AS c
+    ON c.parent_post_id = fp.id
   WHERE fp.id = ?
   GROUP BY fp.id`;
 
@@ -68,15 +71,18 @@ const FETCH_RECENT_POSTS = `
     fp.category,
     fp.created_at AS createdAt,
     JSON_OBJECT('userId', cp.id, 'username', cp.username, 'avatarUrl', cp.avatar_url) AS submittedBy,
-    SUM(IFNULL(v.vote, 0)) AS votes
+    SUM(IFNULL(v.vote, 0)) AS votes,
+    COUNT(c.id) as comments
   FROM forum_posts AS fp
   JOIN profiles AS cp
     ON fp.submitted_by = cp.username
   LEFT JOIN votes AS v
     ON v.parent_id = fp.id
-  WHERE created_at > now() - interval 7 day
+  LEFT JOIN comments AS c
+    ON c.parent_post_id = fp.id
+  WHERE fp.created_at > now() - interval 7 day
   GROUP BY fp.id
-  ORDER BY created_at
+  ORDER BY fp.created_at
   DESC LIMIT ?`;
 
 const CREATE_FORUM_COMMENT = `

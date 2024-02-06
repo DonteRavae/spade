@@ -24,6 +24,7 @@ export type ForumPost = {
   title: string;
   content: string;
   contentType: string;
+  comments: number;
   votes: number;
   category: string;
   submittedBy: string | UserProfile;
@@ -72,6 +73,7 @@ export interface IPost extends RowDataPacket {
   title: string;
   content: string;
   contentType: string;
+  comments: number;
   category: string;
   votes: number;
   createdAt: string;

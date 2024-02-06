@@ -57,6 +57,7 @@ export const createPost = async (formData: FormData) => {
     category,
     submittedBy,
     votes: 0,
+    comments: 0,
   });
 
   return success
