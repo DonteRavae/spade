@@ -3,14 +3,14 @@ import { ChangeEventHandler, useEffect, useRef } from "react";
 // REMIX
 import { Form, useNavigation, useOutletContext } from "@remix-run/react";
 // INTERNAL
-import { AuthContext } from "~/root";
+import { AppContext } from "~/root";
 // STYLES
 import styles from "./CreatePostForm.module.css";
 
 export default function CreatePostForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const titleRef = useRef<HTMLTextAreaElement>(null);
-  const { profile } = useOutletContext<AuthContext>();
+  const { profile } = useOutletContext<AppContext>();
   const navigation = useNavigation();
 
   const resizeTitle: ChangeEventHandler = (event) => {
@@ -40,7 +40,7 @@ export default function CreatePostForm() {
         placeholder="What's on your mind?"
         name="post-content"
       />
-      <select className={styles["topic-selection"]} name="flair" required>
+      <select className={styles["topic-selection"]} name="category" required>
         <option value="">--Please choose a topic--</option>
         <option value="suicide">Suicide</option>
         <option value="ptsd">PTSD</option>
