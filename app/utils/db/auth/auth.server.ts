@@ -6,6 +6,7 @@ import {
 } from "@remix-run/node";
 // FIREBASE
 import admin from "firebase-admin";
+import { DecodedIdToken } from "firebase-admin/auth";
 import { applicationDefault, initializeApp } from "firebase-admin/app";
 
 if (!admin.apps.length) initializeApp({ credential: applicationDefault() });
@@ -18,6 +19,11 @@ export type Profile = {
   uid: string;
   username: string;
   avatar: string;
+};
+
+export type ValidSessionResponse = {
+  success: boolean;
+  decodedClaims: DecodedIdToken;
 };
 
 export const retrieveProfile = async (
@@ -53,22 +59,19 @@ export const signInUser = async (
   idToken: string,
   redirectTo: string
 ) => {
-  admin
-    .auth()
-    .verifyIdToken(idToken)
-    .catch(() => ({ error: "Invalid ID Token" }));
-
-  return admin
-    .auth()
-    .createSessionCookie(idToken, {
+  try {
+    await admin.auth().verifyIdToken(idToken);
+    const token = await admin.auth().createSessionCookie(idToken, {
       expiresIn: 60 * 60 * 24 * 5 * 1000, // 5 days
-    })
-    .then(
-      (cookie) => setCookieAndRedirect(request, cookie, redirectTo),
-      (error) => ({
-        error: `loginSession UNAUTHORIZED REQUEST!: ${error.message}`,
-      })
-    );
+    });
+
+    return setCookieAndRedirect(request, token, redirectTo);
+  } catch (error) {
+    console.error(error);
+    return {
+      error: `loginSession UNAUTHORIZED REQUEST!`,
+    };
+  }
 };
 
 export const signOutUser = async (request: Request) => {
@@ -81,12 +84,20 @@ export const signOutUser = async (request: Request) => {
   });
 };
 
-export const isSessionValid = async (request: Request, redirectTo: string) => {
+export const isSessionValid = async (
+  request: Request,
+  redirectTo: string
+): Promise<TypedResponse<never> | ValidSessionResponse> => {
   const session = await getSession(request.headers.get("Cookie"));
   const idToken = session.get("idToken");
 
   if (!idToken) {
-    return { success: false };
+    const newCookie = await destroySession(session);
+    return redirect("/login", {
+      headers: {
+        "Set-Cookie": newCookie,
+      },
+    });
   }
 
   try {
@@ -94,7 +105,12 @@ export const isSessionValid = async (request: Request, redirectTo: string) => {
     return { success: true, decodedClaims };
   } catch (error) {
     console.error(error);
-    throw redirect(redirectTo, {});
+    const newCookie = await destroySession(session);
+    return redirect(redirectTo, {
+      headers: {
+        "Set-Cookie": newCookie,
+      },
+    });
   }
 };
 
