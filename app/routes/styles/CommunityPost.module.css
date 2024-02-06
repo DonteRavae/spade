@@ -29,7 +29,7 @@
     align-items: center;
     font-size: 14px;
     color: white;
-    gap: 10px;
+    gap: 5px;
 
     p {
       margin: 0;
@@ -54,10 +54,6 @@
         path {
           fill: var(--primary-color);
         }
-      }
-
-      p {
-        text-decoration: underline;
       }
     }
   }

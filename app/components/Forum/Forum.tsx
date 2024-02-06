@@ -6,11 +6,12 @@ import { Link } from "@remix-run/react";
 import Icons from "../Icons";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import { findTimeSinceCreated } from "~/utils/helpers";
+import VoteController from "../VoteController/VoteController";
+import CommentsController from "../CommentsController/CommentsController";
+import FavoriteController from "../FavoriteController/FavoriteController";
 import { ForumPost, UserProfile } from "~/utils/db/community/types.server";
 // STYLES
 import styles from "./Forum.module.css";
-import FavoriteController from "../FavoriteController/FavoriteController";
-import VoteController from "../VoteController/VoteController";
 
 const ForumItemCard = ({ post }: { post: ForumPost }) => {
   const {
@@ -20,6 +21,7 @@ const ForumItemCard = ({ post }: { post: ForumPost }) => {
     contentType,
     submittedBy,
     votes,
+    comments,
     createdAt,
     category,
   } = post;
@@ -52,6 +54,7 @@ const ForumItemCard = ({ post }: { post: ForumPost }) => {
             <video className={styles.content} src="" />
           ) : null}
         </Link>
+        
         <footer>
           <VoteController
             votesTotal={votes}
@@ -59,13 +62,12 @@ const ForumItemCard = ({ post }: { post: ForumPost }) => {
             direction="horizontal"
             theme="light"
           />
-          <Link
-            to={`/community/users/${username}/posts/${id}/#comments`}
-            className={`${styles["footer-item"]} ${styles.comments}`}
-          >
-            <Icons type="comment" />
-            {/* {comments} */}0
-          </Link>
+          <CommentsController
+            commentsCount={comments}
+            direction="horizontal"
+            theme="light"
+            destination={`community/users/${username}/posts/${id}#comments`}
+          />
           <button className={`${styles["footer-item"]} ${styles.share}`}>
             <Icons type="share" />
             Share

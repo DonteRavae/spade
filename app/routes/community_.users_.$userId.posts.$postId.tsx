@@ -2,7 +2,7 @@
 
 // REMIX
 import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
-import { Link, useFetcher, useLoaderData } from "@remix-run/react";
+import { Link, useFetcher, useLoaderData, useLocation } from "@remix-run/react";
 // INTERNAL
 import Icons from "~/components/Icons";
 import { parseRequests } from "~/utils/helpers";
@@ -13,6 +13,7 @@ import PageContainer from "~/components/PageContainer/PageContainer";
 import VoteController from "~/components/VoteController/VoteController";
 import * as communityHandlers from "~/utils/db/community/handlers.server";
 import FavoriteController from "~/components/FavoriteController/FavoriteController";
+import CommentsController from "~/components/CommentsController/CommentsController";
 // STYLES
 import styles from "./styles/CommunityPost.module.css";
 
@@ -36,8 +37,8 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 };
 
 export default function CommunityPostPage() {
-  const fetcher = useFetcher();
-  const { Form } = fetcher;
+  const { Form } = useFetcher();
+  const { pathname } = useLocation();
   const { post } = useLoaderData<typeof loader>();
   const {
     id,
@@ -47,6 +48,7 @@ export default function CommunityPostPage() {
     content,
     contentType,
     votes,
+    comments,
     submittedBy,
   } = post;
   const { username, avatarUrl } = submittedBy as UserProfile;
@@ -58,16 +60,18 @@ export default function CommunityPostPage() {
         <UserAvatar avatarUrl={avatarUrl} avatarAlt={username} />
         {/* votes */}
         <VoteController
-          direction="vertical"
-          votesTotal={votes}
-          parentId={id}
           theme="dark"
+          parentId={id}
+          votesTotal={votes}
+          direction="vertical"
         />
         {/* comments */}
-        <section className={styles["metadata-section"]}>
-          <Icons type="comment" />
-          <p>Comments</p>
-        </section>
+        <CommentsController
+          theme="dark"
+          direction="vertical"
+          commentsCount={comments}
+          destination={`${pathname}#comments`}
+        />
         {/* share */}
         <section className={styles["metadata-section"]}>
           <Icons type="share" />
