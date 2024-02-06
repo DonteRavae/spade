@@ -1,0 +1,62 @@
+.favorite-controller {
+  flex: 1;
+  height: 100%;
+  width: 100%;
+
+  &.light {
+    button {
+      color: black;
+    }
+
+    svg path {
+      fill: black;
+    }
+  }
+
+  &.dark {
+    button {
+      color: white;
+    }
+
+    svg path {
+      fill: white;
+    }
+  }
+
+  form {
+    height: 100%;
+    width: 100%;
+
+    button {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: none;
+      border: none;
+      color: white;
+      gap: 5px;
+      cursor: pointer;
+
+      svg {
+        height: 22px;
+        width: 22px;
+
+        path {
+          fill: white;
+        }
+      }
+
+      &.vertical {
+        flex-direction: column;
+      }
+
+      &:hover {
+        svg path {
+          fill: var(--primary-color);
+        }
+      }
+    }
+  }
+}
