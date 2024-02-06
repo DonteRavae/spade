@@ -2,7 +2,7 @@
 
 // REMIX
 import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
-import { Link, useFetcher, useLoaderData, useLocation } from "@remix-run/react";
+import { Link, useLoaderData, useLocation } from "@remix-run/react";
 // INTERNAL
 import Icons from "~/components/Icons";
 import { parseRequests } from "~/utils/helpers";
@@ -37,7 +37,6 @@ export const loader = async ({ params, request }: LoaderFunctionArgs) => {
 };
 
 export default function CommunityPostPage() {
-  const { Form } = useFetcher();
   const { pathname } = useLocation();
   const { post } = useLoaderData<typeof loader>();
   const {
@@ -56,16 +55,13 @@ export default function CommunityPostPage() {
   return (
     <PageContainer id={styles["community-post-page"]}>
       <aside id={styles["post-metadata"]}>
-        {/* avatar */}
         <UserAvatar avatarUrl={avatarUrl} avatarAlt={username} />
-        {/* votes */}
         <VoteController
           theme="dark"
           parentId={id}
           votesTotal={votes}
           direction="vertical"
         />
-        {/* comments */}
         <CommentsController
           theme="dark"
           direction="vertical"
@@ -77,7 +73,6 @@ export default function CommunityPostPage() {
           <Icons type="share" />
           <p>Share</p>
         </section>
-        {/* favorite */}
         <FavoriteController parentId={id} direction="vertical" theme="dark" />
       </aside>
       <section id={styles.post}>
@@ -104,20 +99,7 @@ export default function CommunityPostPage() {
         ) : contentType === "video" && content ? (
           <video className={styles.content} src="" />
         ) : null}
-        <Form method="post" className={styles["add-comment-form"]}>
-          {/* content text area */}
-          <textarea
-            className={styles["comment-input"]}
-            placeholder="How does this make you feel?"
-            required
-          />
-          {/* submit button  */}
-          <button type="submit" className={styles["comment-submit-btn"]}>
-            Comment
-          </button>
-        </Form>
       </section>
-      <hr />
       <CommentsTree comments={[]} />
     </PageContainer>
   );

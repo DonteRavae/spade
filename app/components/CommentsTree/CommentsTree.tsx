@@ -1,3 +1,5 @@
+// REMIX
+import { Form } from "@remix-run/react";
 // INTERNAL
 import Icons from "../Icons";
 import { ForumComment } from "~/utils/db/community/types.server";
@@ -7,6 +9,19 @@ import styles from "./CommentsTree.module.css";
 type CommentsTreeProps = {
   comments: ForumComment[];
 };
+
+const CommentInputForm = () => (
+  <Form method="post" className={styles["add-comment-form"]}>
+    <textarea
+      className={styles["comment-input"]}
+      placeholder="How does this make you feel?"
+      required
+    />
+    <button type="submit" className={styles["comment-submit-btn"]}>
+      Comment
+    </button>
+  </Form>
+);
 
 const EmptyCommentsMessage = () => (
   <div id={styles["empty-comments-message"]}>
@@ -26,7 +41,9 @@ const CommentsTreeToolbar = () => (
 
 export default function CommentsTree({ comments }: CommentsTreeProps) {
   return (
-    <section id={styles["comment-tree"]}>
+    <section id="comments">
+      <CommentInputForm />
+      <hr />
       <CommentsTreeToolbar />
       {comments.length ? (
         comments.map((comment) => <Comment key={comment.id} />)
