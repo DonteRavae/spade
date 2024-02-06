@@ -1,3 +1,5 @@
+// REACT
+import { useCallback, useMemo, useState } from "react";
 // REMIX
 import { cssBundleHref } from "@remix-run/css-bundle";
 import type {
@@ -17,17 +19,26 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 // INTERNAL
-import { isSessionValid } from "./utils/db/auth/auth.server";
 import NavBar from "./components/NavBar/NavBar";
+import { parseRequests } from "./utils/helpers";
 import Searchbar from "./components/Searchbar/Searchbar";
-import { UserProfile } from "./utils/db/community/types.server";
-import * as handlers from "./utils/db/community/handlers.server";
+import * as communityHandlers from "./utils/db/community/handlers.server";
 import AccountDropdown from "./components/AccountDropdown/AccountDropdown";
+import { Favorite, UserProfile, Vote } from "./utils/db/community/types.server";
+import ToastStack, {
+  ToastData,
+  ToastStatus,
+} from "./components/ToastStack/ToastStack";
+// EXTERNAL
+import { ulid } from "ulid";
 // STYLES
 import styles from "./root.module.css";
 
-export type AuthContext = {
+export type AppContext = {
   profile: UserProfile | null;
+  addToast: (status: ToastStatus, message: string) => void;
+  favoritesByUser: Favorite[];
+  votesByUser: Vote[];
 };
 
 export const links: LinksFunction = () => [
@@ -35,36 +46,54 @@ export const links: LinksFunction = () => [
 ];
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  const formData = await request.formData();
-  const requestType = formData.get("request-type");
-  if (requestType === "create-post") {
-    return await handlers.createPost(formData);
-  }
-  return null;
+  return await parseRequests(request);
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const { decodedClaims, success } = await isSessionValid(request, "/");
-
   // PROFILE
-  let profile = null;
-  if (success)
-    profile = await handlers.getCommunityProfileById(decodedClaims!.uid);
+  const profile = await communityHandlers.getCommunityProfile(request, "/");
+  const votesByUser = profile
+    ? await communityHandlers.getVotesByUser(profile.id)
+    : [];
+
+  const favoritesByUser = profile
+    ? await communityHandlers.getFavoritesByUser(profile.id)
+    : [];
 
   // SEARCH
   const url = new URL(request.url);
   const q = url.searchParams.get("q");
-  return json({ profile, query: q });
+  return json({ profile, query: q, votesByUser, favoritesByUser });
 };
 
 export default function App() {
   const { query } = useLoaderData<typeof loader>();
-  let { profile } = useLoaderData<typeof loader>();
-  profile = profile ? (profile as UserProfile) : null;
+  const { profile, favoritesByUser, votesByUser } =
+    useLoaderData<typeof loader>();
 
-  const contextValue: AuthContext = {
-    profile,
+  const [stack, setStack] = useState<ToastData[]>([]);
+
+  const removeToast = (id: string) => {
+    setStack(stack.filter((toast) => toast.id !== id));
   };
+
+  const addToast = useCallback((status: ToastStatus, message: string) => {
+    const data = {
+      id: ulid(),
+      status,
+      message,
+    };
+    setStack((prev) => [...prev, data]);
+  }, []);
+
+  const contextValue: AppContext = useMemo(() => {
+    return {
+      profile,
+      favoritesByUser,
+      votesByUser,
+      addToast,
+    };
+  }, [addToast, favoritesByUser, profile, votesByUser]);
 
   return (
     <html lang="en">
@@ -86,12 +115,13 @@ export default function App() {
             </div>
           ) : (
             <AccountDropdown
-              avatar={profile!.avatarUrl}
-              username={profile?.username}
+              avatar={profile.avatarUrl}
+              username={profile.username}
             />
           )}
         </header>
         <Outlet context={contextValue} />
+        <ToastStack stack={stack} removeFromStack={removeToast} />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
