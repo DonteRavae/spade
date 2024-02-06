@@ -422,8 +422,54 @@ export default function Icons({
         </svg>
       )}
 
-      {/* INFORMATION CIRCLE*/}
-      {type === "info-circle" && (
+      {/* SUCCESS*/}
+      {type === "success" && (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+        >
+          <g clipPath="url(#clip0_105_11)">
+            <path
+              d="M12 24C5.37258 24 0 18.6274 0 12C0 5.37258 5.37258 0 12 0C18.6274 0 24 5.37258 24 12C24 18.6274 18.6274 24 12 24ZM10.8031 16.8L19.2884 8.31472L17.5914 6.61766L10.8031 13.4059L7.40905 10.0117L5.71199 11.7089L10.8031 16.8Z"
+              fill="green"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_105_11">
+              <rect width="24" height="24" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+      )}
+
+      {/* WARNING */}
+      {type === "warning" && (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+        >
+          <g clipPath="url(#clip0_105_13)">
+            <path
+              d="M12.9871 1.57019L23.847 20.3801C24.1619 20.9254 23.9751 21.6226 23.4298 21.9374C23.2565 22.0374 23.0599 22.0901 22.8598 22.0901H1.13999C0.510398 22.0901 0 21.5797 0 20.9501C0 20.7499 0.0526792 20.5534 0.152736 20.3801L11.0126 1.57019C11.3274 1.02493 12.0246 0.838122 12.5699 1.15292C12.7432 1.25298 12.8871 1.39689 12.9871 1.57019ZM10.8599 16.3901V18.6701H13.1399V16.3901H10.8599ZM10.8599 8.41015V14.1102H13.1399V8.41015H10.8599Z"
+              fill="orange"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_105_13">
+              <rect width="24" height="24" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+      )}
+
+      {/* ERROR*/}
+      {type === "error" && (
         <svg
           id={id}
           className={className}
@@ -434,7 +480,24 @@ export default function Icons({
         >
           <path
             d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM11 11V17H13V11H11ZM11 7V9H13V7H11Z"
-            fill="#000"
+            fill="red"
+          ></path>
+        </svg>
+      )}
+
+      {/* INFORMATION*/}
+      {type === "information" && (
+        <svg
+          id={id}
+          className={className}
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+        >
+          <path
+            d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM11 11V17H13V11H11ZM11 7V9H13V7H11Z"
+            fill="#0A64BC"
           ></path>
         </svg>
       )}
