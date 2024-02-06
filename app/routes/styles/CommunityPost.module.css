@@ -1,0 +1,137 @@
+#community-post-page {
+  padding: 75px calc(5vw + 400px) 0;
+  position: relative;
+}
+
+#post {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+#post-metadata {
+  position: fixed;
+  left: 15vw;
+  top: 20vh;
+  width: 80px;
+  background: #333;
+  border-radius: 10px;
+  padding: 30px 10px;
+  border: 1px solid #999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  .metadata-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+    color: white;
+    gap: 10px;
+
+    p {
+      margin: 0;
+    }
+
+    svg {
+      height: 22px;
+      width: 22px;
+      transition: 300ms ease all;
+
+      path {
+        fill: white;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      svg {
+        transform: scale(1.1);
+
+        path {
+          fill: var(--primary-color);
+        }
+      }
+
+      p {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+#post-timestamp {
+  color: #999;
+  margin: 0;
+
+  #post-category {
+    text-transform: uppercase;
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      text-decoration: underline;
+      color: var(--primary-color);
+    }
+  }
+}
+
+#post-title {
+  font-size: 28px;
+  margin: 0;
+  color: white;
+}
+
+.content {
+  color: white;
+  margin: 0;
+  line-height: 30px;
+  /* font-family: Noto Sans, Arial, sans-serif; */
+}
+
+.add-comment-form {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  margin-top: 25px;
+  gap: 25px;
+
+  .comment-input {
+    min-height: 150px;
+    width: 100%;
+    resize: none;
+    border-radius: 10px;
+    background: none;
+    border: 1px solid #999;
+    padding: 15px;
+    font-size: 16px !important;
+    color: white;
+    white-space: pre-wrap;
+    word-break: break-word;
+
+    &::placeholder {
+      color: #999;
+      font-style: italic;
+      font-size: 18px;
+    }
+
+    &:focus {
+      outline: 1px solid var(--primary-color);
+    }
+  }
+
+  .comment-submit-btn {
+    height: 50px;
+    width: 150px;
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+    margin-bottom: 25px;
+    cursor: pointer;
+    background: var(--primary-color);
+    color: white;
+  }
+}
