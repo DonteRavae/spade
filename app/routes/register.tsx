@@ -2,20 +2,24 @@
 import { ChangeEventHandler, useEffect, useRef, useState } from "react";
 // REMIX
 import { ActionFunctionArgs } from "@remix-run/node";
-import { Form, Link, useFetcher } from "@remix-run/react";
+import { Form, Link, useFetcher, useOutletContext } from "@remix-run/react";
 // INTERNAL
+import { AppContext } from "~/root";
 import Icons from "~/components/Icons";
 import auth from "../utils/db/auth/config";
 import FormInput from "~/components/FormInput/FormInput";
 import { signInUser } from "~/utils/db/auth/auth.server";
+import { ToastStatus } from "~/components/ToastStack/ToastStack";
 import * as handlers from "~/utils/db/community/handlers.server";
 import PageContainer from "~/components/PageContainer/PageContainer";
+// EXTERNAL
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithPopup,
   signOut,
 } from "firebase/auth";
+import { FirebaseError } from "firebase/app";
 // STYLES
 import styles from "./styles/Auth.module.css";
 
@@ -37,7 +41,6 @@ export async function action({ request }: ActionFunctionArgs) {
       username = `spade_${username.split(" ")[0].toLowerCase()}`;
       avatarUrl = formData.get("avatar") as string;
     }
-
     handlers.createCommunityProfile(userId, username, avatarUrl);
     return await signInUser(request, idToken, "/");
   } catch (error) {
@@ -48,6 +51,8 @@ export async function action({ request }: ActionFunctionArgs) {
 
 export default function Register() {
   const fetcher = useFetcher();
+  const { addToast } = useOutletContext<AppContext>();
+
   const usernameRef = useRef<HTMLInputElement | null>(null);
   const emailRef = useRef<HTMLInputElement | null>(null);
   const errorRef = useRef<HTMLParagraphElement | null>(null);
@@ -149,7 +154,12 @@ export default function Register() {
         }
       );
     } catch (error) {
-      console.error(error);
+      const err = error instanceof FirebaseError;
+      if (err && error.code === "auth/email-already-in-use")
+        addToast(
+          ToastStatus.Error,
+          "Email already exists. Please try a different email."
+        );
     }
   };
 
@@ -179,7 +189,6 @@ export default function Register() {
   return (
     <PageContainer id={styles["registration-page"]}>
       <Form method="post" id={styles["registration-form"]}>
-        <header></header>
         <header>
           <h2>Create an account with us today!</h2>
           <p className={styles.signUpLink}>
