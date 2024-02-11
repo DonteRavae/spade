@@ -12,6 +12,7 @@ import { signInUser } from "~/utils/db/auth/auth.server";
 import { ToastStatus } from "~/components/ToastStack/ToastStack";
 import * as handlers from "~/utils/db/community/handlers.server";
 import PageContainer from "~/components/PageContainer/PageContainer";
+import { EMAIL_VALIDATION, PWD_VALIDATION } from "~/utils/db/helpers";
 // EXTERNAL
 import {
   GoogleAuthProvider,
@@ -22,10 +23,6 @@ import {
 import { FirebaseError } from "firebase/app";
 // STYLES
 import styles from "./styles/Auth.module.css";
-
-const EMAIL_VALIDATION = /^(\w+@[a-zA-Z_]+?\.[a-zA-Z.]{2,6})$/;
-const PWD_VALIDATION =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
