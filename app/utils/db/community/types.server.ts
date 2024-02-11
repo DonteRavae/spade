@@ -24,7 +24,7 @@ export type ForumPost = {
   title: string;
   content: string;
   contentType: string;
-  comments: number;
+  commentsCount: number;
   votes: number;
   category: string;
   submittedBy: string | UserProfile;
@@ -34,11 +34,9 @@ export type ForumPost = {
 export type ForumComment = {
   id: string;
   content: string;
-  contentType: string;
   votes: number;
-  submittedBy: string;
-  parentPostId: string;
-  parentCommentId?: string;
+  submittedBy: string | UserProfile;
+  parentId: string;
   createdAt?: string;
   lastModified?: string;
 };
@@ -73,7 +71,7 @@ export interface IPost extends RowDataPacket {
   title: string;
   content: string;
   contentType: string;
-  comments: number;
+  commentsCount: number;
   category: string;
   votes: number;
   createdAt: string;
@@ -83,11 +81,9 @@ export interface IPost extends RowDataPacket {
 export interface IForumComment extends RowDataPacket {
   id: string;
   content: string;
-  contentType: string;
   votes: number;
   submittedBy: string;
-  parentPostId: string;
-  parentCommentId: string;
+  parentId: string;
   createdAt: string;
   lastModified: string;
 }
