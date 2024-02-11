@@ -22,6 +22,7 @@
   flex-direction: column;
   align-items: center;
   gap: 20px;
+  color: white;
 
   .metadata-section {
     display: flex;
