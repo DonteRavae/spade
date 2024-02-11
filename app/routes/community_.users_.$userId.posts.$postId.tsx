@@ -1,21 +1,57 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 
 // REMIX
-import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
 import { Link, useLoaderData, useLocation } from "@remix-run/react";
+import {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+  json,
+} from "@remix-run/node";
 // INTERNAL
-import Icons from "~/components/Icons";
-import { parseRequests } from "~/utils/helpers";
+import { parseRequests } from "~/utils/db/helpers";
 import UserAvatar from "~/components/UserAvatar/UserAvatar";
 import { UserProfile } from "~/utils/db/community/types.server";
 import CommentsTree from "~/components/CommentsTree/CommentsTree";
 import PageContainer from "~/components/PageContainer/PageContainer";
 import VoteController from "~/components/VoteController/VoteController";
 import * as communityHandlers from "~/utils/db/community/handlers.server";
+import ShareController from "~/components/ShareController/ShareController";
 import FavoriteController from "~/components/FavoriteController/FavoriteController";
 import CommentsController from "~/components/CommentsController/CommentsController";
 // STYLES
 import styles from "./styles/CommunityPost.module.css";
+
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  const title = data?.post.title;
+  const user = data?.post.submittedBy as UserProfile;
+
+  return [
+    {
+      title: `SPADE Mental Health | ${title} by ${user.username}`,
+    },
+    {
+      property: "og:title",
+      content: `${title}`,
+    },
+    {
+      property: "og:type",
+      content: "article",
+    },
+    {
+      property: "og:url",
+      content: "",
+    },
+    {
+      property: "og:description",
+      content: "",
+    },
+    {
+      property: "og:image",
+      content: "",
+    },
+  ];
+};
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   return await parseRequests(request);
@@ -24,21 +60,18 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 export const loader = async ({ params, request }: LoaderFunctionArgs) => {
   const post = await communityHandlers.getPostById(params.postId!);
   const profile = await communityHandlers.getCommunityProfile(request, "/");
-
-  const votesByUser = profile
-    ? await communityHandlers.getVotesByUser(profile.id)
-    : [];
+  const comments = await communityHandlers.getCommentsByPostId(params.postId!);
 
   const favoritesByUser = profile
     ? await communityHandlers.getFavoritesByUser(profile.id)
     : [];
 
-  return json({ post, votesByUser, favoritesByUser });
+  return json({ post, comments, favoritesByUser });
 };
 
 export default function CommunityPostPage() {
   const { pathname } = useLocation();
-  const { post } = useLoaderData<typeof loader>();
+  const { post, comments } = useLoaderData<typeof loader>();
   const {
     id,
     category,
@@ -47,7 +80,7 @@ export default function CommunityPostPage() {
     content,
     contentType,
     votes,
-    comments,
+    commentsCount,
     submittedBy,
   } = post;
   const { username, avatarUrl } = submittedBy as UserProfile;
@@ -59,20 +92,22 @@ export default function CommunityPostPage() {
         <VoteController
           theme="dark"
           parentId={id}
-          votesTotal={votes}
+          votesTotal={Number(votes)}
           direction="vertical"
         />
         <CommentsController
           theme="dark"
           direction="vertical"
-          commentsCount={comments}
+          commentsCount={commentsCount}
           destination={`${pathname}#comments`}
         />
-        {/* share */}
-        <section className={styles["metadata-section"]}>
-          <Icons type="share" />
-          <p>Share</p>
-        </section>
+        <ShareController
+          direction="vertical"
+          theme="dark"
+          shareTo="facebook"
+          urlToShare={pathname}
+          redirectTo={pathname}
+        />
         <FavoriteController parentId={id} direction="vertical" theme="dark" />
       </aside>
       <section id={styles.post}>
@@ -100,7 +135,7 @@ export default function CommunityPostPage() {
           <video className={styles.content} src="" />
         ) : null}
       </section>
-      <CommentsTree comments={[]} />
+      <CommentsTree comments={comments} postId={id} />
     </PageContainer>
   );
 }
