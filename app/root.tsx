@@ -20,7 +20,7 @@ import {
 } from "@remix-run/react";
 // INTERNAL
 import NavBar from "./components/NavBar/NavBar";
-import { parseRequests } from "./utils/helpers";
+import { parseRequests } from "./utils/db/helpers";
 import Searchbar from "./components/Searchbar/Searchbar";
 import * as communityHandlers from "./utils/db/community/handlers.server";
 import AccountDropdown from "./components/AccountDropdown/AccountDropdown";

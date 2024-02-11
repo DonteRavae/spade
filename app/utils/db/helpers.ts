@@ -1,6 +1,12 @@
 // INTERNAL
-import * as podcastHandlers from "./db/podcast/handlers.server";
-import * as communityHandlers from "./db/community/handlers.server";
+import * as podcastHandlers from "./podcast/handlers.server";
+import * as communityHandlers from "./community/handlers.server";
+
+export type DatabaseInsertionResponse = {
+  action: string;
+  success: boolean;
+  message?: string;
+};
 
 export const findTimeSinceCreated = (timestamp: string): string => {
   const timeCreated = Date.parse(timestamp);
@@ -19,7 +25,7 @@ export const findTimeSinceCreated = (timestamp: string): string => {
 
 export const parseRequests = async (request: Request) => {
   const formData = await request.formData();
-  const requestType = formData.get("request-type") as string;
+  const requestType = String(formData.get("request-type"));
   try {
     switch (requestType) {
       case "create-post":
@@ -33,6 +39,9 @@ export const parseRequests = async (request: Request) => {
         return await communityHandlers.addToFavorites(formData);
       case "remove-favorite":
         return await communityHandlers.removeFromFavorites(formData);
+      case "add-comment":
+        console.log("add comment hit");
+        return await communityHandlers.addComment(formData);
       case "guest-request":
         return await podcastHandlers.createGuestRequest(formData);
       case "topic-request":
