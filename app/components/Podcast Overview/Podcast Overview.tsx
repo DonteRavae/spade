@@ -1,5 +1,5 @@
 // REACT
-import { useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 // REMIX
 import { useFetcher, useOutletContext } from "@remix-run/react";
 // INTERNAL
@@ -11,45 +11,29 @@ import { SpinnerCircular } from "spinners-react";
 import styles from "./Podcast Overview.module.css";
 
 export default function PodcastOverview() {
-  const fetcher = useFetcher<typeof action>();
-  const { Form } = fetcher;
   const { addToast } = useOutletContext<AppContext>();
   const guestRequestFormRef = useRef<HTMLFormElement>(null);
   const topicRequestFormRef = useRef<HTMLFormElement>(null);
-  const [isGuestRequestSpinnerActive, toggleGuestRequestSpinner] =
-    useState<boolean>(false);
-  const [isTopicRequestSpinnerActive, toggleTopicRequestSpinner] =
-    useState<boolean>(false);
+  const { Form, data, state, formData } = useFetcher<typeof action>();
 
-  const handleGuestFormSubmission = () => {
-    toggleGuestRequestSpinner(true);
-    if (fetcher.data?.success) {
-      toggleGuestRequestSpinner(false);
-      addToast(ToastStatus.Success, "Thank you for your guest submission.");
+  const isGuestRequestSubmitting =
+    state === "submitting" && formData?.get("request-type") === "guest-request";
+  const isTopicRequestSubmitting =
+    state === "submitting" && formData?.get("request-type") === "topic-request";
+
+  useEffect(() => {
+    if (data?.action === "guest-request" && data.success) {
+      addToast(ToastStatus.Success, "Thanks for your guest request!");
       guestRequestFormRef.current?.reset();
-    } else {
-      addToast(
-        ToastStatus.Error,
-        "There seems to be a problem. Please try again."
-      );
-      toggleGuestRequestSpinner(false);
-    }
-  };
-
-  const handleTopicFormSubmission = () => {
-    toggleTopicRequestSpinner(true);
-    if (fetcher.data?.success) {
-      toggleTopicRequestSpinner(false);
-      addToast(ToastStatus.Success, "Thank you for your topic submission.");
+    } else if (data?.action === "guest-request" && !data.success) {
+      addToast(ToastStatus.Error, "");
+    } else if (data?.action === "topic-request" && data.success) {
+      addToast(ToastStatus.Success, "Thanks for your topic request!");
       topicRequestFormRef.current?.reset();
-    } else {
-      addToast(
-        ToastStatus.Error,
-        "There seems to be a problem. Please try again."
-      );
-      toggleGuestRequestSpinner(false);
+    } else if (data?.action === "topic-request" && !data.success) {
+      addToast(ToastStatus.Error, "");
     }
-  };
+  }, [addToast, data?.action, data?.success]);
 
   return (
     <section id={styles["podcast-overview"]}>
@@ -91,11 +75,7 @@ export default function PodcastOverview() {
           <p>March 15, 2023</p>
         </li>
       </ul>
-      <Form
-        method="post"
-        ref={guestRequestFormRef}
-        onSubmit={() => handleGuestFormSubmission()}
-      >
+      <Form method="post" ref={guestRequestFormRef}>
         <h3>
           Who would you like to hear from next? Drop their details below so that
           we can reach out!
@@ -133,18 +113,14 @@ export default function PodcastOverview() {
           type="submit"
           className={styles["podcast-overview-submission-btn"]}
         >
-          {isGuestRequestSpinnerActive ? (
+          {isGuestRequestSubmitting ? (
             <SpinnerCircular size={30} color="white" />
           ) : (
             "Submit"
           )}
         </button>
       </Form>
-      <Form
-        method="post"
-        ref={topicRequestFormRef}
-        onSubmit={handleTopicFormSubmission}
-      >
+      <Form method="post" ref={topicRequestFormRef}>
         <h3 id={styles["topic-recommendation"]}>
           Got a topic you think we should cover? Tell us below!
         </h3>
@@ -158,7 +134,7 @@ export default function PodcastOverview() {
           type="submit"
           className={styles["podcast-overview-submission-btn"]}
         >
-          {isTopicRequestSpinnerActive ? (
+          {isTopicRequestSubmitting ? (
             <SpinnerCircular size={30} color="white" />
           ) : (
             "Submit"

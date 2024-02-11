@@ -22,11 +22,12 @@ type CommentsTreeProps = {
 };
 
 const CommentInputForm = ({ parentId }: { parentId: string }) => {
-  const { Form, data, state } = useFetcher<typeof action>();
   const formRef = useRef<HTMLFormElement>(null);
   const { profile, addToast } = useOutletContext<AppContext>();
+  const { Form, data, state, formData } = useFetcher<typeof action>();
 
-  const isSubmitting = state === "submitting";
+  const isSubmitting =
+    state === "submitting" && formData?.get("request-type") === "add-comment";
 
   useEffect(() => {
     console.log(data?.success, data?.message);
@@ -36,7 +37,7 @@ const CommentInputForm = ({ parentId }: { parentId: string }) => {
     } else if (data?.action === "add-comment" && !data.success) {
       const message = data!.message!
         ? data!.message!
-        : "There seems to be an error on our end. Please try again.";
+        : "There seems to be an error adding your comment. Please try again.";
       addToast(ToastStatus.Error, message);
     }
   }, [addToast, data, data?.action, data?.message, data?.success]);
