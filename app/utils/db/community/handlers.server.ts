@@ -2,10 +2,16 @@
 import { redirect } from "@remix-run/node";
 // INTERNAL
 import * as db from "./db.server";
-import { Favorite, ForumPost, UserProfile, Vote } from "./types.server";
+import {
+  Favorite,
+  ForumComment,
+  ForumPost,
+  UserProfile,
+  Vote,
+} from "./types.server";
+import { ValidSessionResponse, isSessionValid } from "../auth/auth.server";
 // EXTERNAL
 import { ulid } from "ulid";
-import { ValidSessionResponse, isSessionValid } from "../auth/auth.server";
 
 export const createCommunityProfile = async (
   userId: string,
@@ -36,9 +42,12 @@ export const getPostById = async (postId: string) => {
   return (await db.getPostById(postId)) as ForumPost;
 };
 
+export const getCommentsByPostId = async (postId: string) => {
+  return (await db.getCommentsByPostId(postId)) as ForumComment[];
+};
+
 export const getRecentPosts = async (limit: number) => {
-  const posts = await db.getRecentPosts(limit);
-  return posts as ForumPost[];
+  return (await db.getRecentPosts(limit)) as ForumPost[];
 };
 
 export const createPost = async (formData: FormData) => {
@@ -49,7 +58,7 @@ export const createPost = async (formData: FormData) => {
   const category = formData.get("category") as string;
   const submittedBy = formData.get("submitted-by") as string;
 
-  const { success } = await db.createPost({
+  const response = await db.createPost({
     id,
     title,
     content,
@@ -57,28 +66,31 @@ export const createPost = async (formData: FormData) => {
     category,
     submittedBy,
     votes: 0,
-    comments: 0,
+    commentsCount: 0,
   });
 
-  return success
+  return response.success
     ? redirect(`/community/users/${submittedBy}/posts/${id}`)
-    : { success };
+    : response;
 };
 
 export const addComment = async (formData: FormData) => {
   const id = ulid();
   const content = formData.get("content") as string;
-  const contentType = "text";
-  const parentPostId = formData.get("parentPostId") as string;
-  const parentCommentId =
-    (formData.get("parentCommentId") as string) || undefined;
+  const parentId = formData.get("parentId") as string;
   const submittedBy = formData.get("submittedBy") as string;
+
+  if (!submittedBy.length)
+    return {
+      action: "add-comment",
+      success: false,
+      message: "User must be signed in to comment.",
+    };
+
   return await db.createPostComment({
     id,
     content,
-    contentType,
-    parentPostId,
-    parentCommentId,
+    parentId,
     submittedBy,
     votes: 0,
   });
