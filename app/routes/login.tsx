@@ -15,6 +15,8 @@ import auth from "~/utils/db/auth/config";
 import FormInput from "~/components/FormInput/FormInput";
 import { signInUser } from "~/utils/db/auth/auth.server";
 import PageContainer from "~/components/PageContainer/PageContainer";
+// EXTERNAL
+import { SpinnerCircular } from "spinners-react";
 // STYLES
 import styles from "./styles/Auth.module.css";
 
@@ -39,13 +41,17 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 };
 
 export default function Login() {
+  const { submit, formData } = useFetcher();
+  const [pwd, setPwd] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [errMsg, setErrMsg] = useState<string>("");
+  const [, setEmailFocus] = useState<boolean>(false);
   const emailRef = useRef<HTMLInputElement | null>(null);
   const errorRef = useRef<HTMLParagraphElement | null>(null);
-  const [email, setEmail] = useState<string>("");
-  const [, setEmailFocus] = useState<boolean>(false);
-  const [pwd, setPwd] = useState<string>("");
-  const [errMsg, setErrMsg] = useState<string>("");
-  const fetcher = useFetcher();
+
+  const isEmailLoginSubmitting = formData?.get("login-type") === "email-login";
+  const isGoogleLoginSubmitting =
+    formData?.get("login-type") === "google-login";
 
   // Focus email input on load
   useEffect(() => {
@@ -78,10 +84,7 @@ export default function Login() {
 
       if (userCredential.user) {
         const idToken = await userCredential.user.getIdToken();
-        fetcher.submit(
-          { idToken, "login-type": "email-login" },
-          { method: "post" }
-        );
+        submit({ idToken, "login-type": "email-login" }, { method: "post" });
       }
     } catch (error) {
       console.log("error with sign in");
@@ -95,10 +98,7 @@ export default function Login() {
       signInWithPopup(auth, provider).then(async (result) => {
         const user = result.user;
         const idToken = await user.getIdToken();
-        fetcher.submit(
-          { idToken, "login-type": "google-login" },
-          { method: "post" }
-        );
+        submit({ idToken, "login-type": "google-login" }, { method: "post" });
       });
     } catch (error) {
       console.error(error);
@@ -159,15 +159,25 @@ export default function Login() {
             type="button"
             onClick={signInWithEmail}
           >
-            Login
+            {isEmailLoginSubmitting ? (
+              <SpinnerCircular size={30} color="white" />
+            ) : (
+              "Login"
+            )}
           </button>
           <button
             className={styles["submit-btn"]}
             type="button"
             onClick={signInWithGoogle}
           >
-            <Icons type="brand-google" />
-            Sign In With Google
+            {isGoogleLoginSubmitting ? (
+              <SpinnerCircular size={30} color="white" />
+            ) : (
+              <>
+                <Icons type="brand-google" />
+                Sign In With Google
+              </>
+            )}
           </button>
         </footer>
       </Form>

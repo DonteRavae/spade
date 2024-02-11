@@ -21,6 +21,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
+import { SpinnerCircular } from "spinners-react";
 // STYLES
 import styles from "./styles/Auth.module.css";
 
@@ -47,7 +48,7 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function Register() {
-  const fetcher = useFetcher();
+  const { formData, submit } = useFetcher();
   const { addToast } = useOutletContext<AppContext>();
 
   const usernameRef = useRef<HTMLInputElement | null>(null);
@@ -70,6 +71,11 @@ export default function Register() {
   const [matchPwd, setMatchPwd] = useState<string>("");
   const [validMatch, setValidMatch] = useState<boolean>(false);
   const [matchFocus, setMatchFocus] = useState<boolean>(false);
+
+  const isEmailRegistrationSubmitting =
+    formData?.get("registration-type") === "email-registration";
+  const isGoogleRegistrationSubmitting =
+    formData?.get("registration-type") === "google-registration";
 
   // Focus username input on load
   useEffect(() => {
@@ -139,7 +145,7 @@ export default function Register() {
       const { uid } = user;
       const idToken = await user.getIdToken();
 
-      fetcher.submit(
+      submit(
         {
           uid,
           username,
@@ -167,7 +173,7 @@ export default function Register() {
         const { displayName, uid, photoURL } = result.user;
         const idToken = await result.user.getIdToken();
 
-        fetcher.submit(
+        submit(
           {
             idToken,
             uid,
@@ -315,7 +321,11 @@ export default function Register() {
             type="button"
             onClick={registerWithEmail}
           >
-            Register
+            {isEmailRegistrationSubmitting ? (
+              <SpinnerCircular size={30} color="white" />
+            ) : (
+              "Register"
+            )}
           </button>
 
           <button
@@ -323,7 +333,13 @@ export default function Register() {
             type="button"
             onClick={registerWithGoogle}
           >
-            <Icons type="brand-google" /> Register With Google
+            {isGoogleRegistrationSubmitting ? (
+              <SpinnerCircular size={30} color="white" />
+            ) : (
+              <>
+                <Icons type="brand-google" /> Register With Google
+              </>
+            )}
           </button>
         </footer>
       </Form>
