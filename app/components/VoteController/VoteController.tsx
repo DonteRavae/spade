@@ -15,11 +15,13 @@ export default function VoteController({
   parentId,
   direction,
   theme,
+  className,
 }: {
   theme: "light" | "dark";
   votesTotal: number;
   parentId: string;
   direction: "horizontal" | "vertical";
+  className?: string;
 }) {
   const { Form, submit, formData } = useFetcher();
   const { profile, votesByUser, addToast } = useOutletContext<AppContext>();
@@ -31,9 +33,12 @@ export default function VoteController({
   );
 
   // Optimistically load vote total
-  const voteTotal = formData
-    ? Number(votesTotal) + Number(formData.get("vote"))
-    : votesTotal;
+  const voteTotal =
+    formData &&
+    (formData.get("request-type") === "new-vote" ||
+      formData?.get("request-type") === "update-vote")
+      ? Number(votesTotal) + Number(formData.get("vote"))
+      : votesTotal;
 
   useEffect(() => {
     const doesVoteExist = (votesByUser: Vote[], parentId: string) =>
@@ -98,7 +103,7 @@ export default function VoteController({
     <section
       className={`${styles["vote-controller"]} ${styles[`${direction}`]} ${
         styles[`${theme}`]
-      }`}
+      } ${className}`}
     >
       <Form className={styles["vote-form"]} method="post">
         <button type="button" onClick={handleUpvote} aria-label="Upvote">
