@@ -17,6 +17,7 @@ import {
   ScrollRestoration,
   json,
   useLoaderData,
+  useNavigation,
 } from "@remix-run/react";
 // INTERNAL
 import NavBar from "./components/NavBar/NavBar";
@@ -70,8 +71,10 @@ export default function App() {
   const { query } = useLoaderData<typeof loader>();
   const { profile, favoritesByUser, votesByUser } =
     useLoaderData<typeof loader>();
-
   const [stack, setStack] = useState<ToastData[]>([]);
+  const navigation = useNavigation();
+
+  navigation.location && setStack([]);
 
   const removeToast = (id: string) => {
     setStack(stack.filter((toast) => toast.id !== id));
