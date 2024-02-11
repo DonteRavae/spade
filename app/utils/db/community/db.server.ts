@@ -1,10 +1,12 @@
 // INTERNAL
+import { DatabaseInsertionResponse } from "../helpers";
 import pool from "../mysql.config";
 import {
   ForumComment,
   ForumPost,
   ICommunityProfile,
   IFavorite,
+  IForumComment,
   IPost,
   IVote,
   Vote,
@@ -41,6 +43,20 @@ const CREATE_POST_STATEMENT = `
   VALUES (?, ?, ?, ?, ?, ?)
 `;
 
+const FETCH_COMMENTS_BY_POST_ID = `
+  SELECT
+    c.id,
+    c.content,
+    c.parent_id AS parentId,
+    c.created_at AS createdAt,
+    (SELECT COALESCE(SUM(vote), 0) FROM votes WHERE parent_id = c.id) AS votes,
+    JSON_OBJECT('userId', p.id, 'username', p.username, 'avatarUrl', p.avatar_url) AS submittedBy
+  FROM comments AS c
+  LEFT JOIN profiles AS p
+    ON c.submitted_by = p.id
+  WHERE c.parent_id = ?
+`;
+
 const FETCH_POST_BY_ID = `
   SELECT
     fp.id,
@@ -50,15 +66,13 @@ const FETCH_POST_BY_ID = `
     fp.category,
     fp.created_at AS createdAt,
     JSON_OBJECT('userId', cp.id, 'username', cp.username, 'avatarUrl', cp.avatar_url) AS submittedBy,
-    SUM(IFNULL(v.vote, 0)) AS votes,
-    COUNT(c.id) as comments
+    COUNT(c.id) as commentsCount,
+    (SELECT COALESCE(SUM(vote), 0) FROM votes WHERE parent_id = ?) AS votes
   FROM forum_posts AS fp
-  JOIN profiles AS cp
+  LEFT JOIN profiles AS cp
     ON fp.submitted_by = cp.username
-  LEFT JOIN votes AS v
-    ON v.parent_id = fp.id
   LEFT JOIN comments AS c
-    ON c.parent_post_id = fp.id
+    ON c.parent_id = fp.id
   WHERE fp.id = ?
   GROUP BY fp.id`;
 
@@ -71,23 +85,21 @@ const FETCH_RECENT_POSTS = `
     fp.category,
     fp.created_at AS createdAt,
     JSON_OBJECT('userId', cp.id, 'username', cp.username, 'avatarUrl', cp.avatar_url) AS submittedBy,
-    SUM(IFNULL(v.vote, 0)) AS votes,
-    COUNT(c.id) as comments
+    (SELECT COALESCE(SUM(vote), 0) FROM votes WHERE parent_id = fp.id) AS votes,
+    COUNT(c.id) as commentsCount
   FROM forum_posts AS fp
   JOIN profiles AS cp
     ON fp.submitted_by = cp.username
-  LEFT JOIN votes AS v
-    ON v.parent_id = fp.id
   LEFT JOIN comments AS c
-    ON c.parent_post_id = fp.id
+    ON c.parent_id = fp.id
   WHERE fp.created_at > now() - interval 7 day
   GROUP BY fp.id
   ORDER BY fp.created_at
   DESC LIMIT ?`;
 
 const CREATE_FORUM_COMMENT = `
-  INSERT INTO comments (id, content, content_type, parent_comment_id, parent_post_id, submitted_by)
-  VALUES (?, ?, ?, ?, ?, ?)
+  INSERT INTO comments (id, content, parent_id, submitted_by)
+  VALUES (?, ?, ?, ?)
 `;
 
 const FETCH_VOTES_BY_USER = `
@@ -170,7 +182,9 @@ export const getProfileByUsername = async (username: string) => {
   }
 };
 
-export const createPost = async (post: ForumPost) => {
+export const createPost = async (
+  post: ForumPost
+): Promise<DatabaseInsertionResponse> => {
   const { id, title, content, contentType, category, submittedBy } = post;
   try {
     await pool.execute(CREATE_POST_STATEMENT, [
@@ -182,10 +196,10 @@ export const createPost = async (post: ForumPost) => {
       submittedBy,
     ]);
 
-    return { success: true };
+    return { action: "create-post", success: true };
   } catch (error) {
     console.error(error);
-    return { success: false };
+    return { action: "create-post", success: false };
   }
 };
 
@@ -201,7 +215,10 @@ export const getRecentPosts = async (limit: number = 20) => {
 
 export const getPostById = async (postId: string) => {
   try {
-    const [results] = await pool.execute<IPost[]>(FETCH_POST_BY_ID, [postId]);
+    const [results] = await pool.execute<IPost[]>(FETCH_POST_BY_ID, [
+      postId,
+      postId,
+    ]);
     return results.length ? results[0] : null;
   } catch (error) {
     console.error(error);
@@ -209,13 +226,29 @@ export const getPostById = async (postId: string) => {
   }
 };
 
-export const createPostComment = async (comment: ForumComment) => {
+export const getCommentsByPostId = async (postId: string) => {
+  const [results] = await pool.execute<IForumComment[]>(
+    FETCH_COMMENTS_BY_POST_ID,
+    [postId]
+  );
+  return results.length ? results : [];
+};
+
+export const createPostComment = async (
+  comment: ForumComment
+): Promise<DatabaseInsertionResponse> => {
+  const { id, content, parentId, submittedBy } = comment;
   try {
-    await pool.execute(CREATE_FORUM_COMMENT, [comment]);
-    return { success: true };
+    await pool.execute(CREATE_FORUM_COMMENT, [
+      id,
+      content,
+      parentId,
+      submittedBy,
+    ]);
+    return { action: "add-comment", success: true };
   } catch (error) {
     console.error(error);
-    return { success: false };
+    return { action: "add-comment", success: false };
   }
 };
 
@@ -231,27 +264,31 @@ export const getVotesByUser = async (userId: string) => {
   }
 };
 
-export const placeVote = async (newVote: Vote) => {
+export const placeVote = async (
+  newVote: Vote
+): Promise<DatabaseInsertionResponse> => {
   const { id, parentId, vote, voter } = newVote;
 
   try {
     await pool.execute(CAST_VOTE, [id, parentId, vote, voter]);
-    return { success: true };
+    return { action: "new-vote", success: true };
   } catch (error) {
     console.error(error);
-    return { success: false };
+    return { action: "new-vote", success: false };
   }
 };
 
-export const updateVote = async (updatedVote: VoteUpdate) => {
+export const updateVote = async (
+  updatedVote: VoteUpdate
+): Promise<DatabaseInsertionResponse> => {
   const { voteId, vote } = updatedVote;
 
   try {
     await pool.execute(UPDATE_VOTE, [vote, voteId]);
-    return { success: true };
+    return { action: "update-vote", success: true };
   } catch (error) {
     console.error(error);
-    return { success: false };
+    return { action: "update-vote", success: false };
   }
 };
 
@@ -267,22 +304,28 @@ export const getFavoritesByUser = async (userId: string) => {
   }
 };
 
-export const addFavorite = async (parentId: string, userId: string) => {
+export const addFavorite = async (
+  parentId: string,
+  userId: string
+): Promise<DatabaseInsertionResponse> => {
   try {
     await pool.execute(ADD_TO_FAVORITES, [parentId, userId]);
-    return { success: true };
+    return { action: "add-favorite", success: true };
   } catch (error) {
     console.error(error);
-    return { success: false };
+    return { action: "add-favorite", success: false };
   }
 };
 
-export const removeFavorite = async (parentId: string, userId: string) => {
+export const removeFavorite = async (
+  parentId: string,
+  userId: string
+): Promise<DatabaseInsertionResponse> => {
   try {
     await pool.execute(REMOVE_FROM_FAVORITES, [parentId, userId]);
-    return { success: true };
+    return { action: "remove-favorite", success: true };
   } catch (error) {
     console.error(error);
-    return { success: false };
+    return { action: "remove-favorite", success: false };
   }
 };

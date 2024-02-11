@@ -1,4 +1,5 @@
 // INTERNAL
+import { DatabaseInsertionResponse } from "../helpers";
 import pool from "../mysql.config";
 
 // STATEMENTS
@@ -11,22 +12,24 @@ export const requestGuest = async (
   name: string,
   occupation: string,
   contactInfo: string
-) => {
+): Promise<DatabaseInsertionResponse> => {
   try {
     await pool.execute(CREATE_GUEST_REQUEST, [name, occupation, contactInfo]);
-    return { success: true };
+    return { action: "guest-request", success: true };
   } catch (error) {
     console.error(error);
-    return { success: false };
+    return { action: "guest-request", success: false };
   }
 };
 
-export const requestTopic = async (topic: string) => {
+export const requestTopic = async (
+  topic: string
+): Promise<DatabaseInsertionResponse> => {
   try {
     await pool.execute(CREATE_TOPIC_REQUEST, [topic]);
-    return { success: true };
+    return { action: "topic-request", success: true };
   } catch (error) {
     console.error(error);
-    return { success: false };
+    return { action: "topic-request", success: false };
   }
 };
