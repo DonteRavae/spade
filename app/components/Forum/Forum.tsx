@@ -3,17 +3,17 @@
 // REMIX
 import { Link } from "@remix-run/react";
 // INTERNAL
-import Icons from "../Icons";
 import UserAvatar from "../UserAvatar/UserAvatar";
-import { findTimeSinceCreated } from "~/utils/helpers";
+import { findTimeSinceCreated } from "~/utils/db/helpers";
 import VoteController from "../VoteController/VoteController";
+import ShareController from "../ShareController/ShareController";
 import CommentsController from "../CommentsController/CommentsController";
 import FavoriteController from "../FavoriteController/FavoriteController";
 import { ForumPost, UserProfile } from "~/utils/db/community/types.server";
 // STYLES
 import styles from "./Forum.module.css";
 
-const ForumItemCard = ({ post }: { post: ForumPost }) => {
+const ForumPostCard = ({ post }: { post: ForumPost }) => {
   const {
     id,
     title,
@@ -21,7 +21,7 @@ const ForumItemCard = ({ post }: { post: ForumPost }) => {
     contentType,
     submittedBy,
     votes,
-    comments,
+    commentsCount,
     createdAt,
     category,
   } = post;
@@ -42,7 +42,7 @@ const ForumItemCard = ({ post }: { post: ForumPost }) => {
       <div className={styles["content-container"]}>
         <Link
           className={styles.postContent}
-          to={`community/users/${username}/posts/${id}`}
+          to={`/community/users/${username}/posts/${id}`}
         >
           <h1 className={styles.title}>{title}</h1>
 
@@ -54,7 +54,7 @@ const ForumItemCard = ({ post }: { post: ForumPost }) => {
             <video className={styles.content} src="" />
           ) : null}
         </Link>
-        
+
         <footer>
           <VoteController
             votesTotal={votes}
@@ -63,15 +63,12 @@ const ForumItemCard = ({ post }: { post: ForumPost }) => {
             theme="light"
           />
           <CommentsController
-            commentsCount={comments}
+            commentsCount={commentsCount}
             direction="horizontal"
             theme="light"
-            destination={`community/users/${username}/posts/${id}#comments`}
+            destination={`/community/users/${username}/posts/${id}#comments`}
           />
-          <button className={`${styles["footer-item"]} ${styles.share}`}>
-            <Icons type="share" />
-            Share
-          </button>
+          <ShareController direction="horizontal" theme="light" />
           <FavoriteController
             parentId={id}
             direction="horizontal"
@@ -99,7 +96,7 @@ export default function Forum({
   return (
     <ul id={styles["forum"]}>
       {posts
-        ? posts.map((post) => <ForumItemCard key={post.id} post={post} />)
+        ? posts.map((post) => <ForumPostCard key={post.id} post={post} />)
         : null}
     </ul>
   );
