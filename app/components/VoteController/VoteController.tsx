@@ -109,7 +109,7 @@ export default function VoteController({
         <button type="button" onClick={handleUpvote} aria-label="Upvote">
           <Icons
             type="caret-up"
-            className={vote === 1 ? styles.selected : ""}
+            className={vote === 1 && profile ? styles.selected : ""}
           />
         </button>
       </Form>
@@ -118,7 +118,7 @@ export default function VoteController({
         <button type="button" onClick={handleDownvote} aria-label="Downvote">
           <Icons
             type="caret-down"
-            className={vote === -1 ? styles.selected : ""}
+            className={vote === -1 && profile ? styles.selected : ""}
           />
         </button>
       </Form>
