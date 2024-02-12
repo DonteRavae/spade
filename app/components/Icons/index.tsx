@@ -267,8 +267,8 @@ export default function Icons({
         </svg>
       )}
 
-      {/* EYE */}
-      {type === "eye" && (
+      {/* VIEW */}
+      {type === "view" && (
         <svg
           id={id}
           className={className}
@@ -576,6 +576,31 @@ export default function Icons({
           </g>
           <defs>
             <clipPath id="clip0_101_15">
+              <rect width="24" height="24" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+      )}
+
+      {/* EDIT */}
+      {type === "edit" && (
+        <svg
+          id={id}
+          className={className}
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g clipPath="url(#clip0_131_39)">
+            <path
+              d="M2.66667 21.329H4.55228L16.9705 8.89033L15.0849 7.00163L2.66667 19.4403V21.329ZM24 24H0V18.3338L17.9133 0.391159C18.4341 -0.130386 19.2783 -0.130386 19.7989 0.391159L23.5703 4.16857C24.0909 4.69012 24.0909 5.53573 23.5703 6.05727L8.32352 21.329H24V24ZM16.9705 5.11293L18.8561 7.00163L20.7417 5.11293L18.8561 3.22422L16.9705 5.11293Z"
+              fill="black"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_131_39">
               <rect width="24" height="24" fill="white" />
             </clipPath>
           </defs>

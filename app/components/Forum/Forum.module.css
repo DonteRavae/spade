@@ -6,6 +6,32 @@
   margin: 0;
 }
 
+#empty-forum {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 25px;
+
+  .create-post-btn {
+    border: none;
+    cursor: pointer;
+    background: none;
+
+    &:hover svg path {
+      fill: var(--primary-color);
+    }
+  }
+
+  a {
+    text-decoration: none;
+    color: var(--primary-color);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
 .forum-item-card {
   width: 100%;
   height: min(150px, auto);
@@ -116,7 +142,7 @@
         padding: 0;
       }
 
-      .vote-controller svg path{
+      .vote-controller svg path {
         fill: black;
       }
 
