@@ -1,10 +1,10 @@
 // REACT
 import { useEffect, useRef } from "react";
 // REMIX
-import { useFetcher, useOutletContext } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 // INTERNAL
 import Icons from "../Icons";
-import { AppContext } from "~/root";
+import { useApp } from "~/providers/AppProvider";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import { ToastStatus } from "../ToastStack/ToastStack";
 import { findTimeSinceCreated } from "~/utils/db/helpers";
@@ -23,7 +23,7 @@ type CommentsTreeProps = {
 
 const CommentInputForm = ({ parentId }: { parentId: string }) => {
   const formRef = useRef<HTMLFormElement>(null);
-  const { profile, addToast } = useOutletContext<AppContext>();
+  const { profile, addToast } = useApp();
   const { Form, data, state, formData } = useFetcher<typeof action>();
 
   const isSubmitting =

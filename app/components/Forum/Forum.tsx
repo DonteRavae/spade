@@ -1,10 +1,16 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 
+// REACT
+import { useRef } from "react";
 // REMIX
-import { Link } from "@remix-run/react";
+import { Link, useNavigation } from "@remix-run/react";
 // INTERNAL
+import Icons from "../Icons";
+import Modal, { ModalRef } from "../Modal/Modal";
+import { useApp } from "~/providers/AppProvider";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import { findTimeSinceCreated } from "~/utils/db/helpers";
+import CreatePostForm from "../CreatePostForm/CreatePostForm";
 import VoteController from "../VoteController/VoteController";
 import ShareController from "../ShareController/ShareController";
 import CommentsController from "../CommentsController/CommentsController";
@@ -93,7 +99,42 @@ export default function Forum({
 }: {
   posts: ForumPost[] | null | undefined;
 }) {
-  return (
+  const { profile } = useApp();
+  const navigation = useNavigation();
+  const modalRef = useRef<ModalRef>(null);
+
+  // HANDLERS
+  const openModal = () => modalRef.current?.open();
+
+  return !posts || !posts.length ? (
+    <section id={styles["empty-forum"]}>
+      <h2>{"It's looking a tad dry around here."}</h2>
+      {profile ? (
+        <>
+          <button
+            className={styles["create-post-btn"]}
+            onClick={openModal}
+            aria-label="Create a forum post"
+          >
+            <Icons type="edit" />
+          </button>
+          {navigation.state !== "loading" && (
+            <Modal label="Create A Post" ref={modalRef}>
+              <CreatePostForm />
+            </Modal>
+          )}
+          <p>Start a discussion!</p>
+        </>
+      ) : (
+        <>
+          <Icons type="edit" />
+          <p>
+            <Link to="/login">Login</Link> and start a discussion!
+          </p>
+        </>
+      )}
+    </section>
+  ) : (
     <ul id={styles["forum"]}>
       {posts
         ? posts.map((post) => <ForumPostCard key={post.id} post={post} />)

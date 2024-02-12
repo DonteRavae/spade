@@ -1,10 +1,10 @@
 // REACT
 import { useEffect, useState } from "react";
 // REMIX
-import { useFetcher, useOutletContext, useSubmit } from "@remix-run/react";
+import { useFetcher, useSubmit } from "@remix-run/react";
 // INTERNAL
 import Icons from "../Icons";
-import { AppContext } from "~/root";
+import { useApp } from "~/providers/AppProvider";
 import { ToastStatus } from "../ToastStack/ToastStack";
 import { Favorite } from "~/utils/db/community/types.server";
 // STYLES
@@ -21,7 +21,7 @@ export default function FavoriteController({
 }) {
   const submit = useSubmit();
   const { Form, formData } = useFetcher();
-  const { profile, addToast, favoritesByUser } = useOutletContext<AppContext>();
+  const { profile, addToast, favoritesByUser } = useApp();
   const [isFavorite, setIsFavorite] = useState<Favorite | undefined>(
     favoritesByUser.find((fav) => fav.parentId === parentId)
   );
