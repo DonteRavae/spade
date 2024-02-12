@@ -3,16 +3,10 @@
 // REACT
 import { useEffect, useRef, useState } from "react";
 // REMIX
-import {
-  NavLink,
-  Outlet,
-  useLocation,
-  useNavigation,
-  useOutletContext,
-} from "@remix-run/react";
+import { NavLink, Outlet, useLocation, useNavigation } from "@remix-run/react";
 // INTERNAL
 import Icons from "../Icons";
-import { AppContext } from "~/root";
+import { useApp } from "~/providers/AppProvider";
 import Modal, { ModalRef } from "../Modal/Modal";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import HeroSlider from "../HeroSlider/HeroSlider";
@@ -28,21 +22,20 @@ enum TABS {
 }
 
 export default function CommunityOverview() {
-  const modalRef = useRef<ModalRef>(null);
+  const { profile } = useApp();
   const location = useLocation();
   const navigation = useNavigation();
-  const rootContext = useOutletContext<AppContext>();
+  const modalRef = useRef<ModalRef>(null);
   const [activeTab, setActiveTab] = useState<string>(TABS.RECENT);
   const [isAnnouncementsOpen, toggleAnnouncements] = useState<boolean>(true);
-  const { profile } = rootContext;
 
   useEffect(() => {
     if (location.pathname === "/") setActiveTab(TABS.RECENT);
   }, [location]);
 
   // HANDLERS
-  const closeAnnouncements = () => toggleAnnouncements((prev) => !prev);
   const openModal = () => modalRef.current?.open();
+  const closeAnnouncements = () => toggleAnnouncements((prev) => !prev);
 
   return (
     <section id={styles["community-overview"]}>
@@ -131,8 +124,7 @@ export default function CommunityOverview() {
           </button>
         </nav>
       </div>
-
-      <Outlet context={rootContext} />
+      <Outlet />
     </section>
   );
 }

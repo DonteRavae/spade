@@ -1,9 +1,10 @@
 // REACT
 import { useEffect, useRef } from "react";
 // REMIX
-import { useFetcher, useOutletContext } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 // INTERNAL
-import { AppContext, action } from "~/root";
+import { action } from "~/root";
+import { useApp } from "~/providers/AppProvider";
 import { ToastStatus } from "../ToastStack/ToastStack";
 // EXTERNAL
 import { SpinnerCircular } from "spinners-react";
@@ -11,16 +12,16 @@ import { SpinnerCircular } from "spinners-react";
 import styles from "./Podcast Overview.module.css";
 
 export default function PodcastOverview() {
-  const { addToast } = useOutletContext<AppContext>();
+  const { addToast } = useApp();
   const guestRequestFormRef = useRef<HTMLFormElement>(null);
   const topicRequestFormRef = useRef<HTMLFormElement>(null);
   const { Form, data, state, formData } = useFetcher<typeof action>();
-
+  
   const isGuestRequestSubmitting =
-    state === "submitting" && formData?.get("request-type") === "guest-request";
+  state === "submitting" && formData?.get("request-type") === "guest-request";
   const isTopicRequestSubmitting =
-    state === "submitting" && formData?.get("request-type") === "topic-request";
-
+  state === "submitting" && formData?.get("request-type") === "topic-request";
+  
   useEffect(() => {
     if (data?.action === "guest-request" && data.success) {
       addToast(ToastStatus.Success, "Thanks for your guest request!");

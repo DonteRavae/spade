@@ -1,17 +1,17 @@
 // REACT
 import { ChangeEventHandler, useEffect, useRef } from "react";
 // REMIX
-import { Form, useNavigation, useOutletContext } from "@remix-run/react";
+import { Form, useNavigation } from "@remix-run/react";
 // INTERNAL
-import { AppContext } from "~/root";
+import { useApp } from "~/providers/AppProvider";
 // STYLES
 import styles from "./CreatePostForm.module.css";
 
 export default function CreatePostForm() {
+  const { profile } = useApp();
+  const navigation = useNavigation();
   const formRef = useRef<HTMLFormElement>(null);
   const titleRef = useRef<HTMLTextAreaElement>(null);
-  const { profile } = useOutletContext<AppContext>();
-  const navigation = useNavigation();
 
   const resizeTitle: ChangeEventHandler = (event) => {
     const scrollHeight = event.currentTarget.scrollHeight;

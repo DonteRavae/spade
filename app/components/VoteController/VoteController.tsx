@@ -1,10 +1,10 @@
 // REACT
 import { useState, useEffect } from "react";
 // REMIX
-import { useFetcher, useOutletContext } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 // INTERNAL
 import Icons from "../Icons";
-import { AppContext } from "~/root";
+import { useApp } from "~/providers/AppProvider";
 import { ToastStatus } from "../ToastStack/ToastStack";
 import { Vote } from "~/utils/db/community/types.server";
 // STYLES
@@ -24,7 +24,7 @@ export default function VoteController({
   className?: string;
 }) {
   const { Form, submit, formData } = useFetcher();
-  const { profile, votesByUser, addToast } = useOutletContext<AppContext>();
+  const { profile, votesByUser, addToast } = useApp();
   const [previousVote, setPreviousVote] = useState<Vote | undefined>(
     votesByUser.find((vote) => vote.parentId === parentId)
   );

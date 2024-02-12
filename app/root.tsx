@@ -1,5 +1,5 @@
 // REACT
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 // REMIX
 import { cssBundleHref } from "@remix-run/css-bundle";
 import type {
@@ -23,9 +23,9 @@ import {
 import NavBar from "./components/NavBar/NavBar";
 import { parseRequests } from "./utils/db/helpers";
 import Searchbar from "./components/Searchbar/Searchbar";
+import AppProvider, { AppContextState } from "./providers/AppProvider";
 import * as communityHandlers from "./utils/db/community/handlers.server";
 import AccountDropdown from "./components/AccountDropdown/AccountDropdown";
-import { Favorite, UserProfile, Vote } from "./utils/db/community/types.server";
 import ToastStack, {
   ToastData,
   ToastStatus,
@@ -34,13 +34,6 @@ import ToastStack, {
 import { ulid } from "ulid";
 // STYLES
 import styles from "./root.module.css";
-
-export type AppContext = {
-  profile: UserProfile | null;
-  addToast: (status: ToastStatus, message: string) => void;
-  favoritesByUser: Favorite[];
-  votesByUser: Vote[];
-};
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
@@ -74,11 +67,16 @@ export default function App() {
   const [stack, setStack] = useState<ToastData[]>([]);
   const navigation = useNavigation();
 
-  navigation.location && setStack([]);
+  useEffect(() => {
+    navigation.location && setStack([]);
+  }, [navigation.location]);
 
-  const removeToast = (id: string) => {
-    setStack(stack.filter((toast) => toast.id !== id));
-  };
+  const removeToast = useCallback(
+    (id: string) => {
+      setStack(stack.filter((toast) => toast.id !== id));
+    },
+    [stack]
+  );
 
   const addToast = useCallback((status: ToastStatus, message: string) => {
     const data = {
@@ -89,14 +87,16 @@ export default function App() {
     setStack((prev) => [...prev, data]);
   }, []);
 
-  const contextValue: AppContext = useMemo(() => {
+  const contextValue: AppContextState = useMemo(() => {
     return {
+      stack,
       profile,
       favoritesByUser,
       votesByUser,
       addToast,
+      removeToast,
     };
-  }, [addToast, favoritesByUser, profile, votesByUser]);
+  }, [stack, votesByUser, favoritesByUser, profile, addToast, removeToast]);
 
   return (
     <html lang="en">
@@ -107,24 +107,26 @@ export default function App() {
         <Links />
       </head>
       <body id={styles["app-body"]}>
-        <header id={styles["app-header"]}>
-          <Searchbar value={query} />
-          <NavBar />
-          {!profile ? (
-            <div className={styles.accessLinks}>
-              <Link to="/login">Login</Link>
-              <hr />
-              <Link to="/register">Register</Link>
-            </div>
-          ) : (
-            <AccountDropdown
-              avatar={profile.avatarUrl}
-              username={profile.username}
-            />
-          )}
-        </header>
-        <Outlet context={contextValue} />
-        <ToastStack stack={stack} removeFromStack={removeToast} />
+        <AppProvider initialContext={contextValue}>
+          <header id={styles["app-header"]}>
+            <Searchbar value={query} />
+            <NavBar />
+            {!profile ? (
+              <div className={styles.accessLinks}>
+                <Link to="/login">Login</Link>
+                <hr />
+                <Link to="/register">Register</Link>
+              </div>
+            ) : (
+              <AccountDropdown
+                avatar={profile.avatarUrl}
+                username={profile.username}
+              />
+            )}
+          </header>
+          <Outlet />
+          <ToastStack />
+        </AppProvider>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

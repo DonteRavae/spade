@@ -2,11 +2,11 @@
 import { ChangeEventHandler, useEffect, useRef, useState } from "react";
 // REMIX
 import { ActionFunctionArgs } from "@remix-run/node";
-import { Form, Link, useFetcher, useOutletContext } from "@remix-run/react";
+import { Form, Link, useFetcher } from "@remix-run/react";
 // INTERNAL
-import { AppContext } from "~/root";
 import Icons from "~/components/Icons";
 import auth from "../utils/db/auth/config";
+import { useApp } from "~/providers/AppProvider";
 import FormInput from "~/components/FormInput/FormInput";
 import { signInUser } from "~/utils/db/auth/auth.server";
 import { ToastStatus } from "~/components/ToastStack/ToastStack";
@@ -48,8 +48,8 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function Register() {
+  const { addToast } = useApp();
   const { formData, submit } = useFetcher();
-  const { addToast } = useOutletContext<AppContext>();
 
   const usernameRef = useRef<HTMLInputElement | null>(null);
   const emailRef = useRef<HTMLInputElement | null>(null);

@@ -1,5 +1,6 @@
 // INTERNAL
 import Icons from "../Icons";
+import { useApp } from "~/providers/AppProvider";
 // STYLES
 import styles from "./ToastStack.module.css";
 
@@ -32,13 +33,9 @@ export const Toast = ({ status, message, removeFromStack }: ToastProps) => (
   </li>
 );
 
-export default function ToastStack({
-  stack,
-  removeFromStack,
-}: {
-  stack: ToastData[];
-  removeFromStack: (id: string) => void;
-}) {
+export default function ToastStack() {
+  const { stack, removeToast } = useApp();
+
   return (
     <ul id={styles["toast-stack"]}>
       {stack.length
@@ -47,7 +44,7 @@ export default function ToastStack({
               key={toast.id}
               status={toast.status}
               message={toast.message}
-              removeFromStack={() => removeFromStack(toast.id!)}
+              removeFromStack={() => removeToast(toast.id!)}
             />
           ))
         : null}
