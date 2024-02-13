@@ -1,27 +1,95 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 // REACT
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 // REMIX
 import { useFetcher } from "@remix-run/react";
 // INTERNAL
 import { action } from "~/root";
 import { useApp } from "~/providers/AppProvider";
 import { ToastStatus } from "../ToastStack/ToastStack";
+import podcastPlaylist from "~/utils/db/podcast/playlist.json";
 // EXTERNAL
 import { SpinnerCircular } from "spinners-react";
 // STYLES
 import styles from "./Podcast Overview.module.css";
 
+type PodcastPlaylistData = {
+  title: string;
+  host: string;
+  guests: string[];
+  releaseDate: string;
+  fileUrl: string;
+};
+
+const PodcastPlaylistItem = ({
+  podcast,
+  currentlyPlaying,
+  handleClick,
+}: {
+  podcast: PodcastPlaylistData;
+  currentlyPlaying: string;
+  handleClick: () => void;
+}) => (
+  <li
+    className={`${styles["podcast-playlist-item"]} ${
+      currentlyPlaying === podcast.fileUrl ? styles.playing : ""
+    }`}
+    onClick={handleClick}
+    onKeyDown={handleClick}
+    aria-label="Play podcast preview"
+  >
+    <div className={`${styles["content-container"]}`}>
+      <p>
+        <strong>{podcast.title}</strong>
+      </p>
+      <span />
+      <p>
+        <strong>Host</strong>: {podcast.host}
+      </p>
+      <span />
+      <p>
+        <strong>Guests</strong>: {podcast.guests.join(", ")}
+      </p>
+    </div>
+  </li>
+);
+
 export default function PodcastOverview() {
   const { addToast } = useApp();
+  const videoRef = useRef<HTMLVideoElement>(null);
   const guestRequestFormRef = useRef<HTMLFormElement>(null);
   const topicRequestFormRef = useRef<HTMLFormElement>(null);
   const { Form, data, state, formData } = useFetcher<typeof action>();
-  
+  const [loadedPodcastUrl, setLoadedPodcastUrl] = useState<string>(
+    podcastPlaylist[0].fileUrl
+  );
+
+  // Checks for pending UI state on form submission
   const isGuestRequestSubmitting =
-  state === "submitting" && formData?.get("request-type") === "guest-request";
+    state === "submitting" && formData?.get("request-type") === "guest-request";
   const isTopicRequestSubmitting =
-  state === "submitting" && formData?.get("request-type") === "topic-request";
-  
+    state === "submitting" && formData?.get("request-type") === "topic-request";
+
+  // Loads the next video in the playlist playlist once current video ends
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const currentVideoIndex = podcastPlaylist.findIndex(
+        (pod) => pod.fileUrl === loadedPodcastUrl
+      );
+      currentVideoIndex <= podcastPlaylist.length - 2
+        ? setLoadedPodcastUrl(podcastPlaylist[currentVideoIndex + 1].fileUrl)
+        : setLoadedPodcastUrl(podcastPlaylist[0].fileUrl);
+    }, videoRef.current!.duration * 1000);
+
+    return () => clearInterval(timer);
+  }, [loadedPodcastUrl]);
+
+  // Sets video src to loaded video url
+  useEffect(() => {
+    videoRef.current!.src = loadedPodcastUrl;
+  }, [loadedPodcastUrl]);
+
+  // Processes form submission responses and renders a Toast
   useEffect(() => {
     if (data?.action === "guest-request" && data.success) {
       addToast(ToastStatus.Success, "Thanks for your guest request!");
@@ -39,43 +107,27 @@ export default function PodcastOverview() {
   return (
     <section id={styles["podcast-overview"]}>
       <h1 className={styles["section-title"]}>Podcast</h1>
-      <video autoPlay muted controls>
-        <source src="/assets/Xbox 2023-10-09 15-14-29.mp4" type="video/mp4" />
+      <video autoPlay muted controls ref={videoRef}>
+        <source src={loadedPodcastUrl} type="video/mp4" />
       </video>
+      <ul id={styles["podcast-playlist"]}>
+        {podcastPlaylist.map((pod) => (
+          <PodcastPlaylistItem
+            key={pod.title}
+            podcast={pod}
+            currentlyPlaying={loadedPodcastUrl}
+            handleClick={() => setLoadedPodcastUrl(pod.fileUrl)}
+          />
+        ))}
+      </ul>
       <div className={styles["upcoming-podcast"]}>
         <p>
-          <strong>Next Podcast</strong>: Some Date
+          <strong>Upcoming Guest </strong>: Someone
         </p>
         <p>
-          <strong>Next Guest </strong>: Someone
+          <strong>Upcoming Podcast Release</strong>: Some Date
         </p>
       </div>
-      <ul id={styles["podcast-playlist"]}>
-        <li>
-          <p>Hip-Hop vs Mental Health Pt.3</p>
-          <p>July 26, 2023</p>
-        </li>
-        <li>
-          <p>Hip-Hop vs Mental Health Pt.2</p>
-          <p>April 5, 2023</p>
-        </li>
-        <li>
-          <p>Hip-Hop vs Mental Health Pt.1</p>
-          <p>March 15, 2023</p>
-        </li>
-        <li>
-          <p>Mental Health Pt.3</p>
-          <p>March 15, 2023</p>
-        </li>
-        <li>
-          <p>Mental Health Pt.2</p>
-          <p>March 15, 2023</p>
-        </li>
-        <li>
-          <p>Mental Health Pt.1</p>
-          <p>March 15, 2023</p>
-        </li>
-      </ul>
       <Form method="post" ref={guestRequestFormRef}>
         <h3>
           Who would you like to hear from next? Drop their details below so that
