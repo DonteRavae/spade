@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Beyond The Pain Part Two",
+    "host": "Anthony Henderson",
+    "guests": ["Alaina Kelly", "Xavier Jones"],
+    "releaseDate": "02/01/2024",
+    "fileUrl": "assets/podcasts/BeyondThePainPt2.mp4"
+  },
+  {
+    "title": "Beyond The Pain Part One",
+    "host": "Anthony Henderson",
+    "guests": ["Alaina Kelly", "Xavier Jones"],
+    "releaseDate": "11/23/2023",
+    "fileUrl": "assets/podcasts/BeyondThePainPt1.mp4"
+  },
+  {
+    "title": "Toxic Relationships Part One",
+    "host": "Anthony Henderson",
+    "guests": ["Jalen Walker", "Jasmine Grayson"],
+    "releaseDate": "10/11/2023",
+    "fileUrl": "assets/podcasts/ToxicRelationshipsPt1.mp4"
+  },
+  {
+    "title": "Mental Health vs. Hip Hop Finale",
+    "host": "Anthony Henderson",
+    "guests": ["NeNe Lioness", "Travis Jones", "Xavier Jones", "Ruby"],
+    "releaseDate": "07/26/2023",
+    "fileUrl": "assets/podcasts/MentalHealthVsHipHopFinale.mp4"
+  },
+  {
+    "title": "Mental Health vs. Hip Hop Pt. 2",
+    "host": "Anthony Henderson",
+    "guests": ["NeNe Lioness", "Travis Jones", "Xavier Jones", "Ruby"],
+    "releaseDate": "04/05/2023",
+    "fileUrl": "assets/podcasts/MentalHealthVsHipHopPt2.mp4"
+  },
+  {
+    "title": "Mental Health vs. Hip Hop Pt. 1",
+    "host": "Anthony Henderson",
+    "guests": ["NeNe Lioness", "Travis Jones", "Xavier Jones", "Ruby"],
+    "releaseDate": "03/15/2023",
+    "fileUrl": "assets/podcasts/MentalHealthVsHipHopPt1.mp4"
+  }
+]
