@@ -2,7 +2,7 @@
 // REACT
 import { useEffect, useRef, useState } from "react";
 // REMIX
-import { useFetcher } from "@remix-run/react";
+import { useFetcher, useNavigate } from "@remix-run/react";
 // INTERNAL
 import { action } from "~/root";
 import { useApp } from "~/providers/AppProvider";
@@ -27,12 +27,12 @@ const PodcastPlaylistItem = ({
   handleClick,
 }: {
   podcast: PodcastPlaylistData;
-  currentlyPlaying: string;
+  currentlyPlaying: boolean;
   handleClick: () => void;
 }) => (
   <li
     className={`${styles["podcast-playlist-item"]} ${
-      currentlyPlaying === podcast.fileUrl ? styles.playing : ""
+      currentlyPlaying ? styles.playing : ""
     }`}
     onClick={handleClick}
     onKeyDown={handleClick}
@@ -56,11 +56,12 @@ const PodcastPlaylistItem = ({
 
 export default function PodcastOverview() {
   const { addToast } = useApp();
+  const navigate = useNavigate();
   const videoRef = useRef<HTMLVideoElement>(null);
   const guestRequestFormRef = useRef<HTMLFormElement>(null);
   const topicRequestFormRef = useRef<HTMLFormElement>(null);
   const { Form, data, state, formData } = useFetcher<typeof action>();
-  const [loadedPodcastUrl, setLoadedPodcastUrl] = useState<string>(
+  const [currentlyPlaying, setCurrentlyPlaying] = useState<string>(
     podcastPlaylist[0].fileUrl
   );
 
@@ -70,24 +71,9 @@ export default function PodcastOverview() {
   const isTopicRequestSubmitting =
     state === "submitting" && formData?.get("request-type") === "topic-request";
 
-  // Loads the next video in the playlist playlist once current video ends
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const currentVideoIndex = podcastPlaylist.findIndex(
-        (pod) => pod.fileUrl === loadedPodcastUrl
-      );
-      currentVideoIndex <= podcastPlaylist.length - 2
-        ? setLoadedPodcastUrl(podcastPlaylist[currentVideoIndex + 1].fileUrl)
-        : setLoadedPodcastUrl(podcastPlaylist[0].fileUrl);
-    }, videoRef.current!.duration * 1000);
-
-    return () => clearInterval(timer);
-  }, [loadedPodcastUrl]);
-
-  // Sets video src to loaded video url
-  useEffect(() => {
-    videoRef.current!.src = loadedPodcastUrl;
-  }, [loadedPodcastUrl]);
+    videoRef.current!.src = currentlyPlaying;
+  }, [currentlyPlaying]);
 
   // Processes form submission responses and renders a Toast
   useEffect(() => {
@@ -104,19 +90,40 @@ export default function PodcastOverview() {
     }
   }, [addToast, data?.action, data?.success]);
 
+  const advancePlaylist = () => {
+    const currentVideoIndex = podcastPlaylist.findIndex(
+      (pod) => pod.fileUrl === currentlyPlaying
+    );
+
+    if (currentVideoIndex <= podcastPlaylist.length - 2) {
+      setCurrentlyPlaying(podcastPlaylist[currentVideoIndex + 1].fileUrl);
+    } else {
+      setCurrentlyPlaying(podcastPlaylist[0].fileUrl);
+    }
+  };
+
+  const handleClick = (podUrl: string, podTitle: string) => {
+    if (currentlyPlaying === podUrl) {
+      navigate(`/podcast/ep/${podTitle}`.toLowerCase().replace(/\s/g, "-"));
+    }
+
+    setCurrentlyPlaying(podUrl);
+    videoRef.current!.src = podUrl;
+  };
+
   return (
     <section id={styles["podcast-overview"]}>
       <h1 className={styles["section-title"]}>Podcast</h1>
-      <video autoPlay muted controls ref={videoRef}>
-        <source src={loadedPodcastUrl} type="video/mp4" />
+      <video autoPlay muted controls ref={videoRef} onEnded={advancePlaylist}>
+        <source src={currentlyPlaying} type="video/mp4" />
       </video>
       <ul id={styles["podcast-playlist"]}>
         {podcastPlaylist.map((pod) => (
           <PodcastPlaylistItem
             key={pod.title}
             podcast={pod}
-            currentlyPlaying={loadedPodcastUrl}
-            handleClick={() => setLoadedPodcastUrl(pod.fileUrl)}
+            currentlyPlaying={currentlyPlaying === pod.fileUrl}
+            handleClick={() => handleClick(pod.fileUrl, pod.title)}
           />
         ))}
       </ul>

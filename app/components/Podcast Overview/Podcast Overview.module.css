@@ -1,15 +1,16 @@
 #podcast-overview {
-  height: 90%;
+  height: auto;
   width: 25vw;
   display: flex;
   flex-direction: column;
   gap: 15px;
+  padding-bottom: 25px;
   padding-right: 25px;
   border-right-width: 2px;
   border-right-style: solid;
   border-image: linear-gradient(
-      transparent,
-      var(--primary-color) 50%,
+    transparent,
+      var(--primary-color),
       transparent
     )
     1;
@@ -45,18 +46,16 @@
   }
 
   #podcast-playlist {
-    height: 175px;
-    min-height: 125px;
     display: grid;
     grid-auto-rows: 40px;
     grid-auto-flow: row;
     list-style: none;
     margin: 0;
     padding: 0;
-    overflow-y: auto;
     border-radius: 10px;
     position: relative;
     box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 
     &::-webkit-scrollbar {
       display: none;
@@ -68,6 +67,7 @@
       scrollbar-width: none;
       border-bottom: 1px solid var(--primary-color);
       background: white;
+      cursor: pointer;
 
       &:hover {
         background: black;
@@ -89,7 +89,6 @@
         align-items: center;
         gap: 10px;
         padding: 0 10px;
-        cursor: pointer;
         white-space: nowrap;
         scrollbar-width: none;
         position: absolute;
