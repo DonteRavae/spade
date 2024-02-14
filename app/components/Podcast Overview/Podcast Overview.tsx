@@ -81,14 +81,14 @@ export default function PodcastOverview() {
       addToast(ToastStatus.Success, "Thanks for your guest request!");
       guestRequestFormRef.current?.reset();
     } else if (data?.action === "guest-request" && !data.success) {
-      addToast(ToastStatus.Error, "");
+      addToast(ToastStatus.Error, data.message!);
     } else if (data?.action === "topic-request" && data.success) {
       addToast(ToastStatus.Success, "Thanks for your topic request!");
       topicRequestFormRef.current?.reset();
     } else if (data?.action === "topic-request" && !data.success) {
-      addToast(ToastStatus.Error, "");
+      addToast(ToastStatus.Error, data.message!);
     }
-  }, [addToast, data?.action, data?.success]);
+  }, [addToast, data?.action, data?.message, data?.success]);
 
   const advancePlaylist = () => {
     const currentVideoIndex = podcastPlaylist.findIndex(

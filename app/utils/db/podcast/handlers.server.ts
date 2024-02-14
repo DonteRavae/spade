@@ -14,8 +14,8 @@ export const createGuestRequest = async (formData: FormData) => {
     };
 
   if (
-    !guestContact &&
-    !EMAIL_VALIDATION.test(guestContact) &&
+    !guestContact ||
+    !EMAIL_VALIDATION.test(guestContact) ||
     !URL_VALIDATION.test(guestContact)
   )
     return {
