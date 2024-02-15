@@ -32,8 +32,7 @@
   }
 }
 
-.forum-item-card {
-  width: 100%;
+.forum-post-card {
   height: min(150px, auto);
   display: grid;
   grid-template-columns: 75px 1fr;
@@ -126,7 +125,6 @@
 
     footer {
       flex: 0 0 35px;
-      width: 100%;
       display: flex;
       align-self: flex-end;
       height: 35px;
@@ -179,77 +177,6 @@
 
         &.epilepsy {
           background: purple;
-        }
-
-        &.comments {
-          cursor: pointer;
-          svg {
-            height: 16px;
-            margin-right: 5px;
-            margin-top: 2px;
-          }
-
-          &:hover {
-            background: rgba(0, 0, 0, 0.1);
-          }
-        }
-
-        &.favorite {
-          button {
-            height: 100%;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-          }
-          svg {
-            height: 22px;
-            margin-right: 5px;
-          }
-
-          &:hover {
-            background: rgba(0, 0, 0, 0.1);
-          }
-        }
-
-        &.share {
-          cursor: pointer;
-
-          svg {
-            height: 22px;
-            margin-right: 5px;
-          }
-
-          &:hover {
-            background: rgba(0, 0, 0, 0.1);
-          }
-        }
-
-        svg {
-          path {
-            fill: black;
-          }
-        }
-
-        .upvote,
-        .downvote {
-          height: 30px;
-          width: 30px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border-radius: 50%;
-          margin: 0 10px;
-          transition: 300ms ease-out all;
-          cursor: pointer;
-
-          svg {
-            width: 16px;
-          }
-          &:hover {
-            background: rgba(0, 0, 0, 0.1);
-          }
         }
       }
 

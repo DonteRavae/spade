@@ -34,7 +34,7 @@ const ForumPostCard = ({ post }: { post: ForumPost }) => {
   const { username, avatarUrl } = submittedBy as UserProfile;
 
   return (
-    <li className={styles["forum-item-card"]}>
+    <li className={styles["forum-post-card"]}>
       <Link
         className={styles["sidebar"]}
         to={`/community/users/${username}`}
