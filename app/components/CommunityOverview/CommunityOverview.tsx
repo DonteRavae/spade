@@ -26,7 +26,9 @@ export default function CommunityOverview() {
   const location = useLocation();
   const navigation = useNavigation();
   const modalRef = useRef<ModalRef>(null);
-  const [activeTab, setActiveTab] = useState<string>(TABS.RECENT);
+  const [activeTab, setActiveTab] = useState<string>(
+    location.pathname.substring(1) || TABS.RECENT
+  );
   const [isAnnouncementsOpen, toggleAnnouncements] = useState<boolean>(true);
 
   useEffect(() => {

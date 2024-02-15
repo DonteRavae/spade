@@ -1,24 +1,11 @@
 #podcast-overview {
   height: auto;
-  width: 25vw;
   display: flex;
   flex-direction: column;
   gap: 15px;
-  padding-bottom: 25px;
   padding-right: 25px;
-  border-right-width: 2px;
-  border-right-style: solid;
-  border-image: linear-gradient(
-    transparent,
-      var(--primary-color),
-      transparent
-    )
-    1;
   overflow-y: auto;
   color: black;
-  position: fixed;
-  top: 85px;
-  left: 5vw;
 
   .section-title {
     margin: 0;

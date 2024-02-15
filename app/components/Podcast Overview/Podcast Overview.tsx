@@ -127,14 +127,6 @@ export default function PodcastOverview() {
           />
         ))}
       </ul>
-      <div className={styles["upcoming-podcast"]}>
-        <p>
-          <strong>Upcoming Guest </strong>: Someone
-        </p>
-        <p>
-          <strong>Upcoming Podcast Release</strong>: Some Date
-        </p>
-      </div>
       <Form method="post" ref={guestRequestFormRef}>
         <h3>
           Who would you like to hear from next? Drop their details below so that
