@@ -29,7 +29,7 @@ export default function CommunityOverview() {
   const [activeTab, setActiveTab] = useState<string>(
     location.pathname.substring(1) || TABS.RECENT
   );
-  const [isAnnouncementsOpen, toggleAnnouncements] = useState<boolean>(true);
+  const [isAnnouncementsOpen, toggleAnnouncements] = useState<boolean>(false);
 
   useEffect(() => {
     if (location.pathname === "/") setActiveTab(TABS.RECENT);
