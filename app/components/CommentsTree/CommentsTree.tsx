@@ -7,7 +7,7 @@ import Icons from "../Icons";
 import { useApp } from "~/providers/AppProvider";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import { ToastStatus } from "../ToastStack/ToastStack";
-import { findTimeSinceCreated } from "~/utils/db/helpers";
+import { findTimeSinceCreated } from "~/utils/lib/helpers";
 import VoteController from "../VoteController/VoteController";
 import { action } from "~/routes/community_.users_.$userId.posts.$postId";
 import { ForumComment, UserProfile } from "~/utils/db/community/types.server";

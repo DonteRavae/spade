@@ -21,7 +21,7 @@ import {
 } from "@remix-run/react";
 // INTERNAL
 import NavBar from "./components/NavBar/NavBar";
-import { parseRequests } from "./utils/db/helpers";
+import { parseRequests } from "./utils/lib/helpers";
 import Searchbar from "./components/Searchbar/Searchbar";
 import AppProvider, { AppContextState } from "./providers/AppProvider";
 import * as communityHandlers from "./utils/db/community/handlers.server";

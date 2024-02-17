@@ -2,7 +2,7 @@
 import { MetaFunction } from "@remix-run/node";
 // INTERNAL
 import PageContainer from "~/components/PageContainer/PageContainer";
-import PodcastOverview from "~/components/Podcast Overview/Podcast Overview";
+import PodcastOverview from "~/components/PodcastOverview/PodcastOverview";
 import CommunityOverview from "~/components/CommunityOverview/CommunityOverview";
 // STYLES
 import styles from "./styles/Home.module.css";

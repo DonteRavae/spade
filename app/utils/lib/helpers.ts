@@ -1,6 +1,6 @@
 // INTERNAL
-import * as podcastHandlers from "./podcast/handlers.server";
-import * as communityHandlers from "./community/handlers.server";
+import * as podcastHandlers from "../db/podcast/handlers.server";
+import * as communityHandlers from "../db/community/handlers.server";
 
 export const EMAIL_VALIDATION = /^(\w+@[a-zA-Z_]+?\.[a-zA-Z.]{2,6})$/;
 export const PWD_VALIDATION =

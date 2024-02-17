@@ -9,7 +9,7 @@ import Icons from "../Icons";
 import Modal, { ModalRef } from "../Modal/Modal";
 import { useApp } from "~/providers/AppProvider";
 import UserAvatar from "../UserAvatar/UserAvatar";
-import { findTimeSinceCreated } from "~/utils/db/helpers";
+import { findTimeSinceCreated } from "~/utils/lib/helpers";
 import CreatePostForm from "../CreatePostForm/CreatePostForm";
 import VoteController from "../VoteController/VoteController";
 import ShareController from "../ShareController/ShareController";

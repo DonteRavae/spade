@@ -1,5 +1,5 @@
 import { requestGuest, requestTopic } from "./db.server";
-import { EMAIL_VALIDATION, URL_VALIDATION } from "../helpers";
+import { EMAIL_VALIDATION, URL_VALIDATION } from "~/utils/lib/helpers";
 
 export const createGuestRequest = async (formData: FormData) => {
   const guestName = formData.get("guestName") as string;

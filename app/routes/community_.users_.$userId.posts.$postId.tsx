@@ -9,7 +9,7 @@ import {
   json,
 } from "@remix-run/node";
 // INTERNAL
-import { parseRequests } from "~/utils/db/helpers";
+import { parseRequests } from "~/utils/lib/helpers";
 import UserAvatar from "~/components/UserAvatar/UserAvatar";
 import { UserProfile } from "~/utils/db/community/types.server";
 import CommentsTree from "~/components/CommentsTree/CommentsTree";

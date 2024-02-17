@@ -12,7 +12,7 @@ import { signInUser } from "~/utils/db/auth/auth.server";
 import { ToastStatus } from "~/components/ToastStack/ToastStack";
 import * as handlers from "~/utils/db/community/handlers.server";
 import PageContainer from "~/components/PageContainer/PageContainer";
-import { EMAIL_VALIDATION, PWD_VALIDATION } from "~/utils/db/helpers";
+import { EMAIL_VALIDATION, PWD_VALIDATION } from "~/utils/lib/helpers";
 // EXTERNAL
 import {
   GoogleAuthProvider,
