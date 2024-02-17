@@ -18,7 +18,6 @@ enum TABS {
   RECENT = "recent",
   TRENDING = "trending",
   POPULAR = "popular",
-  TOPICS = "topics",
 }
 
 export default function CommunityOverview() {
@@ -108,15 +107,6 @@ export default function CommunityOverview() {
             to="/popular"
           >
             Popular
-          </NavLink>
-          <NavLink
-            className={`${styles["forum-filter"]} ${
-              activeTab === TABS.TOPICS ? styles.active : ""
-            }`}
-            onClick={() => setActiveTab(TABS.TOPICS)}
-            to="/topics"
-          >
-            Topics
           </NavLink>
           <button
             className={`${styles["forum-filter"]}`}
