@@ -25,7 +25,7 @@
   background: #333;
   border: 1px solid #999;
   align-items: center;
-  border-radius: 10px;
+  border-radius: var(--container-radius);
 
   .comment-votes {
     grid-area: votes;
@@ -60,7 +60,7 @@
     hr {
       height: 3px;
       width: 3px;
-      border-radius: 50%;
+      border-radius: var(--circle-radius);
       margin: 0 5px;
       background: white;
       border: none;
@@ -106,7 +106,7 @@
     min-height: 150px;
     width: 100%;
     resize: none;
-    border-radius: 10px;
+    border-radius: var(--container-radius);
     background: none;
     border: 1px solid #999;
     padding: 15px;
@@ -129,7 +129,7 @@
   .comment-submit-btn {
     height: 50px;
     width: 150px;
-    border-radius: 10px;
+    border-radius: var(--container-radius);
     border: none;
     padding: 10px;
     margin-bottom: 25px;

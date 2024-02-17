@@ -15,7 +15,7 @@
   grid-area: results;
   height: 0;
   background: white;
-  border-radius: 10px;
+  border-radius: var(--container-radius);
   margin-bottom: 5vh;
   display: none;
 }

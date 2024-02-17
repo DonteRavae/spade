@@ -3,7 +3,7 @@
   height: auto;
   max-width: 100%;
   max-height: 100%;
-  border-radius: 50%;
+  border-radius: var(--circle-radius);
   text-align: center;
   cursor: pointer;
 }

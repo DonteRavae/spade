@@ -25,7 +25,7 @@
     align-items: center;
     justify-content: center;
     border: none;
-    border-radius: 50%;
+    border-radius: var(--circle-radius);
     background: none;
 
     svg {

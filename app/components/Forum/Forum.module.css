@@ -1,7 +1,7 @@
 #forum {
   overflow: hidden;
   list-style: none;
-  border-radius: 10px;
+  border-radius: var(--container-radius);
   padding: 0;
   margin: 0;
 }
@@ -37,7 +37,7 @@
   display: grid;
   grid-template-columns: 75px 1fr;
   margin-bottom: 15px;
-  border-radius: 10px;
+  border-radius: var(--container-radius);
   color: black;
   overflow: hidden;
   background: white;

@@ -4,6 +4,8 @@
 }
 
 :root {
+  --circle-radius: 50%;
+  --container-radius: 5px;
   --primary-color: rgb(255, 0, 255);
 }
 

@@ -11,7 +11,7 @@ import podcastPlaylist from "~/utils/db/podcast/playlist.json";
 // EXTERNAL
 import { SpinnerCircular } from "spinners-react";
 // STYLES
-import styles from "./Podcast Overview.module.css";
+import styles from "./PodcastOverview.module.css";
 
 type PodcastPlaylistData = {
   title: string;
