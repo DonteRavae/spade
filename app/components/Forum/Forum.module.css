@@ -1,9 +1,10 @@
 #forum {
+  margin: 0;
+  padding: 0;
   overflow: hidden;
   list-style: none;
+  color: var(--container-text-color);
   border-radius: var(--container-radius);
-  padding: 0;
-  margin: 0;
 }
 
 #empty-forum {
@@ -16,6 +17,10 @@
     border: none;
     cursor: pointer;
     background: none;
+
+    svg path {
+      fill: var(--container-text-color);
+    }
 
     &:hover svg path {
       fill: var(--primary-color);
@@ -36,18 +41,17 @@
   height: min(150px, auto);
   display: grid;
   grid-template-columns: 75px 1fr;
-  margin-bottom: 15px;
-  border-radius: var(--container-radius);
-  color: black;
-  overflow: hidden;
-  background: white;
-  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  overflow: hidden;
+  margin-bottom: 15px;
   text-decoration: none;
+  border: var(--container-border-color);
+  border-radius: var(--container-radius);
+  background: var(--container-background-color);
 
   a {
     text-decoration: none;
-    color: black;
+    color: inherit;
   }
 
   .sidebar {
@@ -66,8 +70,8 @@
 
     &:hover {
       border: 2px solid var(--primary-color);
-      border-top-left-radius: 10px;
-      border-bottom-left-radius: 10px;
+      border-top-left-radius: var(--container-radius);
+      border-bottom-left-radius: var(--container-radius);
     }
 
     .alias {
@@ -79,10 +83,11 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
+      color: var(--container-text-color);
     }
 
     .posted {
-      color: grey;
+      color: #999;
       margin: 0;
       font-size: 15px;
     }
@@ -115,7 +120,7 @@
       line-height: 20px;
       font-size: 1.1em;
       margin: 0;
-      color: grey;
+      color: #999;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 3;
       display: -webkit-box;
@@ -140,10 +145,6 @@
         padding: 0;
       }
 
-      .vote-controller svg path {
-        fill: black;
-      }
-
       .footer-item {
         flex: 1;
         height: 100%;
@@ -157,6 +158,7 @@
           color: white;
           text-transform: uppercase;
           letter-spacing: 0.05em;
+          border-top-left-radius: var(--container-radius);
         }
 
         &.suicide {
@@ -185,7 +187,6 @@
         align-items: center;
         margin: 0;
         font-size: 15px;
-        color: black;
       }
     }
   }

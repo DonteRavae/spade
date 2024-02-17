@@ -13,11 +13,9 @@ import styles from "./FavoriteController.module.css";
 export default function FavoriteController({
   parentId,
   direction,
-  theme,
 }: {
   parentId: string;
   direction: "horizontal" | "vertical";
-  theme: "light" | "dark";
 }) {
   const submit = useSubmit();
   const { Form, formData } = useFetcher();
@@ -63,9 +61,7 @@ export default function FavoriteController({
   };
 
   return (
-    <section
-      className={`${styles["favorite-controller"]} ${styles[`${theme}`]}`}
-    >
+    <section className={styles["favorite-controller"]}>
       <Form method="post" onSubmit={handleSubmission}>
         <button
           name="favorite"

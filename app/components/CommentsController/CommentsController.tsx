@@ -8,18 +8,14 @@ import styles from "./CommentsController.module.css";
 export default function CommentsController({
   commentsCount,
   direction,
-  theme,
   destination,
 }: {
   commentsCount: number;
   direction: "horizontal" | "vertical";
-  theme: "light" | "dark";
   destination: string;
 }) {
   return (
-    <section
-      className={`${styles["comments-controller"]} ${styles[`${theme}`]}`}
-    >
+    <section className={styles["comments-controller"]}>
       <Link to={destination} className={styles[`${direction}`]}>
         <Icons type="comment" />
         <span>{commentsCount}</span>

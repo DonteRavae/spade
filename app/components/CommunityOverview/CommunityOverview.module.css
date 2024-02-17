@@ -4,24 +4,25 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+  color: var(--container-text-color);
 
   .section-title {
     margin: 0;
   }
 
   #community-overview-actions {
-    box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.1);
-    border-radius: var(--container-radius);
-    overflow: hidden;
-    background: white;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--container-background-color);
+    border: var(--container-border-color);
+    border-radius: var(--container-radius);
 
     .actions-divider {
-      width: calc(100% - 20px);
+      width: 100%;
       margin: 0;
-      border: 1px solid #dfdfdf;
+      border: var(--container-border-color);
     }
 
     #create-post-with-image-btn {
@@ -52,11 +53,11 @@
       border: none;
       border-bottom: 2px solid transparent;
       cursor: pointer;
-      background: white;
+      background: var(--container-background-color);
       padding: 10px 0;
       text-align: center;
       text-decoration: none;
-      color: black;
+      color: inherit;
 
       &:hover,
       &.active {
@@ -71,7 +72,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background: white;
+    background: var(--container-background-color);
     padding: 10px;
 
     .create-post-selector {
@@ -80,14 +81,15 @@
       width: 100%;
       padding-left: 10px;
       border-radius: var(--container-radius);
-      background: #dfdfdf;
+      background: white;
 
       p {
-        color: #777;
+        color: #555;
+        margin: 12px 0;
       }
 
       &:hover {
-        background: #bdbdbd;
+        background: #eee;
         cursor: pointer;
       }
     }

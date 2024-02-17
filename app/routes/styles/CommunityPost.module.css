@@ -1,6 +1,7 @@
 #community-post-page {
   padding: 75px calc(5vw + 400px) 0;
   position: relative;
+  color: var(--container-text-color);
 }
 
 #post {
@@ -22,14 +23,13 @@
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  color: white;
 
   .metadata-section {
     display: flex;
     flex-direction: column;
     align-items: center;
     font-size: 14px;
-    color: white;
+    color: inherit;
     gap: 5px;
 
     p {
@@ -42,7 +42,7 @@
       transition: 300ms ease all;
 
       path {
-        fill: white;
+        fill: var(--container-text-color);
       }
     }
 
@@ -79,11 +79,9 @@
 #post-title {
   font-size: 28px;
   margin: 0;
-  color: white;
 }
 
 .content {
-  color: white;
   margin: 0;
   line-height: 30px;
 }

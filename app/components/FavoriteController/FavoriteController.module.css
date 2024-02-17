@@ -3,26 +3,6 @@
   height: 100%;
   width: 100%;
 
-  &.light {
-    button {
-      color: black;
-    }
-
-    svg path {
-      fill: black;
-    }
-  }
-
-  &.dark {
-    button {
-      color: white;
-    }
-
-    svg path {
-      fill: white;
-    }
-  }
-
   form {
     height: 100%;
     width: 100%;
@@ -35,7 +15,7 @@
       align-items: center;
       background: none;
       border: none;
-      color: white;
+      color: var(--container-text-color);
       gap: 5px;
       cursor: pointer;
 
@@ -44,7 +24,7 @@
         width: 22px;
 
         path {
-          fill: white;
+          fill: var(--container-text-color);
         }
       }
 

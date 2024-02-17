@@ -6,6 +6,9 @@
 :root {
   --circle-radius: 50%;
   --container-radius: 5px;
+  --container-text-color: white;
+  --container-background-color: #333;
+  --container-border-color: 1px solid #999;
   --primary-color: rgb(255, 0, 255);
 }
 

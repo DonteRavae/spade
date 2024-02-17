@@ -9,6 +9,10 @@
   svg {
     height: 18px;
     width: 18px;
+
+    path {
+      fill: var(--container-text-color);
+    }
   }
 
   a {
@@ -16,7 +20,7 @@
     align-items: center;
     justify-content: center;
     font-size: 14px;
-    color: white;
+    color: var(--container-text-color);
     gap: 5px;
     text-decoration: none;
     background: none;
@@ -33,33 +37,9 @@
     &:hover {
       cursor: pointer;
 
-      svg {
-        transform: scale(1.1);
-
-        path {
-          fill: var(--primary-color);
-        }
+      svg path {
+        fill: var(--primary-color);
       }
-    }
-  }
-
-  &.light {
-    a {
-      color: black;
-    }
-
-    svg path {
-      fill: black;
-    }
-  }
-
-  &.dark {
-    a {
-      color: white;
-    }
-
-    svg path {
-      fill: white;
     }
   }
 }

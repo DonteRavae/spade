@@ -66,19 +66,16 @@ const ForumPostCard = ({ post }: { post: ForumPost }) => {
             votesTotal={votes}
             parentId={id}
             direction="horizontal"
-            theme="light"
           />
           <CommentsController
             commentsCount={commentsCount}
             direction="horizontal"
-            theme="light"
             destination={`/community/users/${username}/posts/${id}#comments`}
           />
-          <ShareController direction="horizontal" theme="light" />
+          <ShareController direction="horizontal" />
           <FavoriteController
             parentId={id}
             direction="horizontal"
-            theme="light"
           />
           <Link
             to={`/community/${category}`}

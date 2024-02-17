@@ -3,12 +3,6 @@
   display: grid;
   grid-template-columns: 25vw 1fr 25vw;
   gap: 25px;
-
-  .section-title {
-    height: 28px;
-    color: black;
-    margin: 0;
-  }
 }
 
 #search-results {

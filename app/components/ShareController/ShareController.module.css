@@ -38,13 +38,9 @@
   svg {
     height: 22px;
     width: 22px;
-  }
 
-  &.light svg path {
-    fill: black;
-  }
-
-  &.dark svg path {
-    fill: white;
+    path {
+      fill: var(--container-text-color);
+    }
   }
 }

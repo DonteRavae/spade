@@ -85,7 +85,6 @@ const Comment = ({
 }) => (
   <article className={styles.comment}>
     <VoteController
-      theme="dark"
       votesTotal={commentVoteCount}
       parentId={commentId}
       direction="vertical"

@@ -14,10 +14,8 @@ export default function VoteController({
   votesTotal,
   parentId,
   direction,
-  theme,
   className,
 }: {
-  theme: "light" | "dark";
   votesTotal: number;
   parentId: string;
   direction: "horizontal" | "vertical";
@@ -101,8 +99,8 @@ export default function VoteController({
 
   return (
     <section
-      className={`${styles["vote-controller"]} ${styles[`${direction}`]} ${
-        styles[`${theme}`]
+      className={`${styles["vote-controller"]} ${
+        styles[`${direction}`]
       } ${className}`}
     >
       <Form className={styles["vote-form"]} method="post">
