@@ -1,4 +1,4 @@
-import Forum from "~/components/Forum/Forum";
+import Forum from "~/containers/Forum/Forum";
 
 export default function Popular() {
   return <Forum posts={[]} />;

@@ -21,11 +21,11 @@ import {
 } from "@remix-run/react";
 // INTERNAL
 import NavBar from "./components/NavBar/NavBar";
-import { parseRequests } from "./utils/lib/helpers";
 import Searchbar from "./components/Searchbar/Searchbar";
+import { parseRequests } from "./utils/handlers/index.server";
 import AppProvider, { AppContextState } from "./providers/AppProvider";
-import * as communityHandlers from "./utils/db/community/handlers.server";
-import AccountDropdown from "./components/AccountDropdown/AccountDropdown";
+import * as communityHandlers from "./utils/handlers/community.server";
+import AccountDropdown from "./containers/AccountDropdown/AccountDropdown";
 import ToastStack, {
   ToastData,
   ToastStatus,

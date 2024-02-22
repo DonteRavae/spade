@@ -12,11 +12,13 @@ export default function ShareController({
   shareTo,
   urlToShare,
   redirectTo,
+  noText,
 }: {
   direction: "horizontal" | "vertical";
   urlToShare?: string;
   redirectTo?: string;
   shareTo?: "facebook" | "twitter" | "instagram";
+  noText?: boolean;
 }) {
   const facebookShareUrl = encodeURI(
     `https://www.facebook.com/dialog/share?app_id=${FACEBOOK_APP_ID}&display=page&href=https://spadementalhealth.com/${urlToShare}&redirect_uri=https://spadementalheath.com/${redirectTo}`
@@ -28,7 +30,7 @@ export default function ShareController({
         className={styles[`${direction}`]}
       >
         <Icons type="share" />
-        <p>Share</p>
+        {!noText && <p>Share</p>}
       </Link>
     </section>
   );

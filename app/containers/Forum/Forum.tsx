@@ -5,17 +5,17 @@ import { useRef } from "react";
 // REMIX
 import { Link, useNavigation } from "@remix-run/react";
 // INTERNAL
-import Icons from "../Icons";
-import Modal, { ModalRef } from "../Modal/Modal";
+import Icons from "../../components/Icons";
 import { useApp } from "~/providers/AppProvider";
-import UserAvatar from "../UserAvatar/UserAvatar";
 import { findTimeSinceCreated } from "~/utils/lib/helpers";
-import CreatePostForm from "../CreatePostForm/CreatePostForm";
-import VoteController from "../VoteController/VoteController";
-import ShareController from "../ShareController/ShareController";
-import CommentsController from "../CommentsController/CommentsController";
-import FavoriteController from "../FavoriteController/FavoriteController";
-import { ForumPost, UserProfile } from "~/utils/db/community/types.server";
+import Modal, { ModalRef } from "../../components/Modal/Modal";
+import UserAvatar from "../../components/UserAvatar/UserAvatar";
+import { ForumPost, UserProfile } from "~/utils/lib/types.server";
+import CreatePostForm from "../../components/CreatePostForm/CreatePostForm";
+import VoteController from "../../components/VoteController/VoteController";
+import ShareController from "../../components/ShareController/ShareController";
+import CommentsController from "../../components/CommentsController/CommentsController";
+import FavoriteController from "../../components/FavoriteController/FavoriteController";
 // STYLES
 import styles from "./Forum.module.css";
 
@@ -47,7 +47,7 @@ const ForumPostCard = ({ post }: { post: ForumPost }) => {
 
       <div className={styles["content-container"]}>
         <Link
-          className={styles.postContent}
+          className={styles["post-content"]}
           to={`/community/users/${username}/posts/${id}`}
         >
           <h1 className={styles.title}>{title}</h1>

@@ -1,17 +1,17 @@
 // INTERNAL
-import { DatabaseInsertionResponse } from "../helpers";
 import pool from "../mysql.config";
 import {
-  ForumComment,
-  ForumPost,
   ICommunityProfile,
-  IFavorite,
-  IForumComment,
+  ForumPost,
   IPost,
+  IForumComment,
+  ForumComment,
   IVote,
   Vote,
   VoteUpdate,
-} from "./types.server";
+  IFavorite,
+} from "~/utils/lib/types.server";
+import { DatabaseInsertionResponse } from "~/utils/lib/helpers";
 
 // DATABASE STATEMENTS
 

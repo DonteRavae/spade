@@ -56,16 +56,16 @@
       background: var(--container-background-color);
       cursor: pointer;
 
-      &:hover {
-        background: black;
-      }
-
-      &.playing {
-        background: black;
+      &:hover, &.playing {
+        background: white;
+        color: black;
 
         .content-container {
           animation: scrollPlaylistItem 15s linear infinite alternate;
-          color: var(--container-text-color);
+
+          span {
+            background: black;
+          }
         }
       }
 
@@ -91,16 +91,6 @@
           min-width: 3px;
           background: var(--container-text-color);
           border-radius: var(--circle-radius);
-        }
-
-        &:hover,
-        &.playing {
-          background: black;
-          animation: scrollPlaylistItem 15s linear infinite alternate;
-
-          p {
-            color: var(--container-text-color);
-          }
         }
       }
       &:last-child {

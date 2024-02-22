@@ -6,15 +6,17 @@ import { useFetcher, useSubmit } from "@remix-run/react";
 import Icons from "../Icons";
 import { useApp } from "~/providers/AppProvider";
 import { ToastStatus } from "../ToastStack/ToastStack";
-import { Favorite } from "~/utils/db/community/types.server";
+import { Favorite } from "~/utils/lib/types.server";
 // STYLES
 import styles from "./FavoriteController.module.css";
 
 export default function FavoriteController({
   parentId,
   direction,
+  noText,
 }: {
   parentId: string;
+  noText?: boolean;
   direction: "horizontal" | "vertical";
 }) {
   const submit = useSubmit();
@@ -70,7 +72,7 @@ export default function FavoriteController({
           className={`${styles[`${direction}`]}`}
         >
           <Icons type={favorite ? "full-heart" : "empty-heart"} />
-          Favorite
+          {!noText && "Favorite"}
         </button>
       </Form>
     </section>

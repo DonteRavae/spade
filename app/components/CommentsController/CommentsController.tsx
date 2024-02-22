@@ -9,18 +9,21 @@ export default function CommentsController({
   commentsCount,
   direction,
   destination,
+  noText,
 }: {
   commentsCount: number;
   direction: "horizontal" | "vertical";
   destination: string;
+  noText?: boolean;
 }) {
   return (
-    <section className={styles["comments-controller"]}>
-      <Link to={destination} className={styles[`${direction}`]}>
-        <Icons type="comment" />
-        <span>{commentsCount}</span>
-        <span>{`Comment${commentsCount !== 1 ? "s" : ""}`}</span>
-      </Link>
-    </section>
+    <Link
+      to={destination}
+      className={`${styles[direction]} ${styles["comments-controller"]}`}
+    >
+      <Icons type="comment" />
+      <span>{commentsCount}</span>
+      {!noText && <span>{`Comment${commentsCount !== 1 ? "s" : ""}`}</span>}
+    </Link>
   );
 }

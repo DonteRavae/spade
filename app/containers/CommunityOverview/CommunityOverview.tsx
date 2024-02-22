@@ -5,12 +5,12 @@ import { useEffect, useRef, useState } from "react";
 // REMIX
 import { NavLink, Outlet, useLocation, useNavigation } from "@remix-run/react";
 // INTERNAL
-import Icons from "../Icons";
+import Icons from "../../components/Icons";
 import { useApp } from "~/providers/AppProvider";
-import Modal, { ModalRef } from "../Modal/Modal";
-import UserAvatar from "../UserAvatar/UserAvatar";
-import HeroSlider from "../HeroSlider/HeroSlider";
-import CreatePostForm from "../CreatePostForm/CreatePostForm";
+import Modal, { ModalRef } from "../../components/Modal/Modal";
+import UserAvatar from "../../components/UserAvatar/UserAvatar";
+import HeroSlider from "../../components/HeroSlider/HeroSlider";
+import CreatePostForm from "../../components/CreatePostForm/CreatePostForm";
 // STYLES
 import styles from "./CommunityOverview.module.css";
 

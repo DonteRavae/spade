@@ -2,6 +2,7 @@
   flex: 1;
   height: 100%;
   width: 100%;
+  position: relative;
 
   form {
     height: 100%;
@@ -17,25 +18,23 @@
       border: none;
       color: var(--container-text-color);
       gap: 5px;
-      cursor: pointer;
 
       svg {
         height: 22px;
         width: 22px;
+        cursor: pointer;
 
         path {
           fill: var(--container-text-color);
+        }
+
+        &:hover path {
+          fill: var(--primary-color);
         }
       }
 
       &.vertical {
         flex-direction: column;
-      }
-
-      &:hover {
-        svg path {
-          fill: var(--primary-color);
-        }
       }
     }
   }

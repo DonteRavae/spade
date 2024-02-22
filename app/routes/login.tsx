@@ -14,7 +14,7 @@ import Icons from "~/components/Icons";
 import auth from "~/utils/db/auth/config";
 import FormInput from "~/components/FormInput/FormInput";
 import { signInUser } from "~/utils/db/auth/auth.server";
-import PageContainer from "~/components/PageContainer/PageContainer";
+import PageContainer from "~/containers/PageContainer/PageContainer";
 // EXTERNAL
 import { SpinnerCircular } from "spinners-react";
 // STYLES

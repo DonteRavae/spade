@@ -15,7 +15,6 @@
     align-items: center;
     flex-direction: column;
     overflow: hidden;
-    background: var(--container-background-color);
     border: var(--container-border-color);
     border-radius: var(--container-radius);
 
@@ -47,17 +46,18 @@
     display: flex;
     overflow: hidden;
     margin: 0;
-
+    background: var(--container-background-color);
+    
     .forum-filter {
       flex: 1;
       border: none;
       border-bottom: 2px solid transparent;
       cursor: pointer;
-      background: var(--container-background-color);
       padding: 10px 0;
       text-align: center;
       text-decoration: none;
       color: inherit;
+      background: none;
 
       &:hover,
       &.active {

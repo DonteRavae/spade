@@ -1,15 +1,15 @@
 // REMIX
 import { redirect } from "@remix-run/node";
 // INTERNAL
-import * as db from "./db.server";
+import * as db from "../db/community/db.server";
 import {
   Favorite,
   ForumComment,
   ForumPost,
   UserProfile,
   Vote,
-} from "./types.server";
-import { ValidSessionResponse, isSessionValid } from "../auth/auth.server";
+} from "../lib/types.server";
+import { ValidSessionResponse, isSessionValid } from "../db/auth/auth.server";
 // EXTERNAL
 import { ulid } from "ulid";
 

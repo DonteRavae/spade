@@ -97,11 +97,11 @@
     height: 100%;
     position: relative;
 
-    .postContent {
+    .post-content {
       height: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      text-align: left;
       padding: 5px 10px 40px;
       gap: 5px;
     }

@@ -9,13 +9,13 @@ import {
   json,
 } from "@remix-run/node";
 // INTERNAL
-import { parseRequests } from "~/utils/lib/helpers";
+import { UserProfile } from "~/utils/lib/types.server";
 import UserAvatar from "~/components/UserAvatar/UserAvatar";
-import { UserProfile } from "~/utils/db/community/types.server";
-import CommentsTree from "~/components/CommentsTree/CommentsTree";
-import PageContainer from "~/components/PageContainer/PageContainer";
+import { parseRequests } from "~/utils/handlers/index.server";
+import CommentsTree from "~/containers/CommentsTree/CommentsTree";
+import PageContainer from "~/containers/PageContainer/PageContainer";
 import VoteController from "~/components/VoteController/VoteController";
-import * as communityHandlers from "~/utils/db/community/handlers.server";
+import * as communityHandlers from "~/utils/handlers/community.server";
 import ShareController from "~/components/ShareController/ShareController";
 import FavoriteController from "~/components/FavoriteController/FavoriteController";
 import CommentsController from "~/components/CommentsController/CommentsController";
@@ -90,25 +90,22 @@ export default function CommunityPostPage() {
       <aside id={styles["post-metadata"]}>
         <UserAvatar avatarUrl={avatarUrl} avatarAlt={username} />
         <VoteController
-          theme="dark"
           parentId={id}
           votesTotal={Number(votes)}
           direction="vertical"
         />
         <CommentsController
-          theme="dark"
           direction="vertical"
           commentsCount={commentsCount}
           destination={`${pathname}#comments`}
         />
         <ShareController
           direction="vertical"
-          theme="dark"
           shareTo="facebook"
           urlToShare={pathname}
           redirectTo={pathname}
         />
-        <FavoriteController parentId={id} direction="vertical" theme="dark" />
+        <FavoriteController parentId={id} direction="vertical" />
       </aside>
       <section id={styles.post}>
         <p id={styles["post-timestamp"]}>

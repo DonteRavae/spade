@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useContext, useMemo } from "react";
+import { Vote, Favorite, UserProfile } from "~/utils/lib/types.server";
 import { ToastData, ToastStatus } from "~/components/ToastStack/ToastStack";
-import { Favorite, UserProfile, Vote } from "~/utils/db/community/types.server";
 
 export type AppContextState = {
   stack: ToastData[];

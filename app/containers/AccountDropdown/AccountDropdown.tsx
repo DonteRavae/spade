@@ -4,8 +4,8 @@ import { useState } from "react";
 import { Form } from "@remix-run/react";
 import auth from "~/utils/db/auth/config";
 // INTERNAL
-import Icons from "../Icons";
-import UserAvatar from "../UserAvatar/UserAvatar";
+import Icons from "../../components/Icons";
+import UserAvatar from "../../components/UserAvatar/UserAvatar";
 // EXTERNAL
 import { signOut } from "firebase/auth";
 // STYLES

@@ -3,14 +3,15 @@ import { useEffect, useRef } from "react";
 // REMIX
 import { useFetcher } from "@remix-run/react";
 // INTERNAL
-import Icons from "../Icons";
+import Icons from "../../components/Icons";
 import { useApp } from "~/providers/AppProvider";
-import UserAvatar from "../UserAvatar/UserAvatar";
-import { ToastStatus } from "../ToastStack/ToastStack";
 import { findTimeSinceCreated } from "~/utils/lib/helpers";
-import VoteController from "../VoteController/VoteController";
+import UserAvatar from "../../components/UserAvatar/UserAvatar";
+import { ToastStatus } from "../../components/ToastStack/ToastStack";
+import { ForumComment, UserProfile } from "~/utils/lib/types.server";
+import VoteController from "../../components/VoteController/VoteController";
 import { action } from "~/routes/community_.users_.$userId.posts.$postId";
-import { ForumComment, UserProfile } from "~/utils/db/community/types.server";
+
 // EXTERNAL
 import { SpinnerCircular } from "spinners-react";
 // STYLES

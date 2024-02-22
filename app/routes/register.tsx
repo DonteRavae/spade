@@ -9,9 +9,9 @@ import auth from "../utils/db/auth/config";
 import { useApp } from "~/providers/AppProvider";
 import FormInput from "~/components/FormInput/FormInput";
 import { signInUser } from "~/utils/db/auth/auth.server";
+import * as handlers from "~/utils/handlers/community.server";
 import { ToastStatus } from "~/components/ToastStack/ToastStack";
-import * as handlers from "~/utils/db/community/handlers.server";
-import PageContainer from "~/components/PageContainer/PageContainer";
+import PageContainer from "~/containers/PageContainer/PageContainer";
 import { EMAIL_VALIDATION, PWD_VALIDATION } from "~/utils/lib/helpers";
 // EXTERNAL
 import {

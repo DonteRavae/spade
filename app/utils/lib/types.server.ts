@@ -59,6 +59,40 @@ export type Favorite = {
   userId: string;
 };
 
+export type RequestSubmissionResponse = {
+  success: boolean;
+};
+
+export type DatabaseInsertionResponse = {
+  action: string;
+  success: boolean;
+  message?: string;
+};
+
+export type PodcastData = {
+  id: number;
+  title: string;
+  audio_url: string;
+  artwork_url: string;
+  description: string;
+  summary: string;
+  artist: string;
+  tags: string;
+  published_at: string;
+  duration: number;
+  hq: boolean;
+  magic_mastering: boolean;
+  guid: string;
+  inactive_at: null;
+  custom_url: string;
+  episode_number: number;
+  season_number: number;
+  episode_type: string;
+  explicit: boolean;
+  private: boolean;
+  total_plays: number;
+};
+
 // DATABASE INTERFACES
 
 export interface ICommunityProfile extends RowDataPacket {

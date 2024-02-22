@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import { useFetcher } from "@remix-run/react";
 // INTERNAL
 import Icons from "../Icons";
+import { Vote } from "~/utils/lib/types.server";
 import { useApp } from "~/providers/AppProvider";
 import { ToastStatus } from "../ToastStack/ToastStack";
-import { Vote } from "~/utils/db/community/types.server";
 // STYLES
 import styles from "./VoteController.module.css";
 

@@ -1,5 +1,38 @@
-import { requestGuest, requestTopic } from "./db.server";
+import { requestGuest, requestTopic } from "../db/podcast/db.server";
 import { EMAIL_VALIDATION, URL_VALIDATION } from "~/utils/lib/helpers";
+import { PodcastData } from "../lib/types.server";
+
+/* ---------- PODCAST IDENTIFICATION ---------- */
+const PODCAST_API_KEY = process.env.BUZZSPROUT_API_KEY;
+const PODCAST_ID = 1203632;
+/* ---------- CACHED PODCAST DATA ---------- */
+let podcastCatalog: PodcastData[] = [];
+let lastModified = "";
+let lastEtag = "";
+
+export const getAllPodcasts = async () => {
+  console.log(lastModified, lastEtag);
+  return await fetch(
+    `https://www.buzzsprout.com/api/${PODCAST_ID}/episodes.json`,
+    {
+      headers: {
+        Authorization: `Token token=${PODCAST_API_KEY}`,
+        "If-None-Match": lastEtag,
+        "If-Modified-Since": lastModified,
+      },
+    }
+  ).then(async (res) => {
+    lastModified = res.headers.get("last-modified") || "";
+    lastEtag = res.headers.get("etag") || "";
+
+    if (res.status === 304) {
+      return podcastCatalog;
+    }
+
+    podcastCatalog = await res.json();
+    return podcastCatalog;
+  });
+};
 
 export const createGuestRequest = async (formData: FormData) => {
   const guestName = formData.get("guestName") as string;

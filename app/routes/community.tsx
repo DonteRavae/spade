@@ -1,7 +1,7 @@
 // REMIX
 import type { MetaFunction } from "@remix-run/node";
 // INTERNAL
-import PageContainer from "~/components/PageContainer/PageContainer";
+import PageContainer from "~/containers/PageContainer/PageContainer";
 // STYLES
 import styles from "./styles/Community.module.css";
 

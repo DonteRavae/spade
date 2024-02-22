@@ -2,9 +2,9 @@
 import { ActionFunctionArgs } from "@remix-run/node";
 import { json, useLoaderData } from "@remix-run/react";
 // INTERNAL
-import Forum from "~/components/Forum/Forum";
-import { parseRequests } from "~/utils/lib/helpers";
-import * as handlers from "~/utils/db/community/handlers.server";
+import Forum from "~/containers/Forum/Forum";
+import * as handlers from "~/utils/handlers/community.server";
+import { parseRequests } from "~/utils/handlers/index.server";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   return await parseRequests(request);
