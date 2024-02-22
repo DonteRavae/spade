@@ -1,0 +1,106 @@
+#podcast-page-layout {
+  display: grid;
+  grid-template-columns: 25vw 1fr;
+  gap: 50px;
+  color: var(--container-text-color);
+
+  nav {
+    width: 100%;
+    height: calc(100vh - 110px);
+    align-items: start;
+    align-self: start;
+    position: sticky;
+    overflow: hidden;
+    top: 85px;
+    border-radius: var(--container-radius);
+    background: var(--container-background-color);
+
+    .filters {
+      display: flex;
+      padding: 10px;
+      justify-content: space-between;
+      border-bottom: var(--container-border-color);
+    }
+
+    menu {
+      height: calc(100% - 45px);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      overflow-y: auto;
+    }
+  }
+}
+
+.podcast-episode-list-item {
+  width: 100%;
+  padding: 10px;
+  cursor: pointer;
+  position: relative;
+  border-bottom: 1px solid var(--primary-color);
+  position: relative;
+  width: 100%;
+  text-decoration: none;
+  color: var(--container-text-color);
+  display: grid;
+  gap: 10px;
+  align-items: center;
+  grid-template-columns: 100px repeat(3, 1fr);
+  grid-template-rows: 95px 30px;
+  grid-template-areas:
+    "artwork info info info"
+    "date duration controllers controllers";
+
+  p {
+    margin: 0;
+  }
+
+  img {
+    grid-area: artwork;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: var(--container-radius);
+  }
+
+  .episode-title-and-host {
+    width: 100%;
+    grid-area: info;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-self: flex-start;
+
+    .episode-title {
+      width: 100%;
+    }
+
+    .episode-host {
+      color: var(--container-text-color-50);
+    }
+  }
+
+  .episode-release-date {
+    grid-area: date;
+    text-align: center;
+  }
+
+  .episode-duration {
+    grid-area: duration;
+    text-align: center;
+  }
+
+  .controllers {
+    grid-area: controllers;
+    display: flex;
+    height: 100%;
+    width: 100%;
+  }
+  .episode-link {
+    position: absolute;
+    inset: 0;
+  }
+  &:hover {
+    background: var(--container-background-color);
+  }
+}
