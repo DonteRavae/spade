@@ -1,6 +1,13 @@
+import { useCallback, useEffect, useRef, useState } from "react";
 // REMIX
 import { LoaderFunctionArgs } from "@remix-run/node";
-import { Link, Outlet, json, useLoaderData } from "@remix-run/react";
+import {
+  Link,
+  Outlet,
+  json,
+  useLoaderData,
+  useLocation,
+} from "@remix-run/react";
 // INTERNAL
 import {
   convertEpisodeDurationToReadable,
@@ -9,19 +16,25 @@ import {
 } from "~/utils/lib/helpers";
 import { getAllPodcasts } from "~/utils/handlers/podcast.server";
 import PageContainer from "~/containers/PageContainer/PageContainer";
+import Dropdown, { DropdownRef } from "~/components/Dropdown/Dropdown";
 import ShareController from "~/components/ShareController/ShareController";
 import FavoriteController from "~/components/FavoriteController/FavoriteController";
 // STYLES
 import styles from "./styles/PodcastLayout.module.css";
+import { SortBy } from "~/utils/lib/types.client";
+
+/**
+ * Until the Buzzsprout gives me a better way to check the current season,
+ * the number of seasons available will be hardcoded.
+ */
+const NUMBER_OF_SEASONS = 5;
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   let catalog = await getAllPodcasts();
-
   const url = new URL(request.url);
   const season = url.searchParams.get("season");
 
   if (season) {
-    // Get episodes from season
     catalog = filterPodcastCatalogBySeason(catalog, Number(season));
   }
 
@@ -71,28 +84,62 @@ const PodcastEpisodeListItem = ({
 );
 
 export default function PodcastPagesLayout() {
+  const { pathname } = useLocation();
+  const sortRef = useRef<DropdownRef>(null);
   const { catalog } = useLoaderData<typeof loader>();
+  const [sortBy, setSortBy] = useState<string>(SortBy.Latest);
+  const [filterBy, setFilterBy] = useState<string>(
+    `Season ${NUMBER_OF_SEASONS}`
+  );
+
+  const handleSort = useCallback(
+    (sortBy: string) => {
+      if (sortBy === SortBy.Latest) {
+        catalog.sort(
+          (a, b) => Date.parse(b.published_at) - Date.parse(a.published_at)
+        );
+        setSortBy(SortBy.Latest);
+      } else if (sortBy === SortBy.Oldest) {
+        catalog.sort(
+          (a, b) => Date.parse(a.published_at) - Date.parse(b.published_at)
+        );
+        setSortBy(SortBy.Oldest);
+      }
+
+      sortRef.current?.closeMenu();
+    },
+    [catalog]
+  );
+
+  useEffect(() => {
+    // Sorts calalog when a filter changes causes route change
+    handleSort(sortBy);
+  }, [handleSort, sortBy]);
+
   return (
     <PageContainer id={styles["podcast-page-layout"]}>
       <nav>
         <div className={styles.filters}>
-          <select name="seasonFilter" id="seasonFilter">
-            <option disabled>Filter By</option>
-            <option value={1}>Season 1</option>
-            <option value={2}>Season 2</option>
-            <option value={3}>Season 3</option>
-            <option value={4}>Season 4</option>
-            <option value={5}>Season 5</option>
-          </select>
-          <select name="episodeFilter" id="episodeFilter">
-            <option disabled>Sort By</option>
-            <option>Latest to Oldest</option>
-            <option>Oldest to Latest</option>
-            <option>Duration</option>
-          </select>
+          <Dropdown selected={filterBy}>
+            {Array.from({ length: NUMBER_OF_SEASONS }, (_, i) => (
+              <li key={i + 1} className={styles["dropdown-option"]}>
+                <Link
+                  onClick={() => setFilterBy(`Season ${i + 1}`)}
+                  to={`${pathname}?season=${i + 1}`}
+                >{`Season ${i + 1}`}</Link>
+              </li>
+            ))}
+          </Dropdown>
+          <Dropdown selected={sortBy} ref={sortRef}>
+            {Object.entries(SortBy).map(([sort, sortBy]) => (
+              <li key={sort} className={styles["dropdown-option"]}>
+                <button onClick={() => handleSort(sortBy)}>{sortBy}</button>
+              </li>
+            ))}
+          </Dropdown>
         </div>
 
-        <menu>
+        <menu className={styles["catalog-menu"]}>
           {catalog.map((ep) => (
             <PodcastEpisodeListItem
               key={ep.id}
