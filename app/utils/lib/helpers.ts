@@ -36,5 +36,5 @@ export const filterPodcastCatalogBySeason = (
   catalog: PodcastData[],
   season: number
 ): PodcastData[] => {
-  return catalog.filter((ep) => ep.season_number === season && !ep.private);
+  return catalog.filter((ep) => ep.season_number === season);
 };

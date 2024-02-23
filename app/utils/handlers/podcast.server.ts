@@ -29,7 +29,10 @@ export const getAllPodcasts = async () => {
       return podcastCatalog;
     }
 
-    podcastCatalog = await res.json();
+    // podcastCatalog is assigned here instead of directly returned in case future response status codes are 304
+    podcastCatalog = ((await res.json()) as PodcastData[]).filter(
+      (ep) => !ep.private
+    );
     return podcastCatalog;
   });
 };
