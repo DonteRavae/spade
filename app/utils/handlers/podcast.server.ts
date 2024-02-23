@@ -1,6 +1,6 @@
 import { requestGuest, requestTopic } from "../db/podcast/db.server";
 import { EMAIL_VALIDATION, URL_VALIDATION } from "~/utils/lib/helpers";
-import { PodcastData } from "../lib/types.server";
+import { PodcastData } from "../lib/types";
 
 /* ---------- PODCAST IDENTIFICATION ---------- */
 const PODCAST_API_KEY = process.env.BUZZSPROUT_API_KEY;
