@@ -14,6 +14,7 @@ import {
   convertEpisodeReleaseDateToLocaleString,
   filterPodcastCatalogBySeason,
 } from "~/utils/lib/helpers";
+import { SortBy } from "~/utils/lib/types";
 import { getAllPodcasts } from "~/utils/handlers/podcast.server";
 import PageContainer from "~/containers/PageContainer/PageContainer";
 import Dropdown, { DropdownRef } from "~/components/Dropdown/Dropdown";
@@ -21,7 +22,6 @@ import ShareController from "~/components/ShareController/ShareController";
 import FavoriteController from "~/components/FavoriteController/FavoriteController";
 // STYLES
 import styles from "./styles/PodcastLayout.module.css";
-import { SortBy } from "~/utils/lib/types.client";
 
 /**
  * Until the Buzzsprout gives me a better way to check the current season,

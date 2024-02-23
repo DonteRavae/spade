@@ -8,7 +8,7 @@ import {
   ForumPost,
   UserProfile,
   Vote,
-} from "../lib/types.server";
+} from "../lib/types";
 import { ValidSessionResponse, isSessionValid } from "../db/auth/auth.server";
 // EXTERNAL
 import { ulid } from "ulid";

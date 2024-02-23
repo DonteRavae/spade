@@ -3,12 +3,9 @@ import { RowDataPacket } from "mysql2";
 
 // ENUMS
 
-export enum Flair {
-  SUICIDE = "suicide",
-  PTSD = "ptsd",
-  ANXIETY = "anxiety",
-  DEPRESSION = "depression",
-  EPILEPSY = "epilepsy",
+export enum SortBy {
+  Latest = "Latest to Oldest",
+  Oldest = "Oldest to Latest",
 }
 
 // TYPES

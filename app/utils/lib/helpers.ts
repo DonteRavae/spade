@@ -1,4 +1,4 @@
-import { PodcastData } from "./types.server";
+import { PodcastData } from "./types";
 
 export const EMAIL_VALIDATION = /^(\w+@[a-zA-Z_]+?\.[a-zA-Z.]{2,6})$/;
 export const PWD_VALIDATION =
