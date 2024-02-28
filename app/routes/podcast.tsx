@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 // REMIX
 import { LoaderFunctionArgs } from "@remix-run/node";
 import {
@@ -9,6 +9,7 @@ import {
   useLocation,
 } from "@remix-run/react";
 // INTERNAL
+import useSort from "~/hooks/useSort";
 import {
   convertEpisodeDurationToReadable,
   convertEpisodeReleaseDateToLocaleString,
@@ -35,7 +36,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const season = url.searchParams.get("season");
 
   if (season) {
-    catalog = filterPodcastCatalogBySeason(catalog, Number(season));
+    catalog =
+      season !== "all"
+        ? filterPodcastCatalogBySeason(catalog, Number(season))
+        : catalog;
   }
 
   return json({ catalog });
@@ -59,7 +63,9 @@ const PodcastEpisodeListItem = ({
   <li className={styles["podcast-episode-list-item"]}>
     <Link
       className={styles["episode-link"]}
-      to={`/podcast/ep/${episodeTitle.substring(1).replace(/\s/g, "-")}`}
+      to={`/podcast/${episodeId}/${episodeTitle
+        .substring(1)
+        .replace(/\s/g, "-")}`}
     />
     <img src={episodeCoverArtUrl} alt="Episode Season Cover Art" />
     <div className={styles["episode-title-and-host"]}>
@@ -87,40 +93,22 @@ export default function PodcastPagesLayout() {
   const { pathname } = useLocation();
   const sortRef = useRef<DropdownRef>(null);
   const { catalog } = useLoaderData<typeof loader>();
-  const [sortBy, setSortBy] = useState<string>(SortBy.Latest);
-  const [filterBy, setFilterBy] = useState<string>(
-    `Season ${NUMBER_OF_SEASONS}`
-  );
-
-  const handleSort = useCallback(
-    (sortBy: string) => {
-      if (sortBy === SortBy.Latest) {
-        catalog.sort(
-          (a, b) => Date.parse(b.published_at) - Date.parse(a.published_at)
-        );
-        setSortBy(SortBy.Latest);
-      } else if (sortBy === SortBy.Oldest) {
-        catalog.sort(
-          (a, b) => Date.parse(a.published_at) - Date.parse(b.published_at)
-        );
-        setSortBy(SortBy.Oldest);
-      }
-
-      sortRef.current?.closeMenu();
-    },
-    [catalog]
-  );
-
-  useEffect(() => {
-    // Sorts calalog when a filter changes causes route change
-    handleSort(sortBy);
-  }, [handleSort, sortBy]);
+  const { sortBy, sort } = useSort(catalog, sortRef);
+  const [filterBy, setFilterBy] = useState<string>("All Seasons");
 
   return (
     <PageContainer id={styles["podcast-page-layout"]}>
       <nav>
         <div className={styles.filters}>
           <Dropdown selected={filterBy}>
+            <li className={styles["dropdown-option"]}>
+              <Link
+                to={`${pathname}?season=all`}
+                onClick={() => setFilterBy("All Seasons")}
+              >
+                All Seasons
+              </Link>
+            </li>
             {Array.from({ length: NUMBER_OF_SEASONS }, (_, i) => (
               <li key={i + 1} className={styles["dropdown-option"]}>
                 <Link
@@ -128,12 +116,12 @@ export default function PodcastPagesLayout() {
                   to={`${pathname}?season=${i + 1}`}
                 >{`Season ${i + 1}`}</Link>
               </li>
-            ))}
+            )).reverse()}
           </Dropdown>
           <Dropdown selected={sortBy} ref={sortRef}>
-            {Object.entries(SortBy).map(([sort, sortBy]) => (
-              <li key={sort} className={styles["dropdown-option"]}>
-                <button onClick={() => handleSort(sortBy)}>{sortBy}</button>
+            {Object.entries(SortBy).map(([value, sortBy]) => (
+              <li key={value} className={styles["dropdown-option"]}>
+                <button onClick={() => sort(sortBy)}>{sortBy}</button>
               </li>
             ))}
           </Dropdown>
@@ -142,7 +130,7 @@ export default function PodcastPagesLayout() {
         <menu className={styles["catalog-menu"]}>
           {catalog.map((ep) => (
             <PodcastEpisodeListItem
-              key={ep.id}
+              key={`${ep.guid}`}
               episodeId={ep.id}
               episodeTitle={`#${ep.season_number * 100 + ep.episode_number} ${
                 ep.title
