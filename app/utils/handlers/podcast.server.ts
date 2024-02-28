@@ -10,18 +10,25 @@ let podcastCatalog: PodcastData[] = [];
 let lastModified = "";
 let lastEtag = "";
 
-export const getAllPodcasts = async () => {
-  console.log(lastModified, lastEtag);
-  return await fetch(
-    `https://www.buzzsprout.com/api/${PODCAST_ID}/episodes.json`,
-    {
-      headers: {
-        Authorization: `Token token=${PODCAST_API_KEY}`,
-        "If-None-Match": lastEtag,
-        "If-Modified-Since": lastModified,
-      },
-    }
-  ).then(async (res) => {
+export const getPodcastEpisodeById = async (id: number) => {
+  if (!podcastCatalog.length) {
+    const podcasts = await getAllPodcasts();
+    const episode = podcasts.find((ep) => (ep.id === id));
+    return episode;
+  }
+
+  const episode = podcastCatalog.find((ep) => (ep.id === id));
+  return episode;
+};
+
+export const getAllPodcasts = async () =>
+  await fetch(`https://www.buzzsprout.com/api/${PODCAST_ID}/episodes.json`, {
+    headers: {
+      Authorization: `Token token=${PODCAST_API_KEY}`,
+      "If-None-Match": lastEtag,
+      "If-Modified-Since": lastModified,
+    },
+  }).then(async (res) => {
     lastModified = res.headers.get("last-modified") || "";
     lastEtag = res.headers.get("etag") || "";
 
@@ -30,12 +37,11 @@ export const getAllPodcasts = async () => {
     }
 
     // podcastCatalog is assigned here instead of directly returned in case future response status codes are 304
-    podcastCatalog = ((await res.json()) as PodcastData[]).filter(
-      (ep) => !ep.private
-    );
+    podcastCatalog = ((await res.json()) as PodcastData[])
+      .filter((ep) => !ep.private)
+      .map((pod) => ({ ...pod, createdAt: pod.published_at }));
     return podcastCatalog;
   });
-};
 
 export const createGuestRequest = async (formData: FormData) => {
   const guestName = formData.get("guestName") as string;
