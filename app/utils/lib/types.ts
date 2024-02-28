@@ -26,7 +26,7 @@ export type ForumPost = {
   votes: number;
   category: string;
   submittedBy: string | UserProfile;
-  createdAt?: string;
+  createdAt: string;
 };
 
 export type ForumComment = {
@@ -35,7 +35,7 @@ export type ForumComment = {
   votes: number;
   submittedBy: string | UserProfile;
   parentId: string;
-  createdAt?: string;
+  createdAt: string;
   lastModified?: string;
 };
 
@@ -88,6 +88,7 @@ export type PodcastData = {
   explicit: boolean;
   private: boolean;
   total_plays: number;
+  createdAt: string;
 };
 
 // DATABASE INTERFACES
