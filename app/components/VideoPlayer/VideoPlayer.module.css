@@ -1,0 +1,13 @@
+.video-player {
+    overflow: hidden;
+    position: relative;
+    padding-top: 56.25%;
+    border: var(--container-border-color);
+    border-radius: var(--container-radius);
+}
+
+.react-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
