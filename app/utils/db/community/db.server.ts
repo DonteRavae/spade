@@ -10,8 +10,8 @@ import {
   Vote,
   VoteUpdate,
   IFavorite,
-} from "~/utils/lib/types.server";
-import { DatabaseInsertionResponse } from "~/utils/lib/helpers";
+  DatabaseInsertionResponse,
+} from "~/utils/lib/types";
 
 // DATABASE STATEMENTS
 

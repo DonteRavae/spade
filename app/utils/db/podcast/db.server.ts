@@ -1,6 +1,6 @@
 // INTERNAL
 import pool from "../mysql.config";
-import { DatabaseInsertionResponse } from "~/utils/lib/types.server";
+import { DatabaseInsertionResponse } from "~/utils/lib/types";
 
 // STATEMENTS
 const CREATE_GUEST_REQUEST =
