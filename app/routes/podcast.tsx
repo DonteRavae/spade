@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 // REMIX
 import { LoaderFunctionArgs } from "@remix-run/node";
 import {
@@ -7,6 +7,7 @@ import {
   json,
   useLoaderData,
   useLocation,
+  useSearchParams,
 } from "@remix-run/react";
 // INTERNAL
 import useSort from "~/hooks/useSort";
@@ -46,6 +47,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 const PodcastEpisodeListItem = ({
+  params,
   episodeId,
   episodeTitle,
   episodeHost,
@@ -53,6 +55,7 @@ const PodcastEpisodeListItem = ({
   episodeReleaseDate,
   episodeCoverArtUrl,
 }: {
+  params: URLSearchParams;
   episodeId: number;
   episodeTitle: string;
   episodeHost: string;
@@ -63,7 +66,9 @@ const PodcastEpisodeListItem = ({
   <li className={styles["podcast-episode-list-item"]}>
     <Link
       className={styles["episode-link"]}
-      to={`/podcast/${episodeId}-${episodeTitle.replace(/\s/g, "_")}`}
+      to={`/podcast/${episodeId}-${episodeTitle.replace(/\s/g, "_")}${
+        params.get("season") && `?season=${params.get("season")}`
+      }`}
     />
     <img src={episodeCoverArtUrl} alt="Episode Season Cover Art" />
     <div className={styles["episode-title-and-host"]}>
@@ -88,11 +93,18 @@ const PodcastEpisodeListItem = ({
 );
 
 export default function PodcastPagesLayout() {
+  const [params] = useSearchParams();
   const { pathname } = useLocation();
   const sortRef = useRef<DropdownRef>(null);
   const { catalog } = useLoaderData<typeof loader>();
   const { sortBy, sort } = useSort(catalog, sortRef);
   const [filterBy, setFilterBy] = useState<string>("All Seasons");
+
+  useEffect(() => {
+    setFilterBy(
+      params.get("season") ? `Season ${params.get("season")}` : "All Seasons"
+    );
+  }, [pathname, params]);
 
   return (
     <PageContainer id={styles["podcast-page-layout"]}>
@@ -128,6 +140,7 @@ export default function PodcastPagesLayout() {
         <menu className={styles["catalog-menu"]}>
           {catalog.map((ep) => (
             <PodcastEpisodeListItem
+              params={params}
               key={`${ep.guid}`}
               episodeId={ep.id}
               episodeTitle={ep.title}
