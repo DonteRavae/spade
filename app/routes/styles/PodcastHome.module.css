@@ -19,8 +19,8 @@
       position: relative;
     }
 
-    img {
-      flex: 0 1 35%;
+    #podcast-logo {
+      width: 35%;
     }
 
     #podcast-title {
@@ -37,12 +37,6 @@
     #podcast-description {
       margin: 0;
       color: var(--container-text-color-75);
-    }
-
-    #podcast-logo {
-      height: 100%;
-      justify-self: center;
-      transform: scale(1.3);
     }
   }
 
@@ -135,6 +129,7 @@
           p {
             margin: 0;
             text-align: left;
+            font-size: 14px;
           }
 
           div {
@@ -142,6 +137,7 @@
             align-items: flex-start;
             margin-top: auto;
             gap: 5px;
+            font-size: 14px;
             svg {
               margin-top: 2px;
               height: 16px;
