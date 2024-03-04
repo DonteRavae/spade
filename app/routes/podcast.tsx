@@ -63,9 +63,7 @@ const PodcastEpisodeListItem = ({
   <li className={styles["podcast-episode-list-item"]}>
     <Link
       className={styles["episode-link"]}
-      to={`/podcast/${episodeId}/${episodeTitle
-        .substring(1)
-        .replace(/\s/g, "-")}`}
+      to={`/podcast/${episodeId}-${episodeTitle.replace(/\s/g, "_")}`}
     />
     <img src={episodeCoverArtUrl} alt="Episode Season Cover Art" />
     <div className={styles["episode-title-and-host"]}>
@@ -132,9 +130,7 @@ export default function PodcastPagesLayout() {
             <PodcastEpisodeListItem
               key={`${ep.guid}`}
               episodeId={ep.id}
-              episodeTitle={`#${ep.season_number * 100 + ep.episode_number} ${
-                ep.title
-              }`}
+              episodeTitle={ep.title}
               episodeHost={ep.artist}
               episodeDuration={ep.duration}
               episodeReleaseDate={ep.published_at}

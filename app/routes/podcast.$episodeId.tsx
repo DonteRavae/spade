@@ -28,7 +28,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   invariant(params.episodeId, "Missing episodeId param");
-  const episodeId = Number(params.episodeId);
+  const episodeId = Number(params.episodeId.split("-")[0]);
   const episode = await getPodcastEpisodeById(episodeId);
   const comments = await getCommentsByPostId(`${episodeId}`);
 
