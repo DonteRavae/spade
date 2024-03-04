@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 // REMIX
-import { LoaderFunctionArgs } from "@remix-run/node";
+import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import {
   Link,
   Outlet,
@@ -17,6 +17,7 @@ import {
   filterPodcastCatalogBySeason,
 } from "~/utils/lib/helpers";
 import { SortBy } from "~/utils/lib/types";
+import { parseRequests } from "~/utils/handlers/index.server";
 import { getAllPodcasts } from "~/utils/handlers/podcast.server";
 import PageContainer from "~/containers/PageContainer/PageContainer";
 import Dropdown, { DropdownRef } from "~/components/Dropdown/Dropdown";
@@ -30,6 +31,10 @@ import styles from "./styles/PodcastLayout.module.css";
  * the number of seasons available will be hardcoded.
  */
 const NUMBER_OF_SEASONS = 5;
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+  return await parseRequests(request);
+};
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   let catalog = await getAllPodcasts();
@@ -67,7 +72,7 @@ const PodcastEpisodeListItem = ({
     <Link
       className={styles["episode-link"]}
       to={`/podcast/${episodeId}-${episodeTitle.replace(/\s/g, "_")}${
-        params.get("season") && `?season=${params.get("season")}`
+        params.get("season") ? `?season=${params.get("season")}` : ""
       }`}
     />
     <img src={episodeCoverArtUrl} alt="Episode Season Cover Art" />
