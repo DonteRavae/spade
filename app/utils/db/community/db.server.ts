@@ -4,8 +4,8 @@ import {
   ICommunityProfile,
   ForumPost,
   IPost,
-  IForumComment,
-  ForumComment,
+  IComment,
+  Comment,
   IVote,
   Vote,
   VoteUpdate,
@@ -227,7 +227,7 @@ export const getPostById = async (postId: string) => {
 };
 
 export const getCommentsByPostId = async (postId: string) => {
-  const [results] = await pool.execute<IForumComment[]>(
+  const [results] = await pool.execute<IComment[]>(
     FETCH_COMMENTS_BY_POST_ID,
     [postId]
   );
@@ -235,7 +235,7 @@ export const getCommentsByPostId = async (postId: string) => {
 };
 
 export const createPostComment = async (
-  comment: ForumComment
+  comment: Comment
 ): Promise<DatabaseInsertionResponse> => {
   const { id, content, parentId, submittedBy } = comment;
   try {

@@ -29,7 +29,7 @@ export type ForumPost = {
   createdAt: string;
 };
 
-export type ForumComment = {
+export type Comment = {
   id: string;
   content: string;
   votes: number;
@@ -112,7 +112,7 @@ export interface IPost extends RowDataPacket {
   submittedBy: string;
 }
 
-export interface IForumComment extends RowDataPacket {
+export interface IComment extends RowDataPacket {
   id: string;
   content: string;
   votes: number;
