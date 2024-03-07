@@ -4,11 +4,11 @@ import { redirect } from "@remix-run/node";
 import * as db from "../db/community/db.server";
 import {
   Favorite,
-  ForumComment,
+  Comment,
   ForumPost,
   UserProfile,
   Vote,
-} from "../lib/types.server";
+} from "../lib/types";
 import { ValidSessionResponse, isSessionValid } from "../db/auth/auth.server";
 // EXTERNAL
 import { ulid } from "ulid";
@@ -43,7 +43,7 @@ export const getPostById = async (postId: string) => {
 };
 
 export const getCommentsByPostId = async (postId: string) => {
-  return (await db.getCommentsByPostId(postId)) as ForumComment[];
+  return (await db.getCommentsByPostId(postId)) as Comment[];
 };
 
 export const getRecentPosts = async (limit: number) => {
@@ -67,6 +67,7 @@ export const createPost = async (formData: FormData) => {
     submittedBy,
     votes: 0,
     commentsCount: 0,
+    createdAt: ""
   });
 
   return response.success
@@ -93,6 +94,7 @@ export const addComment = async (formData: FormData) => {
     parentId,
     submittedBy,
     votes: 0,
+    createdAt: ""
   });
 };
 

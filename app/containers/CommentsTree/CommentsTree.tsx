@@ -5,10 +5,10 @@ import { useFetcher } from "@remix-run/react";
 // INTERNAL
 import Icons from "../../components/Icons";
 import { useApp } from "~/providers/AppProvider";
+import { Comment, UserProfile } from "~/utils/lib/types";
 import { findTimeSinceCreated } from "~/utils/lib/helpers";
 import UserAvatar from "../../components/UserAvatar/UserAvatar";
 import { ToastStatus } from "../../components/ToastStack/ToastStack";
-import { ForumComment, UserProfile } from "~/utils/lib/types.server";
 import VoteController from "../../components/VoteController/VoteController";
 import { action } from "~/routes/community_.users_.$userId.posts.$postId";
 
@@ -18,7 +18,7 @@ import { SpinnerCircular } from "spinners-react";
 import styles from "./CommentsTree.module.css";
 
 type CommentsTreeProps = {
-  comments: ForumComment[];
+  comments: Comment[];
   postId: string;
 };
 
@@ -31,7 +31,6 @@ const CommentInputForm = ({ parentId }: { parentId: string }) => {
     state === "submitting" && formData?.get("request-type") === "add-comment";
 
   useEffect(() => {
-    console.log(data?.success, data?.message);
     if (data?.action === "add-comment" && data.success) {
       formRef.current?.reset();
       addToast(ToastStatus.Success, "Comment added.");
@@ -69,7 +68,7 @@ const EmptyCommentsMessage = () => (
   </div>
 );
 
-const Comment = ({
+const CommentItem = ({
   commentId,
   commentVoteCount,
   commentContent,
@@ -126,7 +125,7 @@ export default function CommentsTree({ comments, postId }: CommentsTreeProps) {
             const { id, votes, content, submittedBy, createdAt } = comment;
             const { username, avatarUrl } = submittedBy as UserProfile;
             return (
-              <Comment
+              <CommentItem
                 key={id}
                 commentId={id}
                 commentVoteCount={votes}

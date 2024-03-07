@@ -3,12 +3,9 @@ import { RowDataPacket } from "mysql2";
 
 // ENUMS
 
-export enum Flair {
-  SUICIDE = "suicide",
-  PTSD = "ptsd",
-  ANXIETY = "anxiety",
-  DEPRESSION = "depression",
-  EPILEPSY = "epilepsy",
+export enum SortBy {
+  Latest = "Latest to Oldest",
+  Oldest = "Oldest to Latest",
 }
 
 // TYPES
@@ -29,16 +26,16 @@ export type ForumPost = {
   votes: number;
   category: string;
   submittedBy: string | UserProfile;
-  createdAt?: string;
+  createdAt: string;
 };
 
-export type ForumComment = {
+export type Comment = {
   id: string;
   content: string;
   votes: number;
   submittedBy: string | UserProfile;
   parentId: string;
-  createdAt?: string;
+  createdAt: string;
   lastModified?: string;
 };
 
@@ -57,6 +54,12 @@ export type VoteUpdate = {
 export type Favorite = {
   parentId: string;
   userId: string;
+};
+
+export type FetchRequestResponse<T> = {
+  success: boolean;
+  message?: string;
+  payload: T[];
 };
 
 export type RequestSubmissionResponse = {
@@ -91,6 +94,23 @@ export type PodcastData = {
   explicit: boolean;
   private: boolean;
   total_plays: number;
+  createdAt: string;
+};
+
+export type PodcastEpisodeDiscussionData = {
+  id: number;
+  title: string;
+  artworkUrl: string;
+  artist: string;
+  seasonNumber: number;
+  episodeNumber: number;
+  commentsTotal: number;
+  likesTotal: number;
+  latestComment: {
+    id: string;
+    content: string;
+    lastUpdate: string;
+  };
 };
 
 // DATABASE INTERFACES
@@ -114,7 +134,7 @@ export interface IPost extends RowDataPacket {
   submittedBy: string;
 }
 
-export interface IForumComment extends RowDataPacket {
+export interface IComment extends RowDataPacket {
   id: string;
   content: string;
   votes: number;
@@ -134,4 +154,20 @@ export interface IVote extends RowDataPacket {
 export interface IFavorite extends RowDataPacket {
   parentId: string;
   userId: string;
+}
+
+export interface IPodcastEpisodeDiscussionData extends RowDataPacket {
+  id: number;
+  title: string;
+  artworkUrl: string;
+  artist: string;
+  seasonNumber: number;
+  episodeNumber: number;
+  commentsTotal: number;
+  likesTotal: number;
+  latestComment: {
+    id: string;
+    content: string;
+    lastUpdate: string;
+  };
 }
