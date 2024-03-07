@@ -1,11 +1,19 @@
 // REMIX
-import { Link } from "@remix-run/react";
+import { Link, json, useLoaderData } from "@remix-run/react";
 // INTERNAL
 import Icons from "~/components/Icons";
+import { getPodcastEpisodesWithComments } from "~/utils/handlers/podcast.server";
 // STYLES
 import styles from "./styles/PodcastHome.module.css";
+import { formatEpisodeLinkHref, formatEpisodeTitle } from "~/utils/lib/helpers";
+
+export const loader = async () => {
+  const { success, payload } = await getPodcastEpisodesWithComments();
+  return json({ discussionSample: success ? payload.slice(0, 4) : [] });
+};
 
 export default function PodcastHome() {
+  const { discussionSample } = useLoaderData<typeof loader>();
   return (
     <section id={styles["podcast-home"]}>
       <header>
@@ -35,59 +43,28 @@ export default function PodcastHome() {
         <p>Hip Hop vs. Mental Health Pt.2</p>
       </section>
       <section id={styles["discussions-overview"]}>
-        <h3>Did we missed something? Keep the conversation going.</h3>
+        <h3>Did we miss something? Keep the conversation going.</h3>
         <Link to="/podcast/discussions" id={styles["discussion-cta"]}>
           Join A Discussion
         </Link>
         <ul>
-          <li className={styles["episode-discussion-card"]}>
-            <Link to="">
-              <img
-                src="/assets/spade_logo_with_branding.jpg"
-                alt="Episode Cover Art"
-              />
-              <p>#303 - A Sample Episode Title...</p>
-              <div>
-                <Icons type="comment" /> <span>81</span>
-              </div>
-            </Link>
-          </li>
-          <li className={styles["episode-discussion-card"]}>
-            <Link to="">
-              <img
-                src="/assets/spade_logo_with_branding.jpg"
-                alt="Episode Cover Art"
-              />
-              <p>#224 - A Sample Episode Title...</p>
-              <div>
-                <Icons type="comment" /> <span>81</span>
-              </div>
-            </Link>
-          </li>
-          <li className={styles["episode-discussion-card"]}>
-            <Link to="">
-              <img
-                src="/assets/spade_logo_with_branding.jpg"
-                alt="Episode Cover Art"
-              />
-              <p>#127 - A Sample Episode Title...</p>
-              <div>
-                <Icons type="comment" /> <span>81</span>
-              </div>
-            </Link>
-          </li>
-          <li className={styles["episode-discussion-card"]}>
-            <Link to="">
-              <img
-                src="/assets/spade_logo_with_branding.jpg"
-                alt="Episode Cover Art"
-              />
-              <p>#814 - A Sample Episode Title...</p>
-              <div>
-                <Icons type="comment" /> <span>81</span>
-              </div>
-            </Link>
-          </li>
+          {discussionSample.map((ep) => (
+            <li key={ep.id} className={styles["episode-discussion-card"]}>
+              <Link to={formatEpisodeLinkHref(ep.id, ep.title, true)}>
+                <img src={ep.artworkUrl} alt="Episode Cover Art" />
+                <p>
+                  {formatEpisodeTitle(
+                    ep.seasonNumber,
+                    ep.episodeNumber,
+                    ep.title
+                  )}
+                </p>
+                <div>
+                  <Icons type="comment" /> <span>{ep.commentsTotal}</span>
+                </div>
+              </Link>
+            </li>
+          ))}
         </ul>
       </section>
       <section id={styles["host-overview"]}>

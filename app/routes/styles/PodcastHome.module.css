@@ -127,6 +127,12 @@
           }
 
           p {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            word-break: none;
+            overflow: hidden;
+            hyphens: auto;
             margin: 0;
             text-align: left;
             font-size: 14px;
