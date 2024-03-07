@@ -27,14 +27,32 @@ export const convertEpisodeDurationToReadable = (duration: number) => {
 
   return minutes >= 60 ? `${hours} hr ${minutes % 60} min` : `${minutes} min`;
 };
+
 export const convertEpisodeReleaseDateToLocaleString = (
   releaseDate: string
 ) => {
   return new Date(releaseDate).toLocaleDateString("en-US");
 };
+
 export const filterPodcastCatalogBySeason = (
   catalog: PodcastData[],
   season: number
 ): PodcastData[] => {
   return catalog.filter((ep) => ep.season_number === season);
 };
+
+export const formatEpisodeTitle = (
+  seasonNumber: number,
+  episodeNumber: number,
+  title: string
+) => `#${seasonNumber * 100 + episodeNumber} ${title}`;
+
+export const formatEpisodeLinkHref = (
+  episodeId: number,
+  episodeTitle: string,
+  withComments: boolean,
+  params?: URLSearchParams,
+) =>
+  `/podcast/${episodeId}-${episodeTitle.replace(/\s/g, "_")}${
+    withComments ? "#comments" : ""
+  }${params && params.get("season") ? `?season=${params.get("season")}` : ""}`;
