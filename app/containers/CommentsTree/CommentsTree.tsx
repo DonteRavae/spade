@@ -68,7 +68,7 @@ const EmptyCommentsMessage = () => (
   </div>
 );
 
-const Comment = ({
+const CommentItem = ({
   commentId,
   commentVoteCount,
   commentContent,
@@ -125,7 +125,7 @@ export default function CommentsTree({ comments, postId }: CommentsTreeProps) {
             const { id, votes, content, submittedBy, createdAt } = comment;
             const { username, avatarUrl } = submittedBy as UserProfile;
             return (
-              <Comment
+              <CommentItem
                 key={id}
                 commentId={id}
                 commentVoteCount={votes}
