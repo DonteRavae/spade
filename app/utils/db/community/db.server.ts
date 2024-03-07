@@ -67,7 +67,7 @@ const FETCH_POST_BY_ID = `
     fp.created_at AS createdAt,
     JSON_OBJECT('userId', cp.id, 'username', cp.username, 'avatarUrl', cp.avatar_url) AS submittedBy,
     COUNT(c.id) as commentsCount,
-    (SELECT COALESCE(SUM(vote), 0) FROM votes WHERE parent_id = ?) AS votes
+    (SELECT COALESCE(SUM(vote), 0) FROM votes WHERE parent_id = fp.id) AS votes
   FROM forum_posts AS fp
   LEFT JOIN profiles AS cp
     ON fp.submitted_by = cp.username
@@ -209,16 +209,13 @@ export const getRecentPosts = async (limit: number = 20) => {
     return results;
   } catch (error) {
     console.error(error);
-    return null;
+    return [];
   }
 };
 
 export const getPostById = async (postId: string) => {
   try {
-    const [results] = await pool.execute<IPost[]>(FETCH_POST_BY_ID, [
-      postId,
-      postId,
-    ]);
+    const [results] = await pool.execute<IPost[]>(FETCH_POST_BY_ID, [postId]);
     return results.length ? results[0] : null;
   } catch (error) {
     console.error(error);
@@ -227,11 +224,10 @@ export const getPostById = async (postId: string) => {
 };
 
 export const getCommentsByPostId = async (postId: string) => {
-  const [results] = await pool.execute<IComment[]>(
-    FETCH_COMMENTS_BY_POST_ID,
-    [postId]
-  );
-  return results.length ? results : [];
+  const [results] = await pool.execute<IComment[]>(FETCH_COMMENTS_BY_POST_ID, [
+    postId,
+  ]);
+  return results
 };
 
 export const createPostComment = async (
