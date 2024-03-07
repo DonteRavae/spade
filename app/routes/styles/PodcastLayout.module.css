@@ -71,13 +71,14 @@
   text-decoration: none;
   color: var(--container-text-color);
   display: grid;
-  gap: 10px;
+  gap: 10px 15px;
   align-items: center;
-  grid-template-columns: 100px repeat(3, 1fr);
-  grid-template-rows: 95px 30px;
+  grid-template-columns: 100px 1fr 50px;
+  grid-template-rows: 100px 30px;
   grid-template-areas:
-    "artwork info info info"
-    "date duration controllers controllers";
+    "artwork info info "
+    "date duration controllers";
+  justify-content: center;
 
   p {
     margin: 0;

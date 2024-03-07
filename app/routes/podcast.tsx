@@ -15,6 +15,7 @@ import {
   convertEpisodeDurationToReadable,
   convertEpisodeReleaseDateToLocaleString,
   filterPodcastCatalogBySeason,
+  formatEpisodeLinkHref,
 } from "~/utils/lib/helpers";
 import { SortBy } from "~/utils/lib/types";
 import { parseRequests } from "~/utils/handlers/index.server";
@@ -22,7 +23,6 @@ import { getAllPodcasts } from "~/utils/handlers/podcast.server";
 import PageContainer from "~/containers/PageContainer/PageContainer";
 import Dropdown, { DropdownRef } from "~/components/Dropdown/Dropdown";
 import ShareController from "~/components/ShareController/ShareController";
-import FavoriteController from "~/components/FavoriteController/FavoriteController";
 // STYLES
 import styles from "./styles/PodcastLayout.module.css";
 
@@ -37,16 +37,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  let catalog = await getAllPodcasts();
+  const response = await getAllPodcasts();
   const url = new URL(request.url);
   const season = url.searchParams.get("season");
-
-  if (season) {
-    catalog =
-      season !== "all"
-        ? filterPodcastCatalogBySeason(catalog, Number(season))
-        : catalog;
-  }
+  const catalog = season
+    ? season !== "all"
+      ? filterPodcastCatalogBySeason(response.payload, Number(season))
+      : response.payload
+    : response.payload;
 
   return json({ catalog });
 };
@@ -71,9 +69,7 @@ const PodcastEpisodeListItem = ({
   <li className={styles["podcast-episode-list-item"]}>
     <Link
       className={styles["episode-link"]}
-      to={`/podcast/${episodeId}-${episodeTitle.replace(/\s/g, "_")}${
-        params.get("season") ? `?season=${params.get("season")}` : ""
-      }`}
+      to={formatEpisodeLinkHref(episodeId, episodeTitle, false, params)}
     />
     <img src={episodeCoverArtUrl} alt="Episode Season Cover Art" />
     <div className={styles["episode-title-and-host"]}>
@@ -87,11 +83,6 @@ const PodcastEpisodeListItem = ({
       {convertEpisodeDurationToReadable(episodeDuration)}
     </p>
     <div className={styles.controllers}>
-      <FavoriteController
-        parentId={String(episodeId)}
-        direction={"horizontal"}
-        noText
-      />
       <ShareController direction={"horizontal"} noText />
     </div>
   </li>
