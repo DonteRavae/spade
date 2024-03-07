@@ -5,10 +5,10 @@ import { useFetcher } from "@remix-run/react";
 // INTERNAL
 import Icons from "../../components/Icons";
 import { useApp } from "~/providers/AppProvider";
+import { Comment, UserProfile } from "~/utils/lib/types";
 import { findTimeSinceCreated } from "~/utils/lib/helpers";
 import UserAvatar from "../../components/UserAvatar/UserAvatar";
 import { ToastStatus } from "../../components/ToastStack/ToastStack";
-import { ForumComment, UserProfile } from "~/utils/lib/types.server";
 import VoteController from "../../components/VoteController/VoteController";
 import { action } from "~/routes/community_.users_.$userId.posts.$postId";
 
@@ -18,7 +18,7 @@ import { SpinnerCircular } from "spinners-react";
 import styles from "./CommentsTree.module.css";
 
 type CommentsTreeProps = {
-  comments: ForumComment[];
+  comments: Comment[];
   postId: string;
 };
 
