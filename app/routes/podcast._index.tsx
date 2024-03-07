@@ -35,9 +35,9 @@ export default function PodcastHome() {
         <p>Hip Hop vs. Mental Health Pt.2</p>
       </section>
       <section id={styles["discussions-overview"]}>
-        <h3>The conversation does have to end because the episode is over.</h3>
-        <Link to="" id={styles["discussion-cta"]}>
-          See All Discussions
+        <h3>Did we missed something? Keep the conversation going.</h3>
+        <Link to="/podcast/discussions" id={styles["discussion-cta"]}>
+          Join A Discussion
         </Link>
         <ul>
           <li className={styles["episode-discussion-card"]}>
