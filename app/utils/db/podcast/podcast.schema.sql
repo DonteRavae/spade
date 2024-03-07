@@ -9,3 +9,12 @@ CREATE TABLE topic_requests (
     topic TEXT NOT NULL,
     request_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE podcast_episodes (
+    id INT PRIMARY KEY NOT NULL,
+    title TEXT NOT NULL,
+    artwork_url TEXT NOT NULL,
+    artist TEXT NOT NULL,
+    season_number TINYINT,
+    episode_number TINYINT
+);
