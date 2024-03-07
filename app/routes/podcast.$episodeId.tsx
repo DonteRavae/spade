@@ -32,10 +32,10 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const episode = await getPodcastEpisodeById(episodeId);
   const comments = await getCommentsByPostId(`${episodeId}`);
 
-  if (!episode) {
+  if (!episode.success) {
     throw new Response("Not Found", { status: 404 });
   }
-  return json({ episode, comments });
+  return json({ episode: episode.payload[0], comments });
 };
 
 export default function PodcastEpisodePage() {
