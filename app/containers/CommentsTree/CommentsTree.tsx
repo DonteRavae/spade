@@ -31,7 +31,6 @@ const CommentInputForm = ({ parentId }: { parentId: string }) => {
     state === "submitting" && formData?.get("request-type") === "add-comment";
 
   useEffect(() => {
-    console.log(data?.success, data?.message);
     if (data?.action === "add-comment" && data.success) {
       formRef.current?.reset();
       addToast(ToastStatus.Success, "Comment added.");
