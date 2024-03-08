@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react";
 // REMIX
 import { NavLink, Outlet, useLocation, useNavigation } from "@remix-run/react";
 // INTERNAL
-import Icons from "../../components/Icons";
 import { useApp } from "~/providers/AppProvider";
 import Modal, { ModalRef } from "../../components/Modal/Modal";
 import UserAvatar from "../../components/UserAvatar/UserAvatar";
@@ -60,12 +59,6 @@ export default function CommunityOverview() {
               >
                 <p>{`What's on your mind ${profile.username}?`}</p>
               </div>
-              <button
-                id={styles["create-post-with-image-btn"]}
-                onClick={openModal}
-              >
-                <Icons type="add-image" />
-              </button>
               {navigation.state !== "loading" && (
                 <Modal label="Create A Post" ref={modalRef}>
                   <CreatePostForm />
