@@ -48,7 +48,7 @@
       align-items: center;
       padding: 10px;
       border: none;
-      border-radius: var(--cirlce-radius);
+      border-radius: var(--circle-radius);
       cursor: pointer;
       background: none;
       transition: 100ms ease-in all;
