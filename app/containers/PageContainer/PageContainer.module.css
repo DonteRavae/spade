@@ -1,4 +1,6 @@
 .page-container {
+  display: flex;
+  justify-content: center;
   min-height: calc(100vh - 60px);
-  padding: 25px 5vw;
+  padding: 25px 0;
 }

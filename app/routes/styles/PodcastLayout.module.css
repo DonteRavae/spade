@@ -1,11 +1,12 @@
 #podcast-page-layout {
   display: grid;
-  grid-template-columns: 25vw 1fr;
+  grid-template-columns: auto max(1000px);
+  justify-items: center;
   gap: 50px;
   color: var(--container-text-color);
 
   nav {
-    width: 100%;
+    width: 500px;
     height: calc(100vh - 110px);
     align-items: start;
     align-self: start;

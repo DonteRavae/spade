@@ -1,9 +1,9 @@
 #podcast-overview {
   height: auto;
+  width: 500px;
   display: flex;
   flex-direction: column;
   gap: 15px;
-  padding-right: 25px;
   overflow-y: auto;
   color: var(--container-text-color);
 
@@ -13,7 +13,7 @@
 
   video {
     width: 100%;
-    height: calc((25vw * 9) / 16);
+    height: calc((500px * 9) / 16);
     object-fit: cover;
     border: var(--container-border-color);
     border-radius: var(--container-radius);

@@ -23,7 +23,6 @@ export default function HomePageLayout() {
     <PageContainer id={styles["home-page"]}>
       <PodcastOverview />
       <CommunityOverview />
-      <aside>EXTRAS</aside>
     </PageContainer>
   );
 }

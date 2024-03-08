@@ -1,7 +1,7 @@
 #home-page {
   position: relative;
-  display: grid;
-  grid-template-columns: 25vw 1fr 25vw;
+  display: flex;
+  justify-content: center;
   gap: 25px;
 }
 
